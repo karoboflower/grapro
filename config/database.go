@@ -15,7 +15,6 @@ type DatabaseConfig struct {
 
 // DBCfg 数据库配置的单例
 var DBCfg *DatabaseConfig
-var err error
 
 // GetDBCfg 获取数据库配置实例
 func GetDBCfg() *DatabaseConfig {
