@@ -1,2 +1,3 @@
-vendor/
 main
+vendor/
+config/database.json

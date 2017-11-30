@@ -1,19 +1,19 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/gin-gonic/gin"
+	"fmt"
+	"gra-pro/config"
 )
 
 func main() {
-	gin.SetMode(gin.DebugMode)
+	fmt.Println(config.GetDBCfg().Password)
+	//gin.SetMode(gin.DebugMode)
 
-	r := gin.Default()
-	r.GET("/", func(c *gin.Context) {
-		c.JSON(http.StatusOK, gin.H{
-			"message": "Hello World",
-		})
-	})
-	r.Run(":8080") // listen and server on 0.0.0.0:8080
+	//router := gin.Default()
+	//router.GET("/", func(c *gin.Context) {
+	//c.JSON(http.StatusOK, gin.H{
+	//"message": "Hello World",
+	//})
+	//})
+	//router.Run(":8080") // listen and server on 0.0.0.0:8080
 }
