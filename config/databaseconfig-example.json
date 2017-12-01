@@ -2,6 +2,7 @@
     "ip":"",
     "port":"",
     "db_type":"",
+    "db_name":"",
     "user_name":"",
     "user_password":""
 }

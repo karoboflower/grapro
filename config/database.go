@@ -11,6 +11,7 @@ type DBCfg struct {
 	IP     string `json:"ip"`
 	Port   string `json:"port"`
 	DBType string `json:"db_type"`
+	DBName string `json:"db_name"`
 }
 
 // UserData 数据库用户信息
@@ -24,7 +25,7 @@ func GetDBCfg(OutDBCfg *DBCfg, OutUserData *UserData) bool {
 	// 读取数据库信息文件
 	f, err := ioutil.ReadFile("config/databaseconfig.json")
 	if err != nil {
-		log.Fatal("读取数据库文件失败")
+		log.Fatalln("读取数据库文件失败")
 	}
 
 	// 解析读取数据库信息
