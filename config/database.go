@@ -2,33 +2,36 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
-	"os"
+	"log"
 )
 
-// DatabaseConfig 定义数据库用户名和密码
-type DatabaseConfig struct {
+// DBCfg 数据库配置信息
+type DBCfg struct {
+	IP     string `json:"ip"`
+	Port   string `json:"port"`
+	DBType string `json:"db_type"`
+}
+
+// UserData 数据库用户信息
+type UserData struct {
 	UserName string `json:"user_name"`
 	Password string `json:"user_password"`
 }
 
-// DBCfg 数据库配置的单例
-var DBCfg *DatabaseConfig
+// GetDBCfg 获取数据库配置信息及数据库用户信息,返回true则读取信息成功
+func GetDBCfg(OutDBCfg *DBCfg, OutUserData *UserData) bool {
+	// 读取数据库信息文件
+	f, err := ioutil.ReadFile("config/databaseconfig.json")
+	if err != nil {
+		log.Fatal("读取数据库文件失败")
+	}
 
-// GetDBCfg 获取数据库配置实例
-func GetDBCfg() *DatabaseConfig {
-	if DBCfg == nil {
-		DBCfg = &DatabaseConfig{}
-		f, e := ioutil.ReadFile("config/database.json")
-		if e != nil {
-			fmt.Println("Open database.json failed!")
-			os.Exit(1)
-		}
-		if e = json.Unmarshal(f, DBCfg); e != nil {
-			fmt.Println("Parse database.json failed!")
-			os.Exit(1)
+	// 解析读取数据库信息
+	if err = json.Unmarshal(f, OutDBCfg); err == nil {
+		if err = json.Unmarshal(f, OutUserData); err == nil {
+			return true
 		}
 	}
-	return DBCfg
+	return false
 }

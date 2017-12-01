@@ -1,3 +1,3 @@
 main
 vendor/
-config/database.json
+config/databaseconfig.json

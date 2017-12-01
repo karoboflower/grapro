@@ -1,12 +1,19 @@
 package main
 
 import (
-	"fmt"
 	"gra-pro/config"
+	"log"
 )
 
 func main() {
-	fmt.Println(config.GetDBCfg().Password)
+	// 数据库用户信息实例
+	var userdata config.UserData
+	// 数据库配置信息实例
+	var dbcfg config.DBCfg
+
+	if !config.GetDBCfg(&dbcfg, &userdata) {
+		log.Fatal("解析读取数据库信息失败")
+	}
 	//gin.SetMode(gin.DebugMode)
 
 	//router := gin.Default()
@@ -15,5 +22,6 @@ func main() {
 	//"message": "Hello World",
 	//})
 	//})
-	//router.Run(":8080") // listen and server on 0.0.0.0:8080
+	// listen and server on 0.0.0.0:8080
+	//router.Run(":8080")
 }

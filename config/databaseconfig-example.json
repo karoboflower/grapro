@@ -1,4 +1,7 @@
 {
+    "ip":"",
+    "port":"",
+    "db_type":"",
     "user_name":"",
     "user_password":""
 }
