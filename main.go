@@ -2,6 +2,7 @@ package main
 
 import (
 	"gra-pro/config"
+	"gra-pro/models"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -23,6 +24,10 @@ func main() {
 		log.Fatalln("数据库连接失败")
 	}
 	defer db.Close()
+	db.AutoMigrate(&models.User{})
+	//if db.HasTable(&models.User{}) {
+
+	//}
 	//gin.SetMode(gin.DebugMode)
 
 	//router := gin.Default()
