@@ -2,10 +2,9 @@ package main
 
 import (
 	"gra-pro/config"
-	"gra-pro/models"
+	"gra-pro/database"
 	"log"
 
-	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
@@ -19,15 +18,11 @@ func main() {
 		log.Fatalln("解析读取数据库信息失败")
 	}
 
-	db, err := gorm.Open(dbcfg.DBType, userdata.UserName+":"+userdata.Password+"@tcp("+dbcfg.IP+":"+dbcfg.Port+")/"+dbcfg.DBName+"?charset=utf8&parseTime=True&loc=Local")
+	db, err := database.ConnectDB(dbcfg, userdata)
 	if err != nil {
 		log.Fatalln("数据库连接失败")
 	}
 	defer db.Close()
-	db.AutoMigrate(&models.User{})
-	//if db.HasTable(&models.User{}) {
-
-	//}
 	//gin.SetMode(gin.DebugMode)
 
 	//router := gin.Default()
