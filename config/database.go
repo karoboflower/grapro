@@ -1,3 +1,4 @@
+// Package config 数据库相关配置信息
 package config
 
 import (
@@ -20,8 +21,8 @@ type UserData struct {
 	Password string `json:"user_password"`
 }
 
-// GetDBCfg 获取数据库配置信息及数据库用户信息,返回true则读取信息成功
-func GetDBCfg(OutDBCfg *DBCfg, OutUserData *UserData) bool {
+// GetDBCfg 获取数据库配置信息及数据库用户信息
+func GetDBCfg(InDBCfg *DBCfg, InUserData *UserData) bool {
 	// 读取数据库信息文件
 	f, err := ioutil.ReadFile("config/databaseconfig.json")
 	if err != nil {
@@ -29,8 +30,8 @@ func GetDBCfg(OutDBCfg *DBCfg, OutUserData *UserData) bool {
 	}
 
 	// 解析读取数据库信息
-	if err = json.Unmarshal(f, OutDBCfg); err == nil {
-		if err = json.Unmarshal(f, OutUserData); err == nil {
+	if err = json.Unmarshal(f, InDBCfg); err == nil {
+		if err = json.Unmarshal(f, InUserData); err == nil {
 			return true
 		}
 	}
