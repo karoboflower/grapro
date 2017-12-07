@@ -1,3 +1,5 @@
 main
 vendor/
 config/databaseconfig.json
+ca-certificates.crt
+ca-certificates.key
