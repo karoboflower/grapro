@@ -2,19 +2,18 @@ package main
 
 import (
 	"gra-pro/database"
+	"gra-pro/routes"
+	"log"
 
-	"github.com/gin-gonic/gin"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
 
 func main() {
-	db := database.ConnectDB()
-	defer db.Close()
-	gin.SetMode(gin.DebugMode)
+	database.ConnectDB()
+	defer database.DB.Close()
 
-	router := gin.Default()
-	router.GET("/", func(c *gin.Context) {
-		c.String(200, "Hello World")
-	})
-	router.RunTLS(":8080", "./ca-certificates.crt", "./ca-certificates.key")
+	// Debug
+	log.Fatal(routes.Engine().Run(":8080"))
+	// Release
+	// log.Fatal(routes.Engine().RunTLS(":8080", "./ca-certificates.crt", "./ca-certificates.key"))
 }

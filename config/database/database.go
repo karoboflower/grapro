@@ -1,5 +1,5 @@
-// Package config 数据库相关配置信息
-package config
+// Package database 数据库相关配置信息
+package database
 
 import (
 	"encoding/json"
@@ -24,7 +24,7 @@ type UserData struct {
 // GetDBCfg 获取数据库配置信息及数据库用户信息
 func GetDBCfg(InDBCfg *DBCfg, InUserData *UserData) bool {
 	// 读取数据库信息文件
-	f, err := ioutil.ReadFile("config/databaseconfig.json")
+	f, err := ioutil.ReadFile("config/database/databaseconfig.json")
 	if err != nil {
 		log.Fatalln("读取数据库文件失败")
 	}

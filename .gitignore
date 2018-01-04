@@ -1,5 +1,6 @@
 main
 vendor/
-config/databaseconfig.json
 ca-certificates.crt
 ca-certificates.key
+config/user/salt.json
+config/database/databaseconfig.json
