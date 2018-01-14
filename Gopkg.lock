@@ -71,13 +71,13 @@
   branch = "master"
   name = "github.com/ugorji/go"
   packages = ["codec"]
-  revision = "4ad9ed71b16134163c6502b2ba1ba93de1a0f171"
+  revision = "9831f2c3ac1068a78f50999a30db84270f647af6"
 
 [[projects]]
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "83801418e1b59fb1880e363299581ee543af32ca"
+  revision = "810d7000345868fc619eb81f46307107118f4ae1"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"
@@ -89,7 +89,7 @@
   branch = "v2"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
-  revision = "287cf08546ab5e7e37d55a84f7ed3fd1db036de5"
+  revision = "d670f9405373e636a5a2765eea47fac0c9bc91a4"
 
 [solve-meta]
   analyzer-name = "dep"

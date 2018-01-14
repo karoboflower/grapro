@@ -2,8 +2,6 @@
 package database
 
 import (
-	"gra-pro/models"
-
 	"encoding/json"
 	"io/ioutil"
 	"log"
@@ -63,6 +61,6 @@ func ConnectDB() {
 		log.Fatalln("数据库连接失败")
 	}
 	//if !db.HasTable(&models.User{}){
-	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&User{})
 	//}
 }

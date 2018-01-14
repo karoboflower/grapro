@@ -1,7 +1,7 @@
 package main
 
 import (
-	"gra-pro/config/database"
+	"gra-pro/database"
 	"gra-pro/routes"
 
 	"log"

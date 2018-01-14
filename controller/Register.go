@@ -3,9 +3,8 @@ package controller
 import (
 	"crypto/md5"
 	"fmt"
-	"gra-pro/config/database"
 	"gra-pro/config/user"
-	"gra-pro/models"
+	"gra-pro/database"
 	"io"
 	"net/http"
 
@@ -14,13 +13,13 @@ import (
 
 // RegisterUser 注册用户
 func RegisterUser(c *gin.Context) {
-	var json models.User
+	var json database.User
 	var saltInst user.Salt
 
 	if c.BindJSON(&json) == nil {
 		if user.GetSalt(&saltInst) {
 			// 检测是否存在记录
-			if !database.DB.NewRecord(json) {
+			if json.Exists() {
 				h := md5.New()
 				io.WriteString(h, json.Password)
 				pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
@@ -30,11 +29,11 @@ func RegisterUser(c *gin.Context) {
 				io.WriteString(h, pwmd5)
 				last := fmt.Sprintf("%x", h.Sum(nil))
 				json.Password = last
-				if dbc := database.DB.Create(&json); dbc.Error != nil {
-					c.JSON(http.StatusOK, gin.H{"status": "您已经注册，请登录！"})
-				} else {
+				if dbc := database.DB.Create(&json); dbc.Error == nil {
 					c.JSON(http.StatusOK, gin.H{"status": "您已成功注册！"})
 				}
+			} else {
+				c.JSON(http.StatusOK, gin.H{"status": "您已经注册，请登录！"})
 			}
 		}
 	}
