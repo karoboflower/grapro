@@ -3,9 +3,9 @@ package controller
 import (
 	"crypto/md5"
 	"fmt"
+	"gra-pro/config/database"
 	"gra-pro/config/user"
-	"gra-pro/database"
-	"gra-pro/database/models"
+	"gra-pro/models"
 	"io"
 	"net/http"
 

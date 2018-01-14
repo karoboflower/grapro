@@ -2,7 +2,7 @@ package routes
 
 import (
 	"gra-pro/controller"
-	"gra-pro/database/models"
+	"gra-pro/models"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,5 +14,6 @@ func Engine() *gin.Engine {
 	router := gin.Default()
 	router.POST("/api/register", controller.RegisterUser)
 	router.POST("/api/login", models.UserPOST)
+	// authorize := router.Group("/api")
 	return router
 }
