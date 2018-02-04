@@ -6,6 +6,8 @@ import (
 	"io/ioutil"
 	"log"
 
+	"github.com/casbin/casbin"
+	gormadapter "github.com/casbin/gorm-adapter"
 	"github.com/jinzhu/gorm"
 )
 
@@ -25,6 +27,9 @@ type UserData struct {
 
 // DB *gorm.DB实例，全局变量
 var DB *gorm.DB
+
+// AuthEnforcer *casbin.Enforcer instance
+var AuthEnforcer *casbin.Enforcer
 
 // GetDBCfg 获取数据库配置信息及数据库用户信息
 func GetDBCfg(InDBCfg *DBCfg, InUserData *UserData) bool {
@@ -60,7 +65,16 @@ func ConnectDB() {
 	if e != nil {
 		log.Fatalln("数据库连接失败")
 	}
-	//if !db.HasTable(&models.User{}){
-	DB.AutoMigrate(&User{})
-	//}
+	if !DB.HasTable(&User{}) {
+		DB.AutoMigrate(&User{})
+	}
+
+	a := gormadapter.NewAdapter(dbcfg.DBType, userdata.UserName+":"+userdata.Password+"@tcp("+dbcfg.IP+":"+dbcfg.Port+")/"+dbcfg.DBName, true)
+	AuthEnforcer, err := casbin.NewEnforcerSafe("./config/auth/auth_model.conf", a)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	AuthEnforcer.LoadPolicy()
+	AuthEnforcer.SavePolicy()
+	AuthEnforcer.AddPolicySafe()
 }
