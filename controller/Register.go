@@ -25,10 +25,14 @@ func RegisterUser(c *gin.Context) {
 			io.WriteString(h, saltInst.Salt1)
 			io.WriteString(h, json.ID)
 			io.WriteString(h, saltInst.Salt2)
+			io.WriteString(h, json.Email)
 			io.WriteString(h, pwmd5)
 			last := fmt.Sprintf("%x", h.Sum(nil))
 			json.Password = last
 			if dbc := database.DB.Create(&json); dbc == nil {
+				// database.AuthEnforcer.EnableAutoSave(true)
+				database.AuthEnforcer.AddPolicy(json.ID, "data1", "write")
+				database.AuthEnforcer.SavePolicy()
 				c.JSON(http.StatusOK, gin.H{"status": "您已成功注册！"})
 			}
 		} else {

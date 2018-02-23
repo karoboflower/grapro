@@ -18,7 +18,7 @@ type User struct {
 // Exists 检测用户是否存在
 func (u User) Exists() bool {
 	var user User
-	if dbc := DB.Where("id = ?", u.ID).First(&user); dbc == nil {
+	if DB.Where("id = ?", u.ID).First(&user); user.ID != u.ID {
 		return true
 	}
 	return false

@@ -9,9 +9,9 @@
 
 [[projects]]
   name = "github.com/casbin/casbin"
-  packages = [".","config","file-adapter","model","persist","rbac","util"]
-  revision = "9566491e9fe1898000031bba3e2b354dd633904a"
-  version = "v1.3.0"
+  packages = [".","config","file-adapter","model","persist","rbac","rbac/default-role-manager","util"]
+  revision = "3a17f2855cc12ad36fd614c590b9d18f46dfd65d"
+  version = "v1.4.0"
 
 [[projects]]
   branch = "master"
@@ -77,7 +77,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "37707fdb30a5b38865cfb95e5aab41707daec7fd"
+  revision = "c1138c84af3a9927aee1a1b8b7ce06c9b7ea52bc"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"

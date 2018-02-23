@@ -7,8 +7,12 @@ import (
 	"log"
 
 	"github.com/casbin/casbin"
-	gormadapter "github.com/casbin/gorm-adapter"
+	"github.com/casbin/gorm-adapter"
+	// 加载数据库驱动
+	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	//
+	_ "github.com/lib/pq"
 )
 
 // DBCfg 数据库配置信息
@@ -48,7 +52,7 @@ func GetDBCfg(InDBCfg *DBCfg, InUserData *UserData) bool {
 	return false
 }
 
-// ConnectDB 连接数据库,返回*gorm.DB实例
+// ConnectDB 连接数据库
 func ConnectDB() {
 	// 数据库配置信息
 	var dbcfg DBCfg
@@ -70,11 +74,16 @@ func ConnectDB() {
 	}
 
 	a := gormadapter.NewAdapter(dbcfg.DBType, userdata.UserName+":"+userdata.Password+"@tcp("+dbcfg.IP+":"+dbcfg.Port+")/"+dbcfg.DBName, true)
-	AuthEnforcer, err := casbin.NewEnforcerSafe("./config/auth/auth_model.conf", a)
-	if err != nil {
-		log.Fatalln(err)
+	AuthEnforcer, e = casbin.NewEnforcerSafe("./config/auth/auth_model.conf", a)
+	if e != nil {
+		log.Fatalln(e)
 	}
+	AuthEnforcer.AddPolicy("alice", "data1", "write")
+	AuthEnforcer.AddPolicy("alice1", "data2", "write")
 	AuthEnforcer.LoadPolicy()
-	AuthEnforcer.SavePolicy()
-	AuthEnforcer.AddPolicySafe()
+	AuthEnforcer.RemovePolicy("alice1", "data2", "write")
+	AuthEnforcer.LoadPolicy()
+	// AuthEnforcer.LoadPolicy()
+	// AuthEnforcer.Enforce("alice", "data1", "read")
+	// AuthEnforcer.SavePolicy()
 }
