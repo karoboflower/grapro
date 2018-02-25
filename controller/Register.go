@@ -29,15 +29,15 @@ func RegisterUser(c *gin.Context) {
 			io.WriteString(h, pwmd5)
 			last := fmt.Sprintf("%x", h.Sum(nil))
 			json.Password = last
-			if dbc := database.DB.Create(&json); dbc == nil {
-				// database.AuthEnforcer.EnableAutoSave(true)
-				database.AuthEnforcer.AddPolicy(json.ID, "data1", "write")
-				database.AuthEnforcer.SavePolicy()
-				c.JSON(http.StatusOK, gin.H{"status": "您已成功注册！"})
-			}
+			database.DB.Create(&json)
+			database.AuthEnforcer.AddPermissionForUser(json.ID, "data/*", "(GET)|(POST)")
+			// if database.AuthEnforcer.Enforce(json.ID, "data/something", "GET") {
+			// 	fmt.Println("access confirmed")
+			// }
+			database.AuthEnforcer.LoadPolicy()
+			c.JSON(http.StatusOK, gin.H{"status": "您已成功注册！"})
 		} else {
 			c.JSON(http.StatusOK, gin.H{"status": "您已经注册，请登录！"})
-			fmt.Println("login")
 		}
 	}
 }

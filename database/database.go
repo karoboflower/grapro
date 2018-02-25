@@ -8,11 +8,7 @@ import (
 
 	"github.com/casbin/casbin"
 	"github.com/casbin/gorm-adapter"
-	// 加载数据库驱动
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
-	//
-	_ "github.com/lib/pq"
 )
 
 // DBCfg 数据库配置信息
@@ -78,11 +74,15 @@ func ConnectDB() {
 	if e != nil {
 		log.Fatalln(e)
 	}
-	AuthEnforcer.AddPolicy("alice", "data1", "write")
-	AuthEnforcer.AddPolicy("alice1", "data2", "write")
-	AuthEnforcer.LoadPolicy()
-	AuthEnforcer.RemovePolicy("alice1", "data2", "write")
-	AuthEnforcer.LoadPolicy()
+	// AuthEnforcer.AddPolicy("alice", "data1", "write")
+	// AuthEnforcer.AddPolicy("alice1", "data2", "write")
+	// AuthEnforcer.LoadPolicy()
+	// AuthEnforcer.RemovePolicy("alice1", "data2", "write")
+	// AuthEnforcer.LoadPolicy()
+	// AuthEnforcer.AddPolicy("alice2", "data3", "write")
+
+	// AuthEnforcer.AddPermissionForUser("alice1", "data1", "write", ".jpg")
+	// AuthEnforcer.LoadPolicy()
 	// AuthEnforcer.LoadPolicy()
 	// AuthEnforcer.Enforce("alice", "data1", "read")
 	// AuthEnforcer.SavePolicy()
