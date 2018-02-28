@@ -46,8 +46,8 @@
 [[projects]]
   name = "github.com/jinzhu/gorm"
   packages = [".","dialects/mysql"]
-  revision = "5174cc5c242a728b435ea2be8a2f7f998e15429b"
-  version = "v1.0"
+  revision = "6ed508ec6a4ecb3531899a69cbc746ccf65a4166"
+  version = "v1.9.1"
 
 [[projects]]
   branch = "master"
@@ -68,6 +68,12 @@
   version = "v0.0.3"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/thinkerou/favicon"
+  packages = ["."]
+  revision = "94a442a49da6e2d44bdd5e0d2e2e185c43a19d93"
+
+[[projects]]
   name = "github.com/ugorji/go"
   packages = ["codec"]
   revision = "9831f2c3ac1068a78f50999a30db84270f647af6"
@@ -77,7 +83,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "c1138c84af3a9927aee1a1b8b7ce06c9b7ea52bc"
+  revision = "f6cff0780e542efa0c8e864dc8fa522808f6a598"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"
@@ -86,14 +92,14 @@
   version = "v8.18.2"
 
 [[projects]]
-  branch = "v2"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
-  revision = "d670f9405373e636a5a2765eea47fac0c9bc91a4"
+  revision = "7f97868eec74b32b0982dd158a51a446d1da7eb5"
+  version = "v2.1.1"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "e238cf3e95ff1391c2c060d75bdf669aafba1db006c3870c5a4d5570bb28f8bb"
+  inputs-digest = "845168da30565b732a7f5cefd2d4b2801d0e6f8daf49db5dfe9d4a80469cbfe5"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -4,6 +4,7 @@ import (
 	"gra-pro/config/user"
 	"gra-pro/database"
 	"log"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -38,4 +39,9 @@ func UserPOST(c *gin.Context) {
 	} else {
 		log.Println("读取密码盐失败！")
 	}
+}
+
+// UserGET 获取登录的用户信息
+func UserGET(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"status": "用户登录"})
 }
