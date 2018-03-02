@@ -28,10 +28,10 @@ func Engine() *gin.Engine {
 	router.POST("/login", controller.LoginPOST)
 	router.GET("/register", controller.RegisterGET)
 	router.POST("/register", controller.RegisterPOST)
-	authorized := router.Group("/")
-	authorized.Use(middleware.AuthRequired())
+	authorized := router.Group("/authorized")
+	authorized.Use(middleware.JWTAuth())
 	{
-		authorized.POST("/user/:id", controller.UserGET)
+		authorized.GET("/:role/:id", controller.UserGET)
 	}
 	return router
 }

@@ -20,6 +20,12 @@
   revision = "e56c6daebd5e8c657caf3bdf3a647803cf7b242d"
 
 [[projects]]
+  name = "github.com/dgrijalva/jwt-go"
+  packages = ["."]
+  revision = "dbeaa9332f19a944acb5736b4456cfcc02140e29"
+  version = "v3.1.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/gin-contrib/sse"
   packages = ["."]
@@ -83,7 +89,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "f6cff0780e542efa0c8e864dc8fa522808f6a598"
+  revision = "dd2ff4accc098aceecb86b36eaa7829b2a17b1c9"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"
@@ -100,6 +106,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "845168da30565b732a7f5cefd2d4b2801d0e6f8daf49db5dfe9d4a80469cbfe5"
+  inputs-digest = "d24b794c44911db903ef59c60d918b6c9dc0e3aa32225a79e8a96d09c6afc692"
   solver-name = "gps-cdcl"
   solver-version = 1
