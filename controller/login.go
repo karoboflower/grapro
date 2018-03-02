@@ -9,8 +9,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UserPOST 用户登录处理
-func UserPOST(c *gin.Context) {
+// LoginGET 返回用户登录视图
+func LoginGET(c *gin.Context) {
+	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{
+		"message": "huanglachuan",
+	})
+}
+
+// LoginPOST 用户登录处理
+func LoginPOST(c *gin.Context) {
 	var json database.User
 	var saltInst user.Salt
 
@@ -39,9 +46,4 @@ func UserPOST(c *gin.Context) {
 	} else {
 		log.Println("读取密码盐失败！")
 	}
-}
-
-// UserGET 获取登录的用户信息
-func UserGET(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"status": "用户登录"})
 }

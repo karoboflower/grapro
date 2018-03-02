@@ -11,8 +11,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// RegisterUser 注册用户
-func RegisterUser(c *gin.Context) {
+// RegisterGET 返回用户注册视图
+func RegisterGET(c *gin.Context) {
+	c.HTML(http.StatusOK, "common/register.tmpl", gin.H{
+		"message": "huanglachuan",
+	})
+}
+
+// RegisterPOST 用户注册处理
+func RegisterPOST(c *gin.Context) {
 	var json database.User
 	var saltInst user.Salt
 

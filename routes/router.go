@@ -17,18 +17,21 @@ func Engine() *gin.Engine {
 	router.Use(favicon.New("./favicon.ico"))
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	router.LoadHTMLGlob("templates/**/*")
-	router.GET("/index", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "views/index.tmpl", gin.H{
-			"title": "huanglachuan",
+	router.Delims("{%", "%}")
+	router.LoadHTMLGlob("views/*/*")
+	router.GET("/", func(c *gin.Context) {
+		c.HTML(http.StatusOK, "common/index.tmpl", gin.H{
+			"message": "huanglachuan",
 		})
 	})
-	router.POST("/api/register", controller.RegisterUser)
-	router.POST("/api/login", controller.UserPOST)
+	router.GET("/login", controller.LoginGET)
+	router.POST("/login", controller.LoginPOST)
+	router.GET("/register", controller.RegisterGET)
+	router.POST("/register", controller.RegisterPOST)
 	authorized := router.Group("/")
 	authorized.Use(middleware.AuthRequired())
 	{
-		authorized.POST("/api/user/:id", controller.UserGET)
+		authorized.POST("/user/:id", controller.UserGET)
 	}
 	return router
 }
