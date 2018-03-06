@@ -1,6 +1,9 @@
 main
+debug
 vendor/
+.vscode/
 ca-certificates.crt
 ca-certificates.key
 config/user/salt.json
+config/auth/secret.json
 config/database/databaseconfig.json

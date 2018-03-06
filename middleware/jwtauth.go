@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -11,47 +12,60 @@ import (
 )
 
 var (
-	TokenExpired     error  = errors.New("Token is expired")
-	TokenNotValidYet error  = errors.New("Token not active yet")
-	TokenMalformed   error  = errors.New("That's not even a token")
-	TokenInvalid     error  = errors.New("Couldn't handle this token:")
-	SignKey          string = "test"
+	// TokenExpired Token过期
+	TokenExpired = errors.New("Token is expired")
+	// TokenNotValidYet Token尚未生效
+	TokenNotValidYet = errors.New("Token not active yet")
+	// TokenMalformed Token异常
+	TokenMalformed = errors.New("That's not even a token")
+	// TokenInvalid Token无效
+	TokenInvalid = errors.New("Couldn't handle this token")
+	// SignKey 签署密钥
+	SignKey = "secret"
 )
 
+// JWT JSON Web Token
 type JWT struct {
-	SigninKey []byte
+	SigningKey []byte
 }
 
+// CustomClaims .
 type CustomClaims struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
+	ID    string `json:"id"`
 	Email string `json:"email"`
+	Role  string `json:"role"`
 	jwt.StandardClaims
 }
 
+// NewJWT .
 func NewJWT() *JWT {
 	return &JWT{
 		[]byte(GetSignKey()),
 	}
 }
 
-func GetSignKey() string {
-	return SignKey
-}
-
+// SetSignKey .
 func SetSignKey(key string) string {
 	SignKey = key
 	return SignKey
 }
 
-func (j *JWT) CreateToken(claims CustomClaims) (string, error) {
-	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(j.SigninKey)
+// GetSignKey .
+func GetSignKey() string {
+	return SignKey
 }
 
+// CreateToken 创建Token
+func (j *JWT) CreateToken(claims CustomClaims) (string, error) {
+	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+	return token.SignedString(j.SigningKey)
+}
+
+// ParseToken 解析Token
 func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
+
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.SigninKey, nil
+		return j.SigningKey, nil
 	})
 
 	if err != nil {
@@ -62,32 +76,31 @@ func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 				return nil, TokenExpired
 			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
 				return nil, TokenNotValidYet
-			} else {
-				return nil, TokenInvalid
 			}
+			return nil, TokenInvalid
 		}
 	}
+
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
 		return claims, nil
 	}
+
 	return nil, TokenInvalid
 }
 
+// RefreshToken 刷新Token
 func (j *JWT) RefreshToken(tokenString string) (string, error) {
 	jwt.TimeFunc = func() time.Time {
 		return time.Unix(0, 0)
 	}
 	token, err := jwt.ParseWithClaims(tokenString, &CustomClaims{}, func(token *jwt.Token) (interface{}, error) {
-		return j.SigninKey, nil
+		return j.SigningKey, nil
 	})
-
 	if err != nil {
 		return "", err
 	}
-
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {
 		jwt.TimeFunc = time.Now
-
 		claims.StandardClaims.ExpiresAt = time.Now().Add(1 * time.Hour).Unix()
 		return j.CreateToken(*claims)
 	}
@@ -98,18 +111,16 @@ func (j *JWT) RefreshToken(tokenString string) (string, error) {
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		token := c.DefaultQuery("token", "")
-
 		if token == "" {
 			token = c.Request.Header.Get("Authorization")
+			fmt.Println("Token : ", token)
 			if s := strings.Split(token, " "); len(s) == 2 {
 				token = s[1]
 			}
 		}
 
 		j := NewJWT()
-
 		claims, err := j.ParseToken(token)
-
 		if err != nil {
 			if err == TokenExpired {
 				if token, err = j.RefreshToken(token); err == nil {

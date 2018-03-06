@@ -3,6 +3,7 @@ package routes
 import (
 	"gra-pro/controller"
 	"gra-pro/middleware"
+
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -19,19 +20,15 @@ func Engine() *gin.Engine {
 	router.Use(gin.Recovery())
 	router.Delims("{%", "%}")
 	router.LoadHTMLGlob("views/*/*")
-	router.GET("/", func(c *gin.Context) {
-		c.HTML(http.StatusOK, "common/index.tmpl", gin.H{
-			"message": "huanglachuan",
-		})
-	})
-	router.GET("/login", controller.LoginGET)
-	router.POST("/login", controller.LoginPOST)
+	router.GET("/", func(c *gin.Context) { c.HTML(http.StatusOK, "common/index.tmpl", gin.H{}) })
 	router.GET("/register", controller.RegisterGET)
 	router.POST("/register", controller.RegisterPOST)
-	authorized := router.Group("/authorized")
+	router.GET("/login", controller.LoginGET)
+	router.POST("/login", controller.LoginPOST)
+	authorized := router.Group("/auth")
 	authorized.Use(middleware.JWTAuth())
 	{
-		authorized.GET("/:role/:id", controller.UserGET)
+		authorized.GET("/test", controller.UserGET)
 	}
 	return router
 }
