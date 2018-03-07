@@ -1,9 +1,16 @@
 package controller
 
 import (
+	"crypto/md5"
+	"fmt"
+	"gra-pro/config/user"
+	"gra-pro/database"
+	"io"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 // RegisterGET 返回用户注册视图
@@ -13,34 +20,38 @@ func RegisterGET(c *gin.Context) {
 
 // RegisterPOST 用户注册处理
 func RegisterPOST(c *gin.Context) {
-	// var json database.User
-	// var saltInst user.Salt
+	var form database.User
+	var saltInst user.Salt
 
-	id := c.PostForm("id")
-	c.JSON(http.StatusOK, gin.H{"message": "hello " + id})
-
-	// if err := c.BindJSON(&json); err == nil && user.GetSalt(&saltInst) {
-	// 	// 检测是否存在记录
-	// 	if json.Exists() {
-	// 		h := md5.New()
-	// 		io.WriteString(h, json.Password)
-	// 		pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
-	// 		io.WriteString(h, saltInst.Salt1)
-	// 		io.WriteString(h, json.ID)
-	// 		io.WriteString(h, saltInst.Salt2)
-	// 		io.WriteString(h, json.Email)
-	// 		io.WriteString(h, pwmd5)
-	// 		last := fmt.Sprintf("%x", h.Sum(nil))
-	// 		json.Password = last
-	// 		database.DB.Create(&json)
-	// 		database.AuthEnforcer.AddPermissionForUser(json.ID, "data/*", "(GET)|(POST)")
-	// 		// if database.AuthEnforcer.Enforce(json.ID, "data/something", "GET") {
-	// 		// 	fmt.Println("access confirmed")
-	// 		// }
-	// 		database.AuthEnforcer.LoadPolicy()
-	// 		c.JSON(http.StatusOK, gin.H{"status": "您已成功注册！"})
-	// 	} else {
-	// 		c.JSON(http.StatusOK, gin.H{"status": "您已经注册，请登录！"})
-	// 	}
-	// }
+	if err := c.ShouldBindWith(&form, binding.FormPost); err == nil {
+		if !form.Exists() {
+			if user.GetSalt(&saltInst) {
+				h := md5.New()
+				io.WriteString(h, form.Password)
+				pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
+				io.WriteString(h, saltInst.Salt1)
+				io.WriteString(h, form.ID)
+				io.WriteString(h, saltInst.Salt2)
+				io.WriteString(h, pwmd5)
+				last := fmt.Sprintf("%x", h.Sum(nil))
+				form.Password = last
+				if dbe := database.DB.Create(&form); dbe.Error == nil {
+					database.AuthEnforcer.AddPermissionForUser(form.ID, "auth/"+form.Role+"/"+form.ID+"/*", "(GET)|(POST)|(PUT)|(PATCH)|(DELETE)|(OPTIONS)")
+					database.AuthEnforcer.LoadPolicy()
+					c.Redirect(http.StatusMovedPermanently, "/auth/"+form.Role+"/"+form.ID)
+					// if database.AuthEnforcer.Enforce(form.ID, "auth/"+form.Role+"/"+form.ID+"/*", "GET") {
+					// 	log.Println("Access confirmed")
+					// }
+				} else {
+					log.Println(dbe.Error)
+				}
+			} else {
+				// 获取盐失败，会无法入库。可以重定向到登录界面
+			}
+		} else {
+			c.JSON(http.StatusOK, gin.H{"msg": "您已经注册，请登录！"})
+		}
+	} else {
+		c.JSON(http.StatusBadRequest, gin.H{"msg": "获取提交信息错误"})
+	}
 }

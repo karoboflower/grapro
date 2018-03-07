@@ -61,15 +61,14 @@ func LoginPOST(c *gin.Context) {
 	var json database.User
 	var saltInst user.Salt
 
-	if database.DB.First(&json, c.Params.ByName("id")); json.ID == c.Params.ByName("id") {
+	if dbe := database.DB.First(&json, c.PostForm("id")); dbe.Error == nil {
 		if user.GetSalt(&saltInst) {
 			h := md5.New()
-			io.WriteString(h, c.Params.ByName("password"))
+			io.WriteString(h, c.PostForm("password"))
 			pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
 			io.WriteString(h, saltInst.Salt1)
-			io.WriteString(h, c.Params.ByName("id"))
+			io.WriteString(h, c.PostForm("id"))
 			io.WriteString(h, saltInst.Salt2)
-			io.WriteString(h, json.Email)
 			io.WriteString(h, pwmd5)
 			last := fmt.Sprintf("%x", h.Sum(nil))
 			if json.Password == last {
@@ -94,34 +93,14 @@ func LoginPOST(c *gin.Context) {
 					c.Abort()
 				}
 
-				c.Header("Authorization", token)
+				c.Request.Header.Set("Authorization", token)
 
-				c.JSON(http.StatusOK, gin.H{"message": "Login Success"})
+				c.Redirect(http.StatusMovedPermanently, "/auth/"+c.PostForm("role")+"/"+c.PostForm("id"))
 			}
+		} else {
+			c.JSON(http.StatusOK, gin.H{"msg": "密码盐"})
 		}
+	} else {
+		c.JSON(http.StatusOK, gin.H{"msg": dbe.Error})
 	}
-	// var json database.User
-	// var LoggedUser database.User
-	// var saltInst user.Salt
-
-	// if c.BindJSON(&json) == nil {
-	// 	if database.DB.First(&LoggedUser, json.ID); LoggedUser.ID != json.ID {
-	// 		if user.GetSalt(&saltInst) {
-	// 			h := md5.New()
-	// 			io.WriteString(h, json.Password)
-	// 			pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
-	// 			io.WriteString(h, saltInst.Salt1)
-	// 			io.WriteString(h, json.ID)
-	// 			io.WriteString(h, saltInst.Salt2)
-	// 			io.WriteString(h, LoggedUser.Email)
-	// 			io.WriteString(h, pwmd5)
-	// 			last := fmt.Sprintf("%x", h.Sum(nil))
-	// 			if LoggedUser.Password == last {
-
-	// 			}
-	// 		}
-	// 	} else {
-	// 		c.Redirect(http.StatusMovedPermanently, "http://localhost:8080/register")
-	// 	}
-	// }
 }

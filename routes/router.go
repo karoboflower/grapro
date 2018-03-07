@@ -28,7 +28,7 @@ func Engine() *gin.Engine {
 	authorized := router.Group("/auth")
 	authorized.Use(middleware.JWTAuth())
 	{
-		authorized.GET("/test", controller.UserGET)
+		authorized.GET("/:role/:id", controller.UserGET)
 	}
 	return router
 }
