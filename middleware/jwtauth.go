@@ -77,8 +77,8 @@ func (j *JWT) ParseToken(tokenString string) (*CustomClaims, error) {
 			} else if ve.Errors&jwt.ValidationErrorNotValidYet != 0 {
 				return nil, TokenNotValidYet
 			}
-			return nil, TokenInvalid
 		}
+		return nil, TokenInvalid
 	}
 
 	if claims, ok := token.Claims.(*CustomClaims); ok && token.Valid {

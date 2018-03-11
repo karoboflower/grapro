@@ -17,43 +17,6 @@ import (
 // LoginGET 返回用户登录视图
 func LoginGET(c *gin.Context) {
 	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{})
-	// j := middleware.JWT{
-	// 	SigningKey: []byte("huanglachuan"),
-	// }
-
-	// claims := middleware.CustomClaims{
-	// 	ID:    "2014051609033",
-	// 	Email: "898859616@qq.com",
-	// 	StandardClaims: jwt.StandardClaims{
-	// 		ExpiresAt: time.Now().Add(15 * time.Minute).Unix(),
-	// 		Issuer:    "huanglachuan",
-	// 	},
-	// }
-
-	// token, err := j.CreateToken(claims)
-
-	// if err != nil {
-	// 	c.String(http.StatusOK, err.Error())
-	// 	c.Abort()
-	// }
-
-	// c.Request.Header.Set("Authorization", token)
-	// res, err := j.ParseToken(token)
-
-	// if err != nil {
-	// 	if err == middleware.TokenExpired {
-	// 		newToken, err := j.RefreshToken(token)
-	// 		if err != nil {
-	// 			c.String(http.StatusOK, err.Error())
-	// 		} else {
-	// 			c.String(http.StatusOK, "Refresh Token <-------------------------------->"+newToken)
-	// 		}
-	// 	} else {
-	// 		c.String(http.StatusOK, err.Error())
-	// 	}
-	// } else {
-	// 	c.JSON(http.StatusOK, res)
-	// }
 }
 
 // LoginPOST 用户登录处理
@@ -87,20 +50,15 @@ func LoginPOST(c *gin.Context) {
 				}
 
 				token, err := j.CreateToken(claims)
-
-				if err != nil {
-					c.JSON(http.StatusOK, err.Error())
-					c.Abort()
+				if err == nil {
+					c.SetCookie("Authorization", token, 1, "/", "localhost", true, true)
+					c.Redirect(http.StatusMovedPermanently, "/auth/"+c.PostForm("role")+"/"+c.PostForm("id"))
 				}
-
-				c.Request.Header.Set("Authorization", token)
-
-				c.Redirect(http.StatusMovedPermanently, "/auth/"+c.PostForm("role")+"/"+c.PostForm("id"))
 			}
 		} else {
-			c.JSON(http.StatusOK, gin.H{"msg": "密码盐"})
+			// c.JSON(http.StatusOK, gin.H{"msg": "密码盐"})
 		}
 	} else {
-		c.JSON(http.StatusOK, gin.H{"msg": dbe.Error})
+		// c.JSON(http.StatusOK, gin.H{"msg": dbe.Error})
 	}
 }

@@ -8,5 +8,5 @@ import (
 
 // UserGET 获取用户个人信息
 func UserGET(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"message": "UserGET"})
+	c.HTML(http.StatusOK, "student/profile.tmpl", gin.H{"message": "student profile"})
 }

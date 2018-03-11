@@ -14,10 +14,8 @@ import (
 func Engine() *gin.Engine {
 	gin.SetMode(gin.DebugMode)
 
-	router := gin.New()
+	router := gin.Default()
 	router.Use(favicon.New("./favicon.ico"))
-	router.Use(gin.Logger())
-	router.Use(gin.Recovery())
 	router.Delims("{%", "%}")
 	router.LoadHTMLGlob("views/*/*")
 	router.GET("/", func(c *gin.Context) { c.HTML(http.StatusOK, "common/index.tmpl", gin.H{}) })
