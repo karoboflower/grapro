@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// UserGET 获取用户个人信息
-func UserGET(c *gin.Context) {
+// StudentGET 获取学生个人页面
+func StudentGET(c *gin.Context) {
 	c.HTML(http.StatusOK, "student/profile.tmpl", gin.H{"message": "student profile"})
 }

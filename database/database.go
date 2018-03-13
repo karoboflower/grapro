@@ -74,16 +74,4 @@ func ConnectDB() {
 	if e != nil {
 		log.Fatalln(e)
 	}
-	// AuthEnforcer.AddPolicy("alice", "data1", "write")
-	// AuthEnforcer.AddPolicy("alice1", "data2", "write")
-	// AuthEnforcer.LoadPolicy()
-	// AuthEnforcer.RemovePolicy("alice1", "data2", "write")
-	// AuthEnforcer.LoadPolicy()
-	// AuthEnforcer.AddPolicy("alice2", "data3", "write")
-
-	// AuthEnforcer.AddPermissionForUser("alice1", "data1", "write", ".jpg")
-	// AuthEnforcer.LoadPolicy()
-	// AuthEnforcer.LoadPolicy()
-	// AuthEnforcer.Enforce("alice", "data1", "read")
-	// AuthEnforcer.SavePolicy()
 }

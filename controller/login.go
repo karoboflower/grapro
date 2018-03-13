@@ -52,7 +52,7 @@ func LoginPOST(c *gin.Context) {
 				token, err := j.CreateToken(claims)
 				if err == nil {
 					c.SetCookie("Authorization", token, 1, "/", "localhost", true, true)
-					c.Redirect(http.StatusMovedPermanently, "/auth/"+c.PostForm("role")+"/"+c.PostForm("id"))
+					c.Redirect(http.StatusMovedPermanently, "/auth/"+c.PostForm("role")+"/"+c.PostForm("id")+"/?Authorization="+token)
 				}
 			}
 		} else {

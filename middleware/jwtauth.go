@@ -2,7 +2,6 @@ package middleware
 
 import (
 	"errors"
-	"fmt"
 	"net/http"
 	"strings"
 	"time"
@@ -110,17 +109,19 @@ func (j *JWT) RefreshToken(tokenString string) (string, error) {
 // JWTAuth 处理认证
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.DefaultQuery("token", "")
+		token := c.DefaultQuery("Authorization", "")
 		if token == "" {
-			token = c.Request.Header.Get("Authorization")
-			fmt.Println("Token : ", token)
-			if s := strings.Split(token, " "); len(s) == 2 {
-				token = s[1]
+			if token, err := c.Cookie("Authorization"); err == nil {
+				if s := strings.Split(token, " "); len(s) == 2 {
+					token = s[1]
+				}
 			}
 		}
 
 		j := NewJWT()
+
 		claims, err := j.ParseToken(token)
+
 		if err != nil {
 			if err == TokenExpired {
 				if token, err = j.RefreshToken(token); err == nil {
