@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"errors"
+	"gra-pro/config/auth"
 	"net/http"
 	"strings"
 	"time"
@@ -20,7 +21,7 @@ var (
 	// TokenInvalid Token无效
 	TokenInvalid = errors.New("Couldn't handle this token")
 	// SignKey 签署密钥
-	SignKey = "secret"
+	SignKey string
 )
 
 // JWT JSON Web Token
@@ -34,6 +35,12 @@ type CustomClaims struct {
 	Email string `json:"email"`
 	Role  string `json:"role"`
 	jwt.StandardClaims
+}
+
+func init() {
+	if secret, result := auth.GetSignKey(); result {
+		SignKey = secret.SignKey
+	}
 }
 
 // NewJWT .

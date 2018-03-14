@@ -3,6 +3,7 @@ package controller
 import (
 	"crypto/md5"
 	"fmt"
+	"gra-pro/config/auth"
 	"gra-pro/config/user"
 	"gra-pro/database"
 	"gra-pro/middleware"
@@ -25,7 +26,7 @@ func LoginPOST(c *gin.Context) {
 	var saltInst user.Salt
 
 	if dbe := database.DB.First(&json, c.PostForm("id")); dbe.Error == nil {
-		if user.GetSalt(&saltInst) {
+		if secret, result := auth.GetSignKey(); result && user.GetSalt(&saltInst) {
 			h := md5.New()
 			io.WriteString(h, c.PostForm("password"))
 			pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
@@ -36,7 +37,7 @@ func LoginPOST(c *gin.Context) {
 			last := fmt.Sprintf("%x", h.Sum(nil))
 			if json.Password == last {
 				j := middleware.JWT{
-					SigningKey: []byte("secret"),
+					SigningKey: []byte(secret.SignKey),
 				}
 
 				claims := middleware.CustomClaims{
@@ -52,6 +53,7 @@ func LoginPOST(c *gin.Context) {
 				token, err := j.CreateToken(claims)
 				if err == nil {
 					c.SetCookie("Authorization", token, 1, "/", "localhost", true, true)
+					// c.Header("Authorization", token)
 					c.Redirect(http.StatusMovedPermanently, "/auth/"+c.PostForm("role")+"/"+c.PostForm("id")+"/?Authorization="+token)
 				}
 			}
