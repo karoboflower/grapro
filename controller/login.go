@@ -61,6 +61,6 @@ func LoginPOST(c *gin.Context) {
 			// c.JSON(http.StatusOK, gin.H{"msg": "密码盐"})
 		}
 	} else {
-		// c.JSON(http.StatusOK, gin.H{"msg": dbe.Error})
+		c.JSON(http.StatusOK, gin.H{"msg": dbe.Error})
 	}
 }

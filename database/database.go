@@ -67,6 +67,7 @@ func ConnectDB() {
 	}
 	if !DB.HasTable(&User{}) {
 		DB.AutoMigrate(&User{})
+		DB.AutoMigrate(&Student{})
 	}
 
 	a := gormadapter.NewAdapter(dbcfg.DBType, userdata.UserName+":"+userdata.Password+"@tcp("+dbcfg.IP+":"+dbcfg.Port+")/"+dbcfg.DBName, true)

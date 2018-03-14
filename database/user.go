@@ -4,10 +4,10 @@ import (
 	"time"
 )
 
-// User 用户模型
+// User .
 type User struct {
 	ID        string `gorm:"type:char(13);primary_key;not null;unique" form:"id" json:"id" binding:"required"`
-	Email     string `gorm:"type:char(32);not null" form:"email" json:"email" binding:"required"`
+	Email     string `gorm:"type:char(32);not null;unique" form:"email" json:"email" binding:"required"`
 	Password  string `gorm:"type:char(32);not null" form:"password" json:"password" binding:"required"`
 	Role      string `gorm:"type:char(15);not null" form:"role" json:"role" binding:"required"`
 	CreatedAt time.Time
