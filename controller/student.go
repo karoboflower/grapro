@@ -24,5 +24,10 @@ func StudentGET(c *gin.Context) {
 
 // StudentPOST 提交学生个人信息
 func StudentPOST(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
+}
 
+// StudentPUT 修改学生个人信息
+func StudentPUT(c *gin.Context) {
+	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
 }
