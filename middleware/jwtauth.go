@@ -132,12 +132,12 @@ func JWTAuth() gin.HandlerFunc {
 		if err != nil {
 			if err == TokenExpired {
 				if token, err = j.RefreshToken(token); err == nil {
-					c.Header("Authorization", "Bear "+token)
+					c.Header("Authorization", token)
 					c.JSON(http.StatusOK, gin.H{"error": 0, "message": "refresh token", "token": token})
 					return
 				}
 			}
-			c.JSON(http.StatusUnauthorized, gin.H{"error": 1, "message": err.Error()})
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": 1, "message": err.Error()})
 			return
 		}
 		c.Set("claims", claims)

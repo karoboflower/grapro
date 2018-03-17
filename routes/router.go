@@ -24,9 +24,10 @@ func Engine() *gin.Engine {
 	router.GET("/login", controller.LoginGET)
 	router.POST("/login", controller.LoginPOST)
 	authorized := router.Group("/auth")
-	authorized.Use(middleware.JWTAuth())
+	authorized.Use(middleware.JWTAuth(), middleware.RBAC())
 	{
 		authorized.GET("/student/:id", controller.StudentGET)
+		authorized.POST("/student/:id", controller.StudentPOST)
 		authorized.GET("/counselor/:id", controller.CounselorGET)
 		authorized.GET("/studentOffice/:id", controller.StudentOfficeGET)
 	}

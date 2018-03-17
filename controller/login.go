@@ -17,7 +17,8 @@ import (
 
 // LoginGET 返回用户登录视图
 func LoginGET(c *gin.Context) {
-	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{})
+	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{"msg": "hello"})
+	// c.JSON(http.StatusOK, gin.H{"msg": "hello"})
 }
 
 // LoginPOST 用户登录处理
