@@ -1,4 +1,4 @@
-package controller
+package student
 
 import (
 	"fmt"
@@ -8,8 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// StudentGET 获取学生个人页面
-func StudentGET(c *gin.Context) {
+// GetProfile 获取学生个人信息
+func GetProfile(c *gin.Context) {
 	fmt.Println("Student get")
 	var student database.Student
 	id := c.Param("id")
@@ -22,12 +22,12 @@ func StudentGET(c *gin.Context) {
 	c.HTML(http.StatusOK, "student/profile.tmpl", gin.H{"info": student})
 }
 
-// StudentPOST 提交学生个人信息
-func StudentPOST(c *gin.Context) {
+// PostProfile 提交学生个人信息
+func PostProfile(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
 }
 
-// StudentPUT 修改学生个人信息
-func StudentPUT(c *gin.Context) {
+// PutProfile 修改学生个人信息
+func PutProfile(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
 }
