@@ -81,6 +81,5 @@ func PostRegister(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("Authorization", token, 1, "/", "localhost", true, true)
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token})
 }

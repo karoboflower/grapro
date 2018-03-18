@@ -116,13 +116,14 @@ func (j *JWT) RefreshToken(tokenString string) (string, error) {
 // JWTAuth 处理认证
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.DefaultQuery("Authorization", "")
+		token := c.GetHeader("Cookie")
 		if token == "" {
-			if token, err := c.Cookie("Authorization"); err == nil {
-				if s := strings.Split(token, " "); len(s) == 2 {
-					token = s[1]
-				}
-			}
+			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "token丢失！"})
+			return
+		}
+
+		if s := strings.Split(token, "="); len(s) == 2 {
+			token = s[1]
 		}
 
 		j := NewJWT()
@@ -133,11 +134,11 @@ func JWTAuth() gin.HandlerFunc {
 			if err == TokenExpired {
 				if token, err = j.RefreshToken(token); err == nil {
 					c.Header("Authorization", token)
-					c.JSON(http.StatusOK, gin.H{"error": 0, "msg": "refresh token", "token": token})
+					c.JSON(http.StatusOK, gin.H{"status": 1, "msg": "token过期！"})
 					return
 				}
 			}
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"error": 1, "message": err.Error()})
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"status": 1, "msg": err.Error()})
 			return
 		}
 		c.Set("claims", claims)
