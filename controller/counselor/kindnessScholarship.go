@@ -6,12 +6,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetKindnessScholarship 辅导员查询应善良助学金
-func GetKindnessScholarship(c *gin.Context) {
+// GetViewKindnessScholarship 辅导员查询应善良助学金
+func GetViewKindnessScholarship(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
 }
 
-// PostKindnessScholarship 辅导员筛选应善良助学金
-func PostKindnessScholarship(c *gin.Context) {
+// PostViewKindnessScholarship 辅导员筛选应善良助学金
+func PostViewKindnessScholarship(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
 }

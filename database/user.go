@@ -15,7 +15,7 @@ type User struct {
 	DeletedAt *time.Time `sql:"index"`
 }
 
-// Exists 检测用户是否存在,存在返回true
+// Exists 检测用户表是否存在该记录,存在返回true
 func (u User) Exists() bool {
 	var user User
 

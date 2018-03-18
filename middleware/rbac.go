@@ -11,7 +11,7 @@ import (
 func RBAC() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if !database.AuthEnforcer.Enforce(c.Param("id"), c.Request.URL.Path, c.Request.Method) {
-			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"msg": "无权访问该资源"})
+			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"msg": "您无权访问该资源"})
 			return
 		}
 	}

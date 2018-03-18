@@ -19,3 +19,13 @@ type Student struct {
 	Class           string    `gorm:"type:char(20);not null" form:"class" json:"class" binding:"required"`
 	Phone           string    `gorm:"type:char(20);not null" form:"phone" json:"phone" binding:"required"`
 }
+
+// Exists 检测学生表是否已经存在该记录,存在返回true
+func (s Student) Exists() bool {
+	var student Student
+
+	if DB.Where("id = ?", s.ID).First(&student); student.ID == s.ID {
+		return true
+	}
+	return false
+}

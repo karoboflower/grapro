@@ -15,53 +15,58 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// LoginGET 返回用户登录视图
-func LoginGET(c *gin.Context) {
-	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{"msg": "hello"})
-	// c.JSON(http.StatusOK, gin.H{"msg": "hello"})
+// GetLogin 返回用户登录视图
+func GetLogin(c *gin.Context) {
+	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{})
 }
 
-// LoginPOST 用户登录处理
-func LoginPOST(c *gin.Context) {
+// PostLogin 用户登录处理
+func PostLogin(c *gin.Context) {
 	var json database.User
 	var saltInst user.Salt
 
-	if dbe := database.DB.First(&json, c.PostForm("id")); dbe.Error == nil {
-		if secret, result := auth.GetSignKey(); result && user.GetSalt(&saltInst) {
-			h := md5.New()
-			io.WriteString(h, c.PostForm("password"))
-			pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
-			io.WriteString(h, saltInst.Salt1)
-			io.WriteString(h, c.PostForm("id"))
-			io.WriteString(h, saltInst.Salt2)
-			io.WriteString(h, pwmd5)
-			last := fmt.Sprintf("%x", h.Sum(nil))
-			if json.Password == last {
-				j := middleware.JWT{
-					SigningKey: []byte(secret.SignKey),
-				}
-
-				claims := middleware.CustomClaims{
-					ID:    json.ID,
-					Email: json.Email,
-					Role:  json.Role,
-					StandardClaims: jwt.StandardClaims{
-						ExpiresAt: time.Now().Add(15 * time.Minute).Unix(),
-						Issuer:    "ThePupilOfTheOcean",
-					},
-				}
-
-				token, err := j.CreateToken(claims)
-				if err == nil {
-					c.SetCookie("Authorization", token, 1, "/", "localhost", true, true)
-					// c.Header("Authorization", token)
-					c.Redirect(http.StatusMovedPermanently, "/auth/"+c.PostForm("role")+"/"+c.PostForm("id")+"/?Authorization="+token)
-				}
-			}
-		} else {
-			// c.JSON(http.StatusOK, gin.H{"msg": "密码盐"})
-		}
-	} else {
-		c.JSON(http.StatusOK, gin.H{"msg": dbe.Error})
+	if dbe := database.DB.First(&json, c.PostForm("id")); dbe.Error != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 	}
+
+	var secret auth.Secret
+	var result bool
+	if secret, result = auth.GetSignKey(); result && user.GetSalt(&saltInst) {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "获取用户生成信息失败！"})
+	}
+
+	h := md5.New()
+	io.WriteString(h, c.PostForm("password"))
+	pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
+	io.WriteString(h, saltInst.Salt1)
+	io.WriteString(h, c.PostForm("id"))
+	io.WriteString(h, saltInst.Salt2)
+	io.WriteString(h, pwmd5)
+	last := fmt.Sprintf("%x", h.Sum(nil))
+
+	if json.Password != last {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "密码错误！"})
+	}
+
+	j := middleware.JWT{
+		SigningKey: []byte(secret.SignKey),
+	}
+
+	claims := middleware.CustomClaims{
+		ID:    json.ID,
+		Email: json.Email,
+		Role:  json.Role,
+		StandardClaims: jwt.StandardClaims{
+			ExpiresAt: time.Now().Add(15 * time.Minute).Unix(),
+			Issuer:    "ThePupilOfTheOcean",
+		},
+	}
+
+	token, err := j.CreateToken(claims)
+	if err != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
+	}
+
+	c.SetCookie("Authorization", token, 1, "/", "localhost", true, true)
+	c.JSON(http.StatusOK, gin.H{"status": 0})
 }
