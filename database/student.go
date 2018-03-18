@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// Student .
+// Student 学生信息
 type Student struct {
 	ID              string    `gorm:"type:char(13);primary_key;not null;unique" form:"id" json:"id" binding:"required"`
 	Name            string    `gorm:"type:char(24);not null" form:"name" json:"name" binding:"required"`

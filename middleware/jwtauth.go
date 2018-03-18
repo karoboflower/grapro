@@ -134,7 +134,7 @@ func JWTAuth() gin.HandlerFunc {
 			if err == TokenExpired {
 				if token, err = j.RefreshToken(token); err == nil {
 					c.Header("Authorization", token)
-					c.JSON(http.StatusOK, gin.H{"status": 1, "msg": "token过期！"})
+					c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "token过期！"})
 					return
 				}
 			}
