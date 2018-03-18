@@ -18,6 +18,9 @@ type Student struct {
 	Grade           string    `gorm:"type:char(20);not null" form:"grade" json:"grade" binding:"required"`
 	Class           string    `gorm:"type:char(20);not null" form:"class" json:"class" binding:"required"`
 	Phone           string    `gorm:"type:char(20);not null" form:"phone" json:"phone" binding:"required"`
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
+	DeletedAt       *time.Time `sql:"index"`
 }
 
 // Exists 检测学生表是否已经存在该记录,存在返回true
