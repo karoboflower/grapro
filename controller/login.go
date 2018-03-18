@@ -27,12 +27,14 @@ func PostLogin(c *gin.Context) {
 
 	if dbe := database.DB.First(&json, c.PostForm("id")); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+		return
 	}
 
 	var secret auth.Secret
 	var result bool
-	if secret, result = auth.GetSignKey(); result && user.GetSalt(&saltInst) {
+	if secret, result = auth.GetSignKey(); !(result && user.GetSalt(&saltInst)) {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "获取用户生成信息失败！"})
+		return
 	}
 
 	h := md5.New()
@@ -46,6 +48,7 @@ func PostLogin(c *gin.Context) {
 
 	if json.Password != last {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "密码错误！"})
+		return
 	}
 
 	j := middleware.JWT{
@@ -65,8 +68,8 @@ func PostLogin(c *gin.Context) {
 	token, err := j.CreateToken(claims)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
+		return
 	}
 
-	c.SetCookie("Authorization", token, 1, "/", "localhost", true, true)
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token})
 }
