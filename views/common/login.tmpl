@@ -1,17 +1,6 @@
 {% define "common/login.tmpl" %}
-<html>
-<head>
-	<meta http-equiv="Content-Type" Content="application/json;charset=utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-	<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-	<script src="https://cdn.bootcss.com/jquery.form/4.2.2/jquery.form.js"></script>
-	<script src="https://cdn.bootcss.com/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-	<script src="https://cdn.bootcss.com/layer/3.1.0/layer.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-</head>
+{% template "common/header.tmpl" %}
 
-<body>
 	<div class="container-fluid">
 		<div>
 			<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
@@ -44,27 +33,26 @@
   			</form>
 		</div>
 	</div>
-</body>
 
-<script>
-$(document).ready(function() {
-	var	options = {
-		success  : ResponseCallback
+	<script>
+	$(document).ready(function() {
+		var	options = {
+			success  : ResponseCallback
+		}
+
+		$("#loginForm").ajaxForm(options)
+	});
+
+	function ResponseCallback(response,status,xhr,$form) {
+		if (response.status==1) {
+			layer.alert(response.msg, {icon:2})
+		}
+		if (response.status==0) {
+			$.cookie("Authrization", response.Authrization)
+			window.location.href="/auth/"+$("#role").val()+"/"+$("#id").val()+"/profile";
+		}
 	}
+	</script>
 
-	$("#loginForm").ajaxForm(options)
-});
-
-function ResponseCallback(response,status,xhr,$form) {
-	if (response.status==1) {
-		layer.alert(response.msg, {icon:2})
-	}
-	if (response.status==0) {
-		$.cookie("Authrization", response.Authrization)
-		window.location.href="/auth/"+$("#role").val()+"/"+$("#id").val()+"/profile";
-	}
-}
-</script>
-
-</html>
+{% template "common/footer.tmpl" %}
 {% end %}

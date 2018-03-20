@@ -11,12 +11,12 @@ import (
 // GetProfile 获取学生个人信息
 func GetProfile(c *gin.Context) {
 	var student database.Student
-	id := c.Param("id")
+	// id := c.Param("id")
 
-	if database.DB.First(&student, id); student.ID != id {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "还没有填写个人信息！"})
-		return
-	}
+	// if database.DB.First(&student, id); student.ID != id {
+	// 	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "还没有填写个人信息！"})
+	// 	return
+	// }
 
 	c.HTML(http.StatusOK, "student/profile.tmpl", gin.H{"status": 0, "info": student})
 }
