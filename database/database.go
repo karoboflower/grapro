@@ -61,7 +61,7 @@ func ConnectDB() {
 
 	var e error
 
-	DB, e = gorm.Open(dbcfg.DBType, userdata.UserName+":"+userdata.Password+"@tcp("+dbcfg.IP+":"+dbcfg.Port+")/"+dbcfg.DBName+"?charset=utf8&parseTime=True&loc=Local")
+	DB, e = gorm.Open(dbcfg.DBType, userdata.UserName+":"+userdata.Password+"@tcp("+dbcfg.IP+":"+dbcfg.Port+")/"+dbcfg.DBName+"?charset=utf8mb4&parseTime=True&loc=Local")
 	if e != nil {
 		log.Fatalln("数据库连接失败")
 	}

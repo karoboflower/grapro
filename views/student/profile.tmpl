@@ -11,14 +11,14 @@
 			<div class="row">
 				<div class="col-sm-2">
 					<ul class="list-group">
-						<a href=/auth/student/{% .info.ID %}/profile class="list-group-item list-group-item-action active">个人信息</a>
+						<a href=/auth/student/{% .info.ID %}/profile class="list-group-item list-group-item-action active">修改信息</a>
 						<a href=/auth/student/{% .info.ID %}/StateGrants class="list-group-item list-group-item-action">国家助学金</a>
 						<a href=/auth/student/{% .info.ID %}/NIS class="list-group-item list-group-item-action">国家励志奖学金</a>
 						<a href=/auth/student/{% .info.ID %}/KindnessScholarship class="list-group-item list-group-item-action">应善良助学金</a>
 					</ul>
 				</div>
 				<div class="col-sm-10">
-					<form id="profileForm" method="PUT">
+					<form id="profileForm">
 						<div class="form-group">
 							<label for="id">学号:</label>
 							<input id="id" class="form-control" name="id" readonly value={% .info.ID %}>
@@ -65,7 +65,7 @@
 						</div>
 						<div class="form-group">
 							<label for="phone">联系电话:</label>
-							<input id="phone" class="form-control" name="phone" readonly value={% .info.Phone %}>
+							<input id="phone" class="form-control" name="phone" value={% .info.Phone %}>
 						</div>
 						<button type="submit" class="btn btn-primary">Submit</button>
 					</form>
@@ -75,7 +75,7 @@
 			<div class="row">
 				<div class="col-sm-2">
 					<ul class="list-group">
-						<a href=/auth/student/{% .info.ID %}/profile class="list-group-item list-group-item-action active">个人信息</a>
+						<a href=/auth/student/{% .info.ID %}/profile class="list-group-item list-group-item-action active">填写信息</a>
 						<a href=/auth/student/{% .info.ID %}/StateGrants class="list-group-item list-group-item-action">国家助学金</a>
 						<a href=/auth/student/{% .info.ID %}/NIS class="list-group-item list-group-item-action">国家励志奖学金</a>
 						<a href=/auth/student/{% .info.ID %}/KindnessScholarship class="list-group-item list-group-item-action">应善良助学金</a>
@@ -138,24 +138,48 @@
 		{% end %}
 	</div>
 
-	<script>
-	$(document).ready(function() {
-		var	options = {
-			success  : ResponseCallback
-		}
+	{% if .wrote %}
+		<script>
+			$(document).ready(function() {
+				var	options = {
+					type	 : 'PUT',
+					success  : ResponseCallback
+				}
 
-		$("#profileForm").ajaxForm(options)
-	});
+				$("#profileForm").ajaxForm(options)
+			});
 
-	function ResponseCallback(response,status,xhr,$form) {
-		if (response.status==1) {
-			layer.alert(response.msg, {icon:2})
-		}
-		if (response.status==0) {
-			layer.alert("提交信息成功", {icon:6})
-		}
-	}
-	</script>
+			function ResponseCallback(response,status,xhr,$form) {
+				if (response.status==1) {
+					layer.alert(response.msg, {icon:2})
+				}
+				if (response.status==0) {
+					layer.alert("提交信息成功", {icon:6})
+					window.location.href="/auth/student/"+$("#id").val()+"/profile";
+				}
+			}
+		</script>
+	{% else %}
+		<script>
+			$(document).ready(function() {
+				var	options = {
+					success  : ResponseCallback
+				}
+
+				$("#profileForm").ajaxForm(options)
+			});
+
+			function ResponseCallback(response,status,xhr,$form) {
+				if (response.status==1) {
+					layer.alert(response.msg, {icon:2})
+				}
+				if (response.status==0) {
+					layer.alert("提交信息成功", {icon:6})
+					window.location.href="/auth/student/"+$("#id").val()+"/profile";
+				}
+			}
+		</script>
+	{% end %}
 
 {% template "common/footer.tmpl" %}
 {% end %}

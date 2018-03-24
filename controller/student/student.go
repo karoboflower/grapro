@@ -4,6 +4,8 @@ import (
 	"gra-pro/database"
 	"net/http"
 
+	"github.com/jinzhu/gorm"
+
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 )
@@ -50,13 +52,21 @@ func PostProfile(c *gin.Context) {
 // PutProfile 修改学生个人信息
 func PutProfile(c *gin.Context) {
 	var form database.Student
+	var student database.Student
 
-	if err := c.ShouldBindWith(&form, binding.FormPost); err != nil {
+	var err error
+	var dbe *gorm.DB
+	if err = c.ShouldBindWith(&form, binding.FormPost); err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 		return
 	}
 
-	if dbe := database.DB.Save(&form); dbe != nil {
+	if dbe = database.DB.First(&student, form.ID); dbe.Error != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+		return
+	}
+
+	if dbe = database.DB.Model(&student).Updates(form); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
