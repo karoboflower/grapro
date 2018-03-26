@@ -131,13 +131,13 @@ func JWTAuth() gin.HandlerFunc {
 		claims, err := j.ParseToken(token)
 
 		if err != nil {
-			if err == TokenExpired {
-				if token, err = j.RefreshToken(token); err == nil {
-					c.Header("Authorization", token)
-					c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "token过期！"})
-					return
-				}
-			}
+			// if err == TokenExpired {
+			// 	if token, err = j.RefreshToken(token); err == nil {
+			// 		c.Header("Authorization", token)
+			// 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "token过期！"})
+			// 		return
+			// 	}
+			// }
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"status": 1, "msg": err.Error()})
 			return
 		}

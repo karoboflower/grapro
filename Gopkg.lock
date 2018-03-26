@@ -65,7 +65,7 @@
   branch = "master"
   name = "github.com/lib/pq"
   packages = [".","oid"]
-  revision = "b2004221932bd6b13167ef654c81cffac36f7537"
+  revision = "a96442e255fce502751c604916b0e14e81be6bf9"
 
 [[projects]]
   name = "github.com/mattn/go-isatty"
@@ -89,7 +89,7 @@
   branch = "master"
   name = "golang.org/x/sys"
   packages = ["unix"]
-  revision = "1e3c7779a71dac3e6f1a2abb347a6734b72d35e7"
+  revision = "13d03a9a82fba647c21a0ef8fba44a795d0f0835"
 
 [[projects]]
   name = "gopkg.in/go-playground/validator.v8"
@@ -100,8 +100,8 @@
 [[projects]]
   name = "gopkg.in/yaml.v2"
   packages = ["."]
-  revision = "7f97868eec74b32b0982dd158a51a446d1da7eb5"
-  version = "v2.1.1"
+  revision = "86f5ed62f8a0ee96bd888d2efdfd6d4fb100a4eb"
+  version = "v2.2.0"
 
 [solve-meta]
   analyzer-name = "dep"

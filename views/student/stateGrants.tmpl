@@ -1,0 +1,63 @@
+{% define "student/stateGrants.tmpl" %}
+{% template "common/header.tmpl" %}
+
+    <div class="container-fluid">
+        <div>
+			<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+				<h2>，欢迎您！</h2>
+			</nav>
+		</div>
+        <div class="row">
+            <div class="col-sm-2">
+                <ul class="list-group">
+                    <a href="" class="list-group-item list-group-item-action active">修改信息</a>
+                    <a href="" class="list-group-item list-group-item-action">国家助学金</a>
+                    <a href="" class="list-group-item list-group-item-action">国家励志奖学金</a>
+                    <a href="" class="list-group-item list-group-item-action">应善良助学金</a>
+                </ul>
+            </div>
+            <div class="col-sm-10">
+                <form id="stateGrants" method="POST" enctype="multipart/form-data">
+                    <div class="form-group">
+							<label for="id">学号:</label>
+							<input id="id" class="form-control" name="id">
+					</div>
+                    <div class="form-group">
+							<label for="description">申请文本:</label>
+                            <textarea id="description" class="form-control" name="description"></textarea>
+					</div>
+                    <div class="form-group">
+                        <label for="fsquestionnaire">家庭情况调查表：</label>
+                        <input type="file" id="fsquestionnaire" name="fsquestionnaire">
+                    </div>
+                    <div class="form-group">
+                        <label for="accessory">附件：</label>
+                        <input type="file" id="accessory" name="accessory">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var	options = {
+                success  : ResponseCallback
+            }
+
+            $("#stateGrants").ajaxForm(options)
+        });
+
+        function ResponseCallback(response,status,xhr,$form) {
+            if (response.status==1) {
+                layer.alert(response.msg, {icon:2})
+            }
+            if (response.status==0) {
+                layer.alert("提交信息成功", {icon:6})
+            }
+        }
+    </script>
+
+{% template "common/footer.tmpl" %}
+{% end %}

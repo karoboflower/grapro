@@ -18,6 +18,7 @@ func Engine() *gin.Engine {
 	gin.SetMode(gin.DebugMode)
 
 	router := gin.Default()
+	router.MaxMultipartMemory = 8 << 20
 	router.Use(favicon.New("./favicon.ico"))
 	router.Delims("{%", "%}")
 	router.LoadHTMLGlob("views/*/*")
