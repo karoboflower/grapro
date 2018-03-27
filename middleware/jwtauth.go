@@ -4,7 +4,6 @@ import (
 	"errors"
 	"gra-pro/config/auth"
 	"net/http"
-	"strings"
 	"time"
 
 	jwt "github.com/dgrijalva/jwt-go"
@@ -116,14 +115,10 @@ func (j *JWT) RefreshToken(tokenString string) (string, error) {
 // JWTAuth 处理认证
 func JWTAuth() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		token := c.GetHeader("Cookie")
+		token, err := c.Cookie("Authrization")
 		if token == "" {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "token丢失！"})
 			return
-		}
-
-		if s := strings.Split(token, "="); len(s) == 2 {
-			token = s[1]
 		}
 
 		j := NewJWT()
@@ -131,16 +126,10 @@ func JWTAuth() gin.HandlerFunc {
 		claims, err := j.ParseToken(token)
 
 		if err != nil {
-			// if err == TokenExpired {
-			// 	if token, err = j.RefreshToken(token); err == nil {
-			// 		c.Header("Authorization", token)
-			// 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "token过期！"})
-			// 		return
-			// 	}
-			// }
 			c.AbortWithStatusJSON(http.StatusUnauthorized, gin.H{"status": 1, "msg": err.Error()})
 			return
 		}
+
 		c.Set("claims", claims)
 	}
 }
