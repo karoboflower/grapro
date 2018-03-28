@@ -9,7 +9,7 @@ type Counselor struct {
 	College   string `gorm:"type:char(20);not null" form:"college" json:"college" binding:"required"`
 	Grade     string `gorm:"type:char(20);not null" form:"grade" json:"grade" binding:"required"`
 	Class     string `gorm:"type:char(20);not null" form:"class" json:"class" binding:"required"`
-	Phone     string `gorm:"type:char(20);not null" form:"phone" json:"phone" binding:"required"`
+	Phone     string `gorm:"type:char(11);not null" form:"phone" json:"phone" binding:"required"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
