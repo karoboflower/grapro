@@ -1,5 +1,6 @@
 main
 debug
+files/
 vendor/
 .vscode/
 ca-certificates.crt

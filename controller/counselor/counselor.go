@@ -4,6 +4,8 @@ import (
 	"gra-pro/database"
 	"net/http"
 
+	"github.com/jinzhu/gorm"
+
 	"github.com/gin-gonic/gin/binding"
 
 	"github.com/gin-gonic/gin"
@@ -15,7 +17,10 @@ func GetCounselor(c *gin.Context) {
 	id := c.Param("id")
 
 	if database.DB.First(&counselor, id); counselor.ID != id {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "还没有填写个人信息！"})
+		counselor = database.Counselor{
+			ID: id,
+		}
+		c.HTML(http.StatusOK, "counselor/profile.tmpl", gin.H{"status": 0, "info": counselor})
 		return
 	}
 
@@ -47,13 +52,22 @@ func PostCounselor(c *gin.Context) {
 // PutCounselor 修改辅导员个人信息页面
 func PutCounselor(c *gin.Context) {
 	var form database.Counselor
+	var counselor database.Counselor
 
-	if err := c.ShouldBindWith(&form, binding.FormPost); err != nil {
+	var err error
+	var dbe *gorm.DB
+
+	if err = c.ShouldBindWith(&form, binding.FormPost); err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 		return
 	}
 
-	if dbe := database.DB.Save(&form); dbe != nil {
+	if dbe = database.DB.First(&counselor, form.ID); dbe.Error != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+		return
+	}
+
+	if dbe := database.DB.Model(&counselor).Updates(form); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
