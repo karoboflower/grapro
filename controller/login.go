@@ -60,7 +60,7 @@ func PostLogin(c *gin.Context) {
 		Email: json.Email,
 		Role:  json.Role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(15 * time.Minute).Unix(),
+			ExpiresAt: time.Now().Add(30 * time.Minute).Unix(),
 			Issuer:    "ThePupilOfTheOcean",
 		},
 	}
@@ -71,5 +71,5 @@ func PostLogin(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token, "Redirect": "/auth/" + json.Role + "/" + json.ID + "/profile"})
 }

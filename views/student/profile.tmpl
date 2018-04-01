@@ -2,188 +2,68 @@
 {% template "common/header.tmpl" %}
 
 	<div class="container-fluid">
-		<div>
-			<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
-				<h2>{% .info.ID %}，欢迎您！</h2>
-			</nav>
-		</div>
-		{% if .wrote %}
-			<div class="row">
-				<div class="col-sm-2">
-					<ul class="list-group">
-						<a href=/auth/student/{% .info.ID %}/profile class="list-group-item list-group-item-action active">修改信息</a>
-						<a href=/auth/student/{% .info.ID %}/StateGrants class="list-group-item list-group-item-action">国家助学金</a>
-						<a href=/auth/student/{% .info.ID %}/NIS class="list-group-item list-group-item-action">国家励志奖学金</a>
-						<a href=/auth/student/{% .info.ID %}/KindnessScholarship class="list-group-item list-group-item-action">应善良助学金</a>
-					</ul>
-				</div>
-				<div class="col-sm-10">
-					<form id="profileForm">
-						<div class="form-group">
-							<label for="id">学号:</label>
-							<input id="id" class="form-control" name="id" readonly value={% .info.ID %}>
-						</div>
-						<div class="form-group">
-							<label for="name">姓名:</label>
-							<input id="name" class="form-control" name="name" readonly value={% .info.Name %}>
-						</div>
-						<div class="form-group">
-							<label for="sex">性别:</label>
-							<input id="sex" class="form-control" name="sex" readonly value={% .info.Sex %}>
-						</div>
-						<div class="form-group">
-							<label for="birthdate">出生年月:</label>
-							<input id="birthdate" type="date" class="form-control" name="birthdate" readonly value={% .info.Birthdate %}>
-						</div>
-						<div class="form-group">
-							<label for="ethnic">民族:</label>
-							<input id="ethnic" class="form-control" name="ethnic" readonly value={% .info.Ethnic %}>
-						</div>
-						<div class="form-group">
-							<label for="idnumber">身份证号:</label>
-							<input id="idnumber" class="form-control" name="idnumber" readonly value={% .info.IDNumber %}>
-						</div>
-						<div class="form-group">
-							<label for="politicalstatus">政治面貌:</label>
-							<input id="politicalstatus" class="form-control" name="politicalstatus" readonly value={% .info.PoliticalStatus %}>
-						</div>
-						<div class="form-group">
-							<label for="college">学院:</label>
-							<input id="college" class="form-control" name="college" readonly value={% .info.College %}>
-						</div>
-						<div class="form-group">
-							<label for="profession">专业:</label>
-							<input id="profession" class="form-control" name="profession" readonly value={% .info.Profession %}>
-						</div>
-						<div class="form-group">
-							<label for="grade">年级:</label>
-							<input id="grade" class="form-control" name="grade" readonly value={% .info.Grade %}>
-						</div>
-						<div class="form-group">
-							<label for="class">班级:</label>
-							<input id="class" class="form-control" name="class" readonly value={% .info.Class %}>
-						</div>
-						<div class="form-group">
-							<label for="phone">联系电话:</label>
-							<input id="phone" class="form-control" name="phone" value={% .info.Phone %}>
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-primary">Submit</button>
-						</div>
-					</form>
-				</div>
+		<form id="profileForm" method="POST">
+			<div class="form-group">
+				<input type="text" class="form-control" name="id" readonly value={% .ID %}>
 			</div>
-		{% else %}
-			<div class="row">
-				<div class="col-sm-2">
-					<ul class="list-group">
-						<a href=/auth/student/{% .info.ID %}/profile class="list-group-item list-group-item-action active">填写信息</a>
-						<a href=/auth/student/{% .info.ID %}/StateGrants class="list-group-item list-group-item-action">国家助学金</a>
-						<a href=/auth/student/{% .info.ID %}/NIS class="list-group-item list-group-item-action">国家励志奖学金</a>
-						<a href=/auth/student/{% .info.ID %}/KindnessScholarship class="list-group-item list-group-item-action">应善良助学金</a>
-					</ul>
-				</div>
-				<div class="col-sm-10">
-					<form id="profileForm" method="POST">
-						<div class="form-group">
-							<label for="id">学号:</label>
-							<input id="id" class="form-control" name="id" readonly value={% .info.ID %}>
-						</div>
-						<div class="form-group">
-							<label for="name">姓名:</label>
-							<input id="name" class="form-control" name="name">
-						</div>
-						<div class="form-group">
-							<label for="sex">性别:</label>
-							<input id="sex" class="form-control" name="sex">
-						</div>
-						<div class="form-group">
-							<label for="birthdate">出生年月:</label>
-							<input id="birthdate" type="date" class="form-control" name="birthdate">
-						</div>
-						<div class="form-group">
-							<label for="ethnic">民族:</label>
-							<input id="ethnic" class="form-control" name="ethnic">
-						</div>
-						<div class="form-group">
-							<label for="idnumber">身份证号:</label>
-							<input id="idnumber" class="form-control" name="idnumber">
-						</div>
-						<div class="form-group">
-							<label for="politicalstatus">政治面貌:</label>
-							<input id="politicalstatus" class="form-control" name="politicalstatus">
-						</div>
-						<div class="form-group">
-							<label for="college">学院:</label>
-							<input id="college" class="form-control" name="college">
-						</div>
-						<div class="form-group">
-							<label for="profession">专业:</label>
-							<input id="profession" class="form-control" name="profession">
-						</div>
-						<div class="form-group">
-							<label for="grade">年级:</label>
-							<input id="grade" class="form-control" name="grade">
-						</div>
-						<div class="form-group">
-							<label for="class">班级:</label>
-							<input id="class" class="form-control" name="class">
-						</div>
-						<div class="form-group">
-							<label for="phone">联系电话:</label>
-							<input id="phone" class="form-control" name="phone">
-						</div>
-						<div class="form-group">
-							<button type="submit" class="btn btn-primary">Submit</button>
-						</div>
-					</form>
-				</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="name" placeholder="姓名">
 			</div>
-		{% end %}
+			<div class="form-group">
+				<input type="text" class="form-control" name="sex" placeholder="性别">
+			</div>
+			<div class="form-group">
+				<input type="date" class="form-control" name="birthdate" placeholder="出生日期">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="ethnic" placeholder="民族">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="idnumber" placeholder="身份证号">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="politicalstatus" placeholder="政治面貌">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="college" placeholder="学院">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="profession" placeholder="专业">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="grade" placeholder="年级">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="class" placeholder="年级">
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="phone" placeholder="联系电话">
+			</div>
+			<div class="form-group">
+				<center><button type="submit" class="btn btn-primary">Submit</button></center>
+			</div>
+		</form>
 	</div>
 
-	{% if .wrote %}
-		<script>
-			$(document).ready(function() {
-				var	options = {
-					type	 : 'PUT',
-					success  : ResponseCallback
-				}
+	<script>
+		$(document).ready(function() {
+			var	options = {
+				success  : ResponseCallback
+			};
 
-				$("#profileForm").ajaxForm(options)
-			});
+			$("#profileForm").ajaxForm(options);
+		});
 
-			function ResponseCallback(response,status,xhr,$form) {
-				if (response.status==1) {
-					layer.alert(response.msg, {icon:2})
-				}
-				if (response.status==0) {
-					layer.alert("提交信息成功", {icon:6})
-					window.location.href="/auth/student/"+$("#id").val()+"/profile";
-				}
+		function ResponseCallback(response,status,xhr,$form) {
+			if (response.status==1) {
+				layer.alert(response.msg, {icon:2});
 			}
-		</script>
-	{% else %}
-		<script>
-			$(document).ready(function() {
-				var	options = {
-					success  : ResponseCallback
-				}
-
-				$("#profileForm").ajaxForm(options)
-			});
-
-			function ResponseCallback(response,status,xhr,$form) {
-				if (response.status==1) {
-					layer.alert(response.msg, {icon:2})
-				}
-				if (response.status==0) {
-					layer.alert("提交信息成功", {icon:6})
-					window.location.href="/auth/student/"+$("#id").val()+"/profile";
-				}
+			if (response.status==0) {
+				layer.alert("提交信息成功", {icon:6});
+				//window.location.href="/auth/student/"+$("#id").val()+"/profile";
 			}
-		</script>
-	{% end %}
+		}
+	</script>
 
 {% template "common/footer.tmpl" %}
 {% end %}

@@ -25,16 +25,16 @@
 					</div>
 					<form id="registerForm" action="/register" method="POST">
 						<div class="form-group">
-							<input type="text" class="form-control" name="id" placeholder="请输入您的学号/工号">
+							<input id="id" type="text" class="form-control" name="id" placeholder="请输入您的学号/工号">
 						</div>
 						<div class="form-group">
-							<input type="email" class="form-control" name="email" placeholder="邮箱">
+							<input id="email" type="text" class="form-control" name="email" placeholder="邮箱">
 						</div>
 						<div class="form-group">
-							<input id="pwd" type="password" class="form-control" name="password" placeholder="密码">
+							<input id="pwd" type="password" class="form-control" placeholder="密码">
 						</div>
 						<div class="form-group">
-							<input id="verifyPwd" type="password" class="form-control" placeholder="确认密码">
+							<input id="verifyPwd" type="password" class="form-control" name="password" placeholder="确认密码">
 						</div>
 						<div class="form-group form-check form-check-inline">
 							<label class="form-check-label">
@@ -47,7 +47,7 @@
 								<input class="form-check-input" type="radio" name="role" value="3" checked> 学生
 							</label>
 						</div>
-						<div class="form-group btn-group-justified">
+						<div class="form-group">
 							<center><button type="submit" class="btn btn-primary">Submit</button></center>
 						</div>
 					</form>
@@ -67,28 +67,64 @@
 
 	<script>
 		$(document).ready(function() {
-			$("#verifyPwd").blur(VerifyPassword);
-
 			var	options = {
-				success  : ResponseCallback
+				beforeSubmit : VerifyRequest,
+				success		 : ResponseCallback
 			};
 
 			$("#registerForm").ajaxForm(options);
 		});
 
-		function VerifyPassword() {
-			if ($("#pwd").val() != $("#verifyPwd").val()) {
-				layer.tips("两次输入密码不一致！", $("#verifyPwd"));
+		function VerifyID() {
+			regExp = /^[0-9]{13}$/;
+			if (($("#id").val() == "") || (!regExp.test($("#id").val()))) {
+				layer.tips("学号/工号必须是13位数字", $("#id"));
+				return false;
 			}
+			return true;
 		}
 
-		function ResponseCallback(response,status,xhr,$form) {
+		function VerifyEmail() {
+			regExp = /^\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/;
+			if ($("#email") == "" || (!regExp.test($("#email").val()))) {
+				layer.tips("请输入正确的邮箱地址", $("#email"));
+				return false;
+			}
+			return true;
+		}
+
+		function VerifyPassword() {
+			regExp = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+			if ($("#pwd").val() == "" || (!regExp.test($("#pwd").val()))) {
+				layer.tips("密码由8-16位字母和数字组成，不能是纯数字或纯英文", $("#pwd"));
+				return false;
+			}
+			if ($("#pwd").val() != $("#verifyPwd").val()) {
+				layer.tips("两次输入密码不一致！", $("#verifyPwd"));
+				return false;
+			}
+			return true;
+		}
+
+		function VerifyRequest(formData, jqForm, options) {
+			return VerifyID() && VerifyEmail() && VerifyPassword();
+		}
+
+		function ResponseCallback(response, status, xhr, $form) {
 			if (response.status==1) {
 				layer.alert(response.msg, {icon:2});
+				return;
 			}
 			if (response.status==0) {
 				$.cookie("Authrization", response.Authrization);
-				window.location.href="/auth/"+$("#role").val()+"/"+$("#id").val()+"/profile";
+				layer.open({
+					type: 2,
+					title: '请填写个人信息',
+					shadeClose: true,
+  					shade: 0.8,
+					area: ['550px', '100%'],
+					content: response.Redirect
+				});
 			}
 		}
 	</script>

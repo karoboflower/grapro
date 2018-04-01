@@ -12,19 +12,9 @@ import (
 
 // GetProfile 获取学生个人信息
 func GetProfile(c *gin.Context) {
-	var student database.Student
 	id := c.Param("id")
 
-	if database.DB.First(&student, id); student.ID != id {
-		student = database.Student{
-			ID: id,
-		}
-		// 学生尚未填写个人信息，个人信息只有ID
-		c.HTML(http.StatusOK, "student/profile.tmpl", gin.H{"wrote": false, "info": student})
-		return
-	}
-
-	c.HTML(http.StatusOK, "student/profile.tmpl", gin.H{"wrote": true, "info": student})
+	c.HTML(http.StatusOK, "student/profile.tmpl", gin.H{"ID": id})
 }
 
 // PostProfile 提交学生个人信息

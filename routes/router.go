@@ -30,37 +30,59 @@ func Engine() *gin.Engine {
 	authorized := router.Group("/auth")
 	authorized.Use(middleware.JWTAuth(), middleware.RBAC())
 	{
-		authorized.GET("/student/:id/profile", student.GetProfile)
-		authorized.POST("/student/:id/profile", student.PostProfile)
-		authorized.PUT("/student/:id/profile", student.PutProfile)
-		authorized.GET("/student/:id/StateGrants", student.GetStateGrants)
-		authorized.POST("/student/:id/StateGrants", student.PostStateGrants)
-		authorized.PUT("/student/:id/StateGrants", student.PutStateGrants)
-		authorized.DELETE("/student/:id/StateGrants", student.DeleteStateGrants)
-		authorized.GET("student/:id/NIS", student.GetNIS)
-		authorized.POST("student/:id/NIS", student.PostNIS)
-		authorized.PUT("student/:id/NIS", student.PutNIS)
-		authorized.DELETE("student/:id/NIS", student.DeleteNIS)
-		authorized.GET("student/:id/KindnessScholarship", student.GetKindnessScholarship)
-		authorized.POST("student/:id/KindnessScholarship", student.PostKindnessScholarship)
-		authorized.PUT("student/:id/KindnessScholarship", student.PutKindnessScholarship)
-		authorized.DELETE("student/:id/KindnessScholarship", student.DeleteKindnessScholarship)
-		authorized.GET("/counselor/:id/profile", counselor.GetCounselor)
-		authorized.POST("/counselor/:id/profile", counselor.PostCounselor)
-		authorized.PUT("/counselor/:id/profile", counselor.PutCounselor)
-		authorized.GET("counselor/:id/ViewStateGrants", counselor.GetViewStateGrants)
-		authorized.POST("counselor/:id/ViewStateGrants", counselor.PostViewStateGrants)
-		authorized.GET("counselor/:id/ViewNIS", counselor.GetViewNIS)
-		authorized.POST("counselor/:id/ViewNIS", counselor.PostViewNIS)
-		authorized.GET("counselor/:id/ViewKindnessScholarship", counselor.GetViewKindnessScholarship)
-		authorized.POST("counselor/:id/ViewKindnessScholarship", counselor.PostViewKindnessScholarship)
-		authorized.GET("/studentOffice/:id/profile", studentOffice.GetStudentOffice)
-		authorized.POST("/studentOffice/:id/profile", studentOffice.PostStudentOffice)
-		authorized.PUT("/studentOffice/:id/profile", studentOffice.PutStudentOffice)
-		authorized.GET("/studentOffice/:id/notify", studentOffice.GetNotify)
-		authorized.POST("/studentOffice/:id/notify", studentOffice.PostNotify)
-		authorized.PUT("/studentOffice/:id/notify", studentOffice.PutNotify)
-		authorized.DELETE("/studentOffice/:id/notify", studentOffice.DeleteNotify)
+		// 学生路由组
+		studentsRouter := authorized.Group("/3")
+		{
+			// 个人信息
+			studentsRouter.GET("/:id/profile", student.GetProfile)
+			studentsRouter.POST("/:id/profile", student.PostProfile)
+			studentsRouter.PUT("/:id/profile", student.PutProfile)
+			// 国家助学金
+			studentsRouter.GET("/:id/StateGrants", student.GetStateGrants)
+			studentsRouter.POST("/:id/StateGrants", student.PostStateGrants)
+			studentsRouter.PUT("/:id/StateGrants", student.PutStateGrants)
+			studentsRouter.DELETE("/:id/StateGrants", student.DeleteStateGrants)
+			// 国家励志奖学金
+			studentsRouter.GET("/:id/NIS", student.GetNIS)
+			studentsRouter.POST("/:id/NIS", student.PostNIS)
+			studentsRouter.PUT("/:id/NIS", student.PutNIS)
+			studentsRouter.DELETE("/:id/NIS", student.DeleteNIS)
+			// 应善良助学金
+			studentsRouter.GET("/:id/KindnessScholarship", student.GetKindnessScholarship)
+			studentsRouter.POST("/:id/KindnessScholarship", student.PostKindnessScholarship)
+			studentsRouter.PUT("/:id/KindnessScholarship", student.PutKindnessScholarship)
+			studentsRouter.DELETE("/:id/KindnessScholarship", student.DeleteKindnessScholarship)
+		}
+		// 学生会路由组
+		studentOfficeRouter := authorized.Group("/2")
+		{
+			// 个人信息
+			studentOfficeRouter.GET("/:id/profile", studentOffice.GetStudentOffice)
+			studentOfficeRouter.POST("/:id/profile", studentOffice.PostStudentOffice)
+			studentOfficeRouter.PUT("/:id/profile", studentOffice.PutStudentOffice)
+			// 通知
+			studentOfficeRouter.GET("/:id/notify", studentOffice.GetNotify)
+			studentOfficeRouter.POST("/:id/notify", studentOffice.PostNotify)
+			studentOfficeRouter.PUT("/:id/notify", studentOffice.PutNotify)
+			studentOfficeRouter.DELETE("/:id/notify", studentOffice.DeleteNotify)
+		}
+		// 辅导员路由组
+		counselorRouter := authorized.Group("/1")
+		{
+			// 个人信息
+			counselorRouter.GET("/:id/profile", counselor.GetCounselor)
+			counselorRouter.POST("/:id/profile", counselor.PostCounselor)
+			counselorRouter.PUT("/:id/profile", counselor.PutCounselor)
+			// 国家助学金
+			counselorRouter.GET("/:id/ViewStateGrants", counselor.GetViewStateGrants)
+			counselorRouter.POST("/:id/ViewStateGrants", counselor.PostViewStateGrants)
+			// 国家励志奖学金
+			counselorRouter.GET("/:id/ViewNIS", counselor.GetViewNIS)
+			counselorRouter.POST("/:id/ViewNIS", counselor.PostViewNIS)
+			// 应善良助学金
+			counselorRouter.GET("/:id/ViewKindnessScholarship", counselor.GetViewKindnessScholarship)
+			counselorRouter.POST("/:id/ViewKindnessScholarship", counselor.PostViewKindnessScholarship)
+		}
 	}
 	return router
 }

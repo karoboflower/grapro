@@ -70,7 +70,7 @@ func PostRegister(c *gin.Context) {
 		Email: form.Email,
 		Role:  form.Role,
 		StandardClaims: jwt.StandardClaims{
-			ExpiresAt: time.Now().Add(15 * time.Minute).Unix(),
+			ExpiresAt: time.Now().Add(30 * time.Minute).Unix(),
 			Issuer:    "ThePupilOfTheOcean",
 		},
 	}
@@ -81,5 +81,5 @@ func PostRegister(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token, "Redirect": "/auth/" + form.Role + "/" + form.ID + "/profile"})
 }
