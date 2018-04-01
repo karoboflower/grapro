@@ -25,7 +25,7 @@
 					</div>
 					<form id="loginForm" action="/login" method="POST">
 						<div class="form-group">
-							<input type="text" class="form-control" name="id" placeholder="请输入您的学号/工号">
+							<input id="id" type="text" class="form-control" name="id" placeholder="请输入您的学号/工号">
 						</div>
 						<div class="form-group">
 							<input id="pwd" type="password" class="form-control" name="password" placeholder="密码">
@@ -60,24 +60,47 @@
 	</div>
 
 	<script>
-	$(document).ready(function() {
-		var	options = {
-			success  : ResponseCallback
-		};
+		$(document).ready(function() {
+			var	options = {
+				beforeSubmit : VerifyRequest,
+				success		 : ResponseCallback
+			};
 
-		$("#loginForm").ajaxForm(options);
-	});
+			$("#loginForm").ajaxForm(options);
+		});
 
-	function ResponseCallback(response,status,xhr,$form) {
-		if (response.status==1) {
-			layer.alert(response.msg, {icon:2});
-			return;
+		function VerifyID() {
+			regExp = /^[0-9]{13}$/;
+			if (($("#id").val() == "") || (!regExp.test($("#id").val()))) {
+				layer.tips("学号/工号必须是13位数字", $("#id"));
+				return false;
+			}
+			return true;
 		}
-		if (response.status==0) {
-			$.cookie("Authrization", response.Authrization);
-			window.location.href = response.Redirect;
+
+		function VerifyPassword() {
+			regExp = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,16}$/;
+			if ($("#pwd").val() == "" || (!regExp.test($("#pwd").val()))) {
+				layer.tips("密码由8-16位字母和数字组成，不能是纯数字或纯英文", $("#pwd"));
+				return false;
+			}
+			return true;
 		}
-	}
+
+		function VerifyRequest(formData, jqForm, options) {
+			return VerifyID() && VerifyPassword();
+		}
+
+		function ResponseCallback(response,status,xhr,$form) {
+			if (response.status==1) {
+				layer.alert(response.msg, {icon:2});
+				return;
+			}
+			if (response.status==0) {
+				$.cookie("Authrization", response.Authrization);
+				window.location.href = response.Redirect;
+			}
+		}
 	</script>
 
 {% template "common/footer.tmpl" %}
