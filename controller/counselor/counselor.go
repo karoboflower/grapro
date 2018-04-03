@@ -3,6 +3,7 @@ package counselor
 import (
 	"gra-pro/database"
 	"net/http"
+	"strconv"
 
 	"github.com/jinzhu/gorm"
 
@@ -15,6 +16,12 @@ import (
 func GetCounselor(c *gin.Context) {
 	var counselor database.Counselor
 	id := c.Param("id")
+
+	reqModify, _ := strconv.ParseBool(c.DefaultQuery("ReqModify", "false"))
+	if reqModify {
+		c.HTML(http.StatusOK, "counselor/profileForm.tmpl", gin.H{"ID": id})
+		return
+	}
 
 	if database.DB.First(&counselor, id); counselor.ID != id {
 		counselor = database.Counselor{

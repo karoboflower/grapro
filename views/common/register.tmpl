@@ -122,8 +122,12 @@
 					title: '请填写个人信息',
 					shadeClose: true,
   					shade: 0.8,
-					area: ['550px', '100%'],
-					content: response.Redirect
+					area: ['550px'],
+					fixed: false,
+					content: response.Redirect + "?ReqModify=true",
+					success: function(layero, index) {
+						layer.iframeAuto(index);
+					}
 				});
 			}
 		}
