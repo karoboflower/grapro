@@ -9,6 +9,7 @@ import (
 
 	"net/http"
 
+	"github.com/dchest/captcha"
 	"github.com/gin-gonic/gin"
 	"github.com/thinkerou/favicon"
 )
@@ -27,6 +28,8 @@ func Engine() *gin.Engine {
 	router.POST("/register", controller.PostRegister)
 	router.GET("/login", controller.GetLogin)
 	router.POST("/login", controller.PostLogin)
+	router.GET("/captcha/:fileName", gin.WrapH(captcha.Server(captcha.StdWidth, captcha.StdHeight)))
+	router.POST("/captcha", controller.ReloadCaptcha)
 	authorized := router.Group("/auth")
 	authorized.Use(middleware.JWTAuth(), middleware.RBAC())
 	{

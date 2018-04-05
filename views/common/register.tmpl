@@ -36,6 +36,14 @@
 						<div class="form-group">
 							<input id="verifyPwd" type="password" class="form-control" name="password" placeholder="确认密码">
 						</div>
+						<div class="form-group">
+							<input id="captcha" type="text" class="form-control" name="captchaSolution" placeholder="验证码">
+						</div>
+						<div class="input-group">
+							<p><img id="image" src="/captcha/{% .captcha.CaptchaID %}.png" alt="Captcha image"></p>
+							<input id="captchaID" type="hidden" name="captchaID" value="{% .captcha.CaptchaID %}">
+							<button href="#" type="button" class="btn btn-link" onclick="ReloadCaptcha();">刷新验证码</button>
+						</div>
 						<div class="form-group form-check form-check-inline">
 							<label class="form-check-label">
 								&nbsp;&nbsp;&nbsp;<input class="form-check-input" type="radio" name="role" value="1"> 辅导员
@@ -106,13 +114,40 @@
 			return true;
 		}
 
+		function VerifyCaptcha() {
+			regExp = /^[0-9]{6}$/;
+			if (($("#captcha").val() == "") || (!regExp.test($("#captcha").val()))) {
+				layer.tips("验证码是6位数字", $("#captcha"));
+				return false;
+			}
+			return true;
+		}
+
+		function setSrcQuery(e, q) {
+			var src  = e.src;
+			var p = src.indexOf('?');
+			if (p >= 0) {
+				src = src.substr(0, p);
+			}
+			e.src = src + "?" + q
+		}
+
+		function ReloadCaptcha() {
+			$.post("/captcha", {},function (response) {
+				setSrcQuery(document.getElementById('image'), "reload=" + (new Date()).getTime());
+				return false;
+			}
+		)}
+
 		function VerifyRequest(formData, jqForm, options) {
-			return VerifyID() && VerifyEmail() && VerifyPassword();
+			return VerifyID() && VerifyEmail() && VerifyPassword() && VerifyCaptcha();
 		}
 
 		function ResponseCallback(response, status, xhr, $form) {
 			if (response.status==1) {
 				layer.alert(response.msg, {icon:2});
+				document.getElementById('image').src = "/captcha/"+response.captchaID+".png";
+				document.getElementById('captchaID').value = response.captchaID;
 				return;
 			}
 			if (response.status==0) {
@@ -122,12 +157,12 @@
 					title: '请填写个人信息',
 					shadeClose: true,
   					shade: 0.8,
-					area: ['550px'],
+					area: ['50%','90%'],
 					fixed: false,
-					content: response.Redirect + "?ReqModify=true",
-					success: function(layero, index) {
-						layer.iframeAuto(index);
-					}
+					content: response.Redirect + "?ReqModify=true"
+					//success: function(layero, index) {
+					//	layer.iframeAuto(index);
+					//}
 				});
 			}
 		}

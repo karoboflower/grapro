@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/dchest/captcha"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
@@ -18,13 +19,29 @@ import (
 
 // GetRegister 返回用户注册视图
 func GetRegister(c *gin.Context) {
-	c.HTML(http.StatusOK, "common/register.tmpl", gin.H{})
+	captcha := struct {
+		CaptchaID string
+	}{
+		captcha.New(),
+	}
+
+	c.HTML(http.StatusOK, "common/register.tmpl", gin.H{"captcha": captcha})
 }
 
 // PostRegister 用户注册处理
 func PostRegister(c *gin.Context) {
 	var form database.User
 	var saltInst user.Salt
+
+	if !captcha.VerifyString(c.PostForm("captchaID"), c.PostForm("captchaSolution")) {
+		captcha := struct {
+			CaptchaID string
+		}{
+			captcha.New(),
+		}
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "验证码错误", "captchaID": captcha.CaptchaID})
+		return
+	}
 
 	if err := c.ShouldBindWith(&form, binding.FormPost); err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})

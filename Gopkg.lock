@@ -29,6 +29,12 @@
   revision = "e56c6daebd5e8c657caf3bdf3a647803cf7b242d"
 
 [[projects]]
+  branch = "master"
+  name = "github.com/dchest/captcha"
+  packages = ["."]
+  revision = "6a29415a8364ec2971fdc62d9e415ed53fc20410"
+
+[[projects]]
   name = "github.com/dgrijalva/jwt-go"
   packages = ["."]
   revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
@@ -89,6 +95,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "27c7cf39347d8e76d6253fd2e004358cabd04e0818f80cc2b494f4b894ea2d17"
+  inputs-digest = "c841850788c21a0914774c630e5bcfa8e6e6c073c4665522fcb1c34d6cc8577d"
   solver-name = "gps-cdcl"
   solver-version = 1
