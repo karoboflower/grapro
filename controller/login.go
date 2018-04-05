@@ -11,19 +11,36 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/dchest/captcha"
 	jwt "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
 // GetLogin 返回用户登录视图
 func GetLogin(c *gin.Context) {
-	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{})
+	captcha := struct {
+		CaptchaID string
+	}{
+		captcha.New(),
+	}
+
+	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{"captcha": captcha})
 }
 
 // PostLogin 用户登录处理
 func PostLogin(c *gin.Context) {
 	var json database.User
 	var saltInst user.Salt
+
+	if !captcha.VerifyString(c.PostForm("captchaID"), c.PostForm("captchaSolution")) {
+		captcha := struct {
+			CaptchaID string
+		}{
+			captcha.New(),
+		}
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "验证码错误", "captchaID": captcha.CaptchaID})
+		return
+	}
 
 	if dbe := database.DB.First(&json, c.PostForm("id")); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})

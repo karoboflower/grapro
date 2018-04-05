@@ -123,18 +123,10 @@
 			return true;
 		}
 
-		function setSrcQuery(e, q) {
-			var src  = e.src;
-			var p = src.indexOf('?');
-			if (p >= 0) {
-				src = src.substr(0, p);
-			}
-			e.src = src + "?" + q
-		}
-
 		function ReloadCaptcha() {
-			$.post("/captcha", {},function (response) {
-				setSrcQuery(document.getElementById('image'), "reload=" + (new Date()).getTime());
+			$.post("/captcha", {}, function (response) {
+				document.getElementById('image').src = "/captcha/"+response.captchaID+".png";
+				document.getElementById('captchaID').value = response.captchaID;
 				return false;
 			}
 		)}
