@@ -19,13 +19,7 @@ import (
 
 // GetRegister 返回用户注册视图
 func GetRegister(c *gin.Context) {
-	captcha := struct {
-		CaptchaID string
-	}{
-		captcha.New(),
-	}
-
-	c.HTML(http.StatusOK, "common/register.tmpl", gin.H{"captcha": captcha})
+	c.HTML(http.StatusOK, "common/register.tmpl", gin.H{"captcha": captcha.New()})
 }
 
 // PostRegister 用户注册处理
@@ -34,29 +28,24 @@ func PostRegister(c *gin.Context) {
 	var saltInst user.Salt
 
 	if !captcha.VerifyString(c.PostForm("captchaID"), c.PostForm("captchaSolution")) {
-		captcha := struct {
-			CaptchaID string
-		}{
-			captcha.New(),
-		}
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "验证码错误", "captchaID": captcha.CaptchaID})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "验证码错误", "captcha": captcha.New()})
 		return
 	}
 
 	if err := c.ShouldBindWith(&form, binding.FormPost); err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error(), "captcha": captcha.New()})
 		return
 	}
 
 	if form.Exists() {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "您已经注册，请登录！"})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "您已经注册，请登录！", "captcha": captcha.New()})
 		return
 	}
 
 	var secret auth.Secret
 	var result bool
 	if secret, result = auth.GetSignKey(); !(result && user.GetSalt(&saltInst)) {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "获取用户生成信息失败！"})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "获取用户生成信息失败！", "captcha": captcha.New()})
 		return
 	}
 
@@ -71,7 +60,7 @@ func PostRegister(c *gin.Context) {
 	form.Password = last
 
 	if dbe := database.DB.Create(&form); dbe.Error != nil {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error(), "captcha": captcha.New()})
 		return
 	}
 
@@ -94,7 +83,7 @@ func PostRegister(c *gin.Context) {
 
 	token, err := j.CreateToken(claims)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error(), "captcha": captcha.New()})
 		return
 	}
 

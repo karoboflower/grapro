@@ -29,7 +29,7 @@ func Engine() *gin.Engine {
 	router.GET("/login", controller.GetLogin)
 	router.POST("/login", controller.PostLogin)
 	router.GET("/captcha/:fileName", gin.WrapH(captcha.Server(captcha.StdWidth, captcha.StdHeight)))
-	router.POST("/captcha", controller.ReloadCaptcha)
+	router.POST("/captcha", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"captcha": captcha.New()}) })
 	authorized := router.Group("/auth")
 	authorized.Use(middleware.JWTAuth(), middleware.RBAC())
 	{

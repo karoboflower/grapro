@@ -34,8 +34,8 @@
 							<input id="captcha" type="text" class="form-control" name="captchaSolution" placeholder="验证码">
 						</div>
 						<div class="input-group">
-							<p><img id="image" src="/captcha/{% .captcha.CaptchaID %}.png" alt="Captcha image"></p>
-							<input id="captchaID" type="hidden" name="captchaID" value="{% .captcha.CaptchaID %}">
+							<p><img id="image" src="/captcha/{% .captcha %}.png" alt="Captcha image"></p>
+							<input id="captchaID" type="hidden" name="captchaID" value="{% .captcha %}">
 							<button href="#" type="button" class="btn btn-link" onclick="ReloadCaptcha();">刷新验证码</button>
 						</div>
 						<div class="form-group form-check form-check-inline">
@@ -61,7 +61,7 @@
 		<div>
 			<nav class="navbar navbar-expand-sm bg-dark navbar-dark fixed-bottom">
 				<span class="navbar-text" style="width:100%;text-align:center;">
-					Copyright (c) 2017-2018 <a href="http://www.cqnu.edu.cn/">www.cqnu.edu.cn</a> All rights reserved.
+					Copyright (c) 2017-2018 <a href="http://www.cqnu.edu.cn/">www.cqnu.edu.cn</a> All rights reserved. 渝ICP备 16012597号
 				</span>
 			</nav>
 		</div>
@@ -106,8 +106,8 @@
 
 		function ReloadCaptcha() {
 			$.post("/captcha", {}, function (response) {
-				document.getElementById('image').src = "/captcha/"+response.captchaID+".png";
-				document.getElementById('captchaID').value = response.captchaID;
+				document.getElementById('image').src = "/captcha/"+response.captcha+".png";
+				document.getElementById('captchaID').value = response.captcha;
 				return false;
 			}
 		)}
@@ -119,8 +119,8 @@
 		function ResponseCallback(response,status,xhr,$form) {
 			if (response.status==1) {
 				layer.alert(response.msg, {icon:2});
-				document.getElementById('image').src = "/captcha/"+response.captchaID+".png";
-				document.getElementById('captchaID').value = response.captchaID;
+				document.getElementById('image').src = "/captcha/"+response.captcha+".png";
+				document.getElementById('captchaID').value = response.captcha;
 				return;
 			}
 			if (response.status==0) {

@@ -18,13 +18,7 @@ import (
 
 // GetLogin 返回用户登录视图
 func GetLogin(c *gin.Context) {
-	captcha := struct {
-		CaptchaID string
-	}{
-		captcha.New(),
-	}
-
-	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{"captcha": captcha})
+	c.HTML(http.StatusOK, "common/login.tmpl", gin.H{"captcha": captcha.New()})
 }
 
 // PostLogin 用户登录处理
@@ -33,24 +27,19 @@ func PostLogin(c *gin.Context) {
 	var saltInst user.Salt
 
 	if !captcha.VerifyString(c.PostForm("captchaID"), c.PostForm("captchaSolution")) {
-		captcha := struct {
-			CaptchaID string
-		}{
-			captcha.New(),
-		}
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "验证码错误", "captchaID": captcha.CaptchaID})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "验证码错误", "captcha": captcha.New()})
 		return
 	}
 
 	if dbe := database.DB.First(&json, c.PostForm("id")); dbe.Error != nil {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error(), "captcha": captcha.New()})
 		return
 	}
 
 	var secret auth.Secret
 	var result bool
 	if secret, result = auth.GetSignKey(); !(result && user.GetSalt(&saltInst)) {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "获取用户生成信息失败！"})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "获取用户生成信息失败！", "captcha": captcha.New()})
 		return
 	}
 
@@ -64,7 +53,7 @@ func PostLogin(c *gin.Context) {
 	last := fmt.Sprintf("%x", h.Sum(nil))
 
 	if json.Password != last {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "密码错误！"})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "密码错误！", "captcha": captcha.New()})
 		return
 	}
 
@@ -84,7 +73,7 @@ func PostLogin(c *gin.Context) {
 
 	token, err := j.CreateToken(claims)
 	if err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error(), "captcha": captcha.New()})
 		return
 	}
 
