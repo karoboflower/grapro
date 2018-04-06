@@ -10,13 +10,3 @@ type StudentOffice struct {
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
 }
-
-// Exists .
-func (so StudentOffice) Exists() bool {
-	var studentoffice StudentOffice
-
-	if DB.Where("id = ?", so.ID).First(&studentoffice); studentoffice.ID == so.ID {
-		return true
-	}
-	return false
-}

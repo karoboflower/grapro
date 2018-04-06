@@ -22,13 +22,3 @@ type Student struct {
 	UpdatedAt       time.Time
 	DeletedAt       *time.Time `sql:"index"`
 }
-
-// Exists 检测学生表是否已经存在该记录,存在返回true
-func (s Student) Exists() bool {
-	var student Student
-
-	if DB.First(&student, s.ID); student.ID == s.ID {
-		return true
-	}
-	return false
-}

@@ -26,7 +26,7 @@ func PostProfile(c *gin.Context) {
 		return
 	}
 
-	if form.Exists() {
+	if !database.DB.First(&database.Student{}, "id = ?", form.ID).RecordNotFound() {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "已录入个人信息，无需重复提交！"})
 		return
 	}

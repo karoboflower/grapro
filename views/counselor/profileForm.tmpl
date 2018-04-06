@@ -3,54 +3,83 @@
 
 	<div class="container-fluid">
         <form id="profileForm" method="POST">
-            <div class="form-group">
-                <input type="text" class="form-control" name="id" readonly value="{% .ID %}">
+            <div class="form-group row">
+                <label for="id" class="col-sm-2 form-control-label">工号</label>
+                <div class="col-sm-10">
+                    <input id="id" type="text" class="form-control" name="id" readonly value="{% .ID %}">
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="name" placeholder="姓名">
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 form-control-label">姓名</label>
+                <div class="col-sm-10">
+                    <input id="name" type="text" class="form-control" name="name">
+                </div>
             </div>
-            <div class="form-group">
-                <select class="form-control" name="grade" placeholder="年级">
-                    <option>17级</option>
-                    <option>16级</option>
-                    <option>15级</option>
-                    <option>14级</option>
-                </select>
+            <div class="form-group row">
+                <label for="grade" class="col-sm-2 form-control-label">年级</label>
+                <div id="grade" class="col-sm-10">
+                    <select class="custom-select" name="grade">
+                        <option value="17级" selected>17级</option>
+                        <option value="16级">16级</option>
+                        <option value="15级">15级</option>
+                        <option value="14级">14级</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <select class="form-control" name="college" placeholder="年级">
-                    <option>新闻学院</option>
-                    <option>旅游学院</option>
-                    <option>音乐学院</option>
-                    <option>幼儿师范学院</option>
-                    <option>特殊教育学院</option>
-                    <option>马克思主义学院</option>
-                    <option>历史与社会学院</option>
-                    <option>教育科学学院</option>
-                    <option>体育与健康科学学院</option>
-                    <option>文学院</option>
-                    <option>外国语学院</option>
-                    <option>音乐学院</option>
-                    <option>美术学院</option>
-                    <option>新闻与传媒学院</option>
-                    <option>数学科学学院</option>
-                    <option>物理与电子工程学院</option>
-                    <option>化学学院</option>
-                    <option>生命科学学院</option>
-                    <option>地理与旅游学院</option>
-                    <option>经济与管理学院</option>
-                    <option>计算机与信息科学学院</option>
-                    <option>初等教育学院</option>
-                    <option>继续教育学院</option>
-                    <option>国际汉语文化学院</option>
-                    <option>职教师资学院</option>
-                </select>
+            <div class="form-group row">
+                <label for="college" class="col-sm-2 form-control-label">院系</label>
+                <div id="college" class="col-sm-10">
+                    <select class="custom-select" onchange="ReloadClass();" name="college">
+                        <option value="新闻学院" selected>新闻学院</option>
+                        <option value="旅游学院">旅游学院</option>
+                        <option value="音乐学院">音乐学院</option>
+                        <option value="幼儿师范学院">幼儿师范学院</option>
+                        <option value="特殊教育学院">特殊教育学院</option>
+                        <option value="马克思主义学院">马克思主义学院</option>
+                        <option value="历史与社会学院">历史与社会学院</option>
+                        <option value="教育科学学院">教育科学学院</option>
+                        <option value="体育与健康科学学院">体育与健康科学学院</option>
+                        <option value="文学院">文学院</option>
+                        <option value="外国语学院">外国语学院</option>
+                        <option value="音乐学院">音乐学院</option>
+                        <option value="美术学院">美术学院</option>
+                        <option value="新闻与传媒学院">新闻与传媒学院</option>
+                        <option value="数学科学学院">数学科学学院</option>
+                        <option value="物理与电子工程学院">物理与电子工程学院</option>
+                        <option value="化学学院">化学学院</option>
+                        <option value="生命科学学院">生命科学学院</option>
+                        <option value="地理与旅游学院">地理与旅游学院</option>
+                        <option value="经济与管理学院">经济与管理学院</option>
+                        <option value="计算机与信息科学学院">计算机与信息科学学院</option>
+                        <option value="初等教育学院">初等教育学院</option>
+                        <option value="继续教育学院">继续教育学院</option>
+                        <option value="国际汉语文化学院">国际汉语文化学院</option>
+                        <option value="职教师资学院">职教师资学院</option>
+                    </select>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="class" placeholder="所带班级">
+            <div class="form-group row">
+                <label class="col-sm-2 form-control-label">班级</label>
+                <div class="col-sm-10">
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="新闻学院专业1"> 新闻学院专业1
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="新闻学院专业2"> 新闻学院专业2
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="新闻学院专业3"> 新闻学院专业3
+                    </label>
+                    <label class="checkbox-inline">
+                        <input type="checkbox" value="新闻学院专业4"> 新闻学院专业4
+                    </label>
+                </div>
             </div>
-            <div class="form-group">
-                <input type="text" class="form-control" name="phone" placeholder="电话">
+            <div class="form-group row">
+                <label for="phone" class="col-sm-2 form-control-label">联系电话</label>
+                <div class="col-sm-10">
+                    <input id="phone" type="text" class="form-control" name="phone">
+                </div>
             </div>
             <div class="form-group">
                 <center><button type="submit" class="btn btn-primary">Submit</button></center>
@@ -62,17 +91,21 @@
 		$(document).ready(function() {
 			var	options = {
 				success  : ResponseCallback
-			}
+			};
 
-			$("#profileForm").ajaxForm(options)
+			$("#profileForm").ajaxForm(options);
 		});
+
+        function ReloadClass() {
+            alert("刷新班级信息");
+        }
 
 		function ResponseCallback(response,status,xhr,$form) {
 			if (response.status==1) {
-				layer.alert(response.msg, {icon:2})
+				layer.alert(response.msg, {icon:2});
 			}
 			if (response.status==0) {
-				layer.alert("提交信息成功", {icon:6})
+				layer.alert("提交信息成功", {icon:6});
 				window.location.href="/auth/1/"+$("#id").val()+"/profile";
 			}
 		}

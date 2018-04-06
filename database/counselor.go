@@ -14,13 +14,3 @@ type Counselor struct {
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
 }
-
-// Exists .
-func (c Counselor) Exists() bool {
-	var counselor Counselor
-
-	if DB.Where("id = ?", c.ID).First(&counselor); counselor.ID == c.ID {
-		return true
-	}
-	return false
-}

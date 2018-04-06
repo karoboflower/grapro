@@ -14,13 +14,3 @@ type User struct {
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
 }
-
-// Exists 检测用户表是否存在该记录,存在返回true
-func (u User) Exists() bool {
-	var user User
-
-	if DB.Where("id = ?", u.ID).First(&user); user.ID == u.ID {
-		return true
-	}
-	return false
-}
