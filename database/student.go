@@ -17,6 +17,7 @@ type Student struct {
 	Profession      string `gorm:"type:char(20);not null" form:"profession" json:"profession" binding:"required"`
 	Grade           string `gorm:"type:char(20);not null" form:"grade" json:"grade" binding:"required"`
 	Class           string `gorm:"type:char(20);not null" form:"class" json:"class" binding:"required"`
+	CounselorID     string `gorm:"type:char(13);not null" form:"counselorid" json:"counselorid" binding:"required"`
 	Phone           string `gorm:"type:char(20);not null" form:"phone" json:"phone" binding:"required"`
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
