@@ -16,8 +16,8 @@
             </div>
             <div class="form-group row">
                 <label for="sex" class="col-sm-2 form-control-label">性别</label>
-                <div id="sex" class="col-sm-10">
-                    <select class="custom-select" name="sex">
+                <div class="col-sm-10">
+                    <select id="sex" class="custom-select" name="sex">
                         <option value="女" selected>女</option>
                         <option value="男">男</option>
                     </select>
@@ -31,8 +31,8 @@
             </div>
             <div class="form-group row">
                 <label for="ethnic" class="col-sm-2 form-control-label">民族</label>
-                <div id="ethnic" class="col-sm-10">
-                    <select class="custom-select" name="ethnic">
+                <div class="col-sm-10">
+                    <select id="ethnic" class="custom-select" name="ethnic">
                         <option value="汉族" selected>汉族</option>
                         <option value="壮族">壮族</option>
                         <option value="满族">满族</option>
@@ -102,8 +102,8 @@
             </div>
             <div class="form-group row">
                 <label for="politicalstatus" class="col-sm-2 form-control-label">政治面貌</label>
-                <div id="politicalstatus" class="col-sm-10">
-                    <select class="custom-select" name="politicalstatus">
+                <div class="col-sm-10">
+                    <select id="politicalstatus" class="custom-select" name="politicalstatus">
                         <option value="中共党员" selected>中共党员</option>
                         <option value="预备党员">预备党员</option>
                         <option value="群众">群众</option>
@@ -113,9 +113,20 @@
                 </div>
             </div>
             <div class="form-group row">
+                <label for="grade" class="col-sm-2 form-control-label">年级</label>
+                <div class="col-sm-10">
+                    <select id="grade" class="custom-select" onchange="ReloadCounselor();" name="grade">
+                        <option value="17级" selected>17级</option>
+                        <option value="16级">16级</option>
+                        <option value="15级">15级</option>
+                        <option value="14级">14级</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
                 <label for="college" class="col-sm-2 form-control-label">院系</label>
-                <div id="college" class="col-sm-10">
-                    <select class="custom-select" name="college">
+                <div class="col-sm-10">
+                    <select id="college" class="custom-select" onchange="ReloadCounselor();" name="college">
                         <option value="新闻学院" selected>新闻学院</option>
                         <option value="旅游学院">旅游学院</option>
                         <option value="音乐学院">音乐学院</option>
@@ -146,23 +157,12 @@
             </div>
             <div class="form-group row">
                 <label for="profession" class="col-sm-2 form-control-label">专业</label>
-                <div id="profession" class="col-sm-10">
-                    <select class="custom-select" name="profession">
+                <div class="col-sm-10">
+                    <select id="profession" class="custom-select" name="profession">
                         <option value="计科职教" selected>计科职教</option>
                         <option value="软工">软工</option>
                         <option value="软外">软外</option>
                         <option value="信管">信管</option>
-                    </select>
-                </div>
-            </div>
-			<div class="form-group row">
-                <label for="grade" class="col-sm-2 form-control-label">年级</label>
-                <div id="grade" class="col-sm-10">
-                    <select class="custom-select" name="grade">
-                        <option value="17级" selected>17级</option>
-                        <option value="16级">16级</option>
-                        <option value="15级">15级</option>
-                        <option value="14级">14级</option>
                     </select>
                 </div>
             </div>
@@ -174,8 +174,8 @@
             </div>
            <div class="form-group row">
                 <label for="counselorid" class="col-sm-2 form-control-label">辅导员</label>
-                <div id="counselorid" class="col-sm-10">
-                    <select class="custom-select" name="counselorid">
+                <div class="col-sm-10">
+                    <select id="counselorid" class="custom-select" name="counselorid">
                         <option value="17级" selected>17级</option>
                         <option value="16级">16级</option>
                         <option value="15级">15级</option>
@@ -194,5 +194,39 @@
 			</div>
 		</form>
     </div>
+
+    <script>
+		$(document).ready(function() {
+            ReloadCounselor();
+            
+			var	options = {
+				success  : ResponseCallback
+			};
+
+			$("#profileForm").ajaxForm(options);
+		});
+
+        function ReloadCounselor() {
+            $.get("/auth/3/"+$("#id").val()+"/GetCounselor", {"grade":$("#grade").val(), "college":$("#college").val()}, function(response){
+                if (response.status == 1) {
+                    layer.alert(response.msg, {icon:2});
+                    return;
+                }
+                if (response.status==0) {
+                    console.log(response.counselors);
+                }
+            })
+        }
+
+		function ResponseCallback(response,status,xhr,$form) {
+			if (response.status==1) {
+				layer.alert(response.msg, {icon:2});
+			}
+			if (response.status==0) {
+				layer.alert("提交信息成功", {icon:6});
+				window.parent.location.href="/auth/3/"+$("#id").val()+"/profile";
+			}
+		}
+	</script>
 {% template "common/footer.tmpl" %}
 {% end %}

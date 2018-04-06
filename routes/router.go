@@ -40,6 +40,7 @@ func Engine() *gin.Engine {
 			studentsRouter.GET("/:id/profile", student.GetProfile)
 			studentsRouter.POST("/:id/profile", student.PostProfile)
 			studentsRouter.PUT("/:id/profile", student.PutProfile)
+			studentsRouter.GET("/:id/GetCounselor", student.GetCounselor)
 			// 国家助学金
 			studentsRouter.GET("/:id/StateGrants", student.GetStateGrants)
 			studentsRouter.POST("/:id/StateGrants", student.PostStateGrants)
