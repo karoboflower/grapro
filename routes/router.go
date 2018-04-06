@@ -75,7 +75,6 @@ func Engine() *gin.Engine {
 			// 个人信息
 			counselorRouter.GET("/:id/profile", counselor.GetCounselor)
 			counselorRouter.POST("/:id/profile", counselor.PostCounselor)
-			counselorRouter.PUT("/:id/profile", counselor.PutCounselor)
 			// 国家助学金
 			counselorRouter.GET("/:id/ViewStateGrants", counselor.GetViewStateGrants)
 			counselorRouter.POST("/:id/ViewStateGrants", counselor.PostViewStateGrants)
