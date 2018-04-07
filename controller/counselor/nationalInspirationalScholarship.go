@@ -1,17 +1,59 @@
 package counselor
 
 import (
+	"gra-pro/database"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 // GetViewNIS 辅导员查询国家励志奖学金信息
 func GetViewNIS(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
+	id := c.Param("id")
+	var students []database.Student
+	var temp database.NIS
+	var nisarray []database.NIS
+
+	if dbe := database.DB.Where("counselor_id = ?", id).Find(&students); dbe != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+		return
+	}
+
+	for _, student := range students {
+		if dbe := database.DB.First(&temp, student.ID); dbe != nil {
+			continue
+		}
+		nisarray = append(nisarray, temp)
+	}
+
+	c.JSON(http.StatusOK, gin.H{"nis": nisarray})
 }
 
 // PostViewNIS 辅导员筛选国家励志奖学金信息
 func PostViewNIS(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
+	id := c.PostForm("id")
+	status := c.PostForm("status")
+	var nis database.NIS
+	var i int
+	var err error
+
+	if dbe := database.DB.First(&nis, id); dbe != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})
+		return
+	}
+
+	if i, err = strconv.Atoi(status); err != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
+		return
+	}
+
+	nis.Status = i
+
+	if dbe := database.DB.Model(&nis).Update(nis); dbe.Error != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{"status": 0})
 }
