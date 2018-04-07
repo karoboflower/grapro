@@ -70,6 +70,9 @@ func Engine() *gin.Engine {
 			// 应善良助学金
 			studentOfficeRouter.GET("/:id/ViewKindnessScholarship", studentOffice.GetViewKindnessScholarship)
 			studentOfficeRouter.POST("/:id/ViewKindnessScholarship", studentOffice.PostViewKindnessScholarship)
+			// 国家励志奖学金
+			studentOfficeRouter.GET("/:id/ViewNIS", studentOffice.GetViewNIS)
+			studentOfficeRouter.POST("/:id/ViewNIS", studentOffice.PostViewNIS)
 			// 通知
 			studentOfficeRouter.POST("/:id/notify", studentOffice.PostNotify)
 			studentOfficeRouter.PUT("/:id/notify", studentOffice.PutNotify)
