@@ -10,7 +10,7 @@ import (
 type NIS struct {
 	StudentID string         `gorm:"type:char(13);primary_key;not null;unique_index"`
 	Accessory pq.StringArray `gorm:"type:varchar(255);not null"`
-	status    int            `gorm:"not null"`
+	Status    int            `gorm:"not null"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
 	DeletedAt *time.Time `sql:"index"`
