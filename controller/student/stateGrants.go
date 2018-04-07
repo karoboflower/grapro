@@ -97,5 +97,11 @@ func PutStateGrants(c *gin.Context) {
 
 // DeleteStateGrants 学生删除国家助学金申请信息
 func DeleteStateGrants(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
+	id := c.PostForm("id")
+
+	if dbe := database.DB.Where("id = ?", id).Delete(&database.StateGrants{}); dbe != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+		return
+	}
+	c.JSON(http.StatusOK, gin.H{"status": 0})
 }
