@@ -74,7 +74,7 @@ func PostStateGrants(c *gin.Context) {
 		if s := strings.Split(file.Filename, "."); len(s) == 2 {
 			fileExtension = s[1]
 		}
-		stateGrants.Accessory = stateGrants.Accessory + id + strconv.Itoa(i) + "." + fileExtension + ";"
+		stateGrants.Accessory = append(stateGrants.Accessory, id+strconv.Itoa(i)+"."+fileExtension)
 		if err = c.SaveUploadedFile(fsquestionnaire, dst+"/"+id+strconv.Itoa(i)+"."+fileExtension); err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 			return
