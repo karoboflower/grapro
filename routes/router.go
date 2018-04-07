@@ -24,7 +24,7 @@ func Engine() *gin.Engine {
 	router.Use(favicon.New("./favicon.ico"))
 	router.Delims("{%", "%}")
 	router.LoadHTMLGlob("views/*/*")
-	router.GET("/", func(c *gin.Context) { c.HTML(http.StatusOK, "common/index.tmpl", gin.H{}) })
+	router.GET("/", utilities.GetIndex)
 	router.GET("/register", controller.GetRegister)
 	router.POST("/register", controller.PostRegister)
 	router.GET("/login", controller.GetLogin)
