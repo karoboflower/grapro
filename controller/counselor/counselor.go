@@ -21,12 +21,10 @@ func GetCounselor(c *gin.Context) {
 		return
 	}
 
-	if database.DB.First(&counselor, id); counselor.ID != id {
+	if database.DB.First(&counselor, id).RecordNotFound() {
 		counselor = database.Counselor{
 			ID: id,
 		}
-		c.HTML(http.StatusOK, "counselor/profile.tmpl", gin.H{"status": 0, "info": counselor})
-		return
 	}
 
 	c.HTML(http.StatusOK, "counselor/profile.tmpl", gin.H{"staus": 0, "info": counselor})
