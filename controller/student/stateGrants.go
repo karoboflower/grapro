@@ -25,7 +25,7 @@ func PostStateGrants(c *gin.Context) {
 	var dst string
 	var stateGrants database.StateGrants
 
-	if database.DB.First(&student, id); student.ID != id {
+	if database.DB.First(&student, id).RecordNotFound() {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "数据库没有您的个人信息"})
 		return
 	}
@@ -75,7 +75,7 @@ func PostStateGrants(c *gin.Context) {
 			fileExtension = s[1]
 		}
 		stateGrants.Accessory = append(stateGrants.Accessory, id+strconv.Itoa(i)+"."+fileExtension)
-		if err = c.SaveUploadedFile(fsquestionnaire, dst+"/"+id+strconv.Itoa(i)+"."+fileExtension); err != nil {
+		if err = c.SaveUploadedFile(file, dst+"/"+id+strconv.Itoa(i)+"."+fileExtension); err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 			return
 		}
