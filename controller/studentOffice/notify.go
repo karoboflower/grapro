@@ -7,11 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetNotify 填写通知页面
-func GetNotify(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
-}
-
 // PostNotify 提交通知
 func PostNotify(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})

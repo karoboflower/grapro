@@ -30,7 +30,7 @@ func GetViewStateGrants(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"stateGrants": stateGrants})
 }
 
-// PostViewStateGrants 辅导员筛选国家助学金信息
+// PostViewStateGrants 辅导员更改国家助学金状态
 func PostViewStateGrants(c *gin.Context) {
 	id := c.PostForm("id")
 	status := c.PostForm("status")

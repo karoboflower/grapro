@@ -5,6 +5,7 @@ import (
 	"gra-pro/controller/counselor"
 	"gra-pro/controller/student"
 	"gra-pro/controller/studentOffice"
+	"gra-pro/controller/utilities"
 	"gra-pro/middleware"
 
 	"net/http"
@@ -30,6 +31,7 @@ func Engine() *gin.Engine {
 	router.POST("/login", controller.PostLogin)
 	router.GET("/captcha/:fileName", gin.WrapH(captcha.Server(captcha.StdWidth, captcha.StdHeight)))
 	router.POST("/captcha", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"captcha": captcha.New()}) })
+	router.GET("/notify", utilities.GetNotify)
 	authorized := router.Group("/auth")
 	authorized.Use(middleware.JWTAuth(), middleware.RBAC())
 	{
@@ -65,7 +67,6 @@ func Engine() *gin.Engine {
 			studentOfficeRouter.POST("/:id/profile", studentOffice.PostStudentOffice)
 			studentOfficeRouter.PUT("/:id/profile", studentOffice.PutStudentOffice)
 			// 通知
-			studentOfficeRouter.GET("/:id/notify", studentOffice.GetNotify)
 			studentOfficeRouter.POST("/:id/notify", studentOffice.PostNotify)
 			studentOfficeRouter.PUT("/:id/notify", studentOffice.PutNotify)
 			studentOfficeRouter.DELETE("/:id/notify", studentOffice.DeleteNotify)
