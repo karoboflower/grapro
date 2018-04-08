@@ -1,4 +1,4 @@
-$(function(){
+﻿$(function(){
 	    ReloadCounselor();   
 	    write_level(); 
 	    college();       
