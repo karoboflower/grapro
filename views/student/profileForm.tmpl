@@ -1,6 +1,16 @@
-{% define "student/profileForm.tmpl" %}
-{% template "common/header.tmpl" %}
-{%/*学生个人信息表单*/%}
+<html>
+<head>
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	   <link rel="stylesheet" href="../webframe/bootstrap/css/bootstrap.min.css">
+	   <link rel="stylesheet" href="../webframe/layer/skin/default/layer.css">
+	   <script type="text/javascript" src="../webframe/jquery/jquery-1.10.2.min.js"></script>
+	   <script type="text/javascript" src="../webframe/bootstrap/js/bootstrap.min.js"></script>
+       <script type="text/javascript" src="../webframe/jquery/jquery.form/jquery.form.js"></script>
+	   <script src="../webframe/layer//layer.js"></script>
+		 <link rel="stylesheet" href="css/profileForm.css">
+          <script src="js/profileForm.js"></script>	
+    </head>
+    <body>
     <div class="container-fluid">
         <form id="profileForm" method="POST">
             <div class="form-grop row">
@@ -18,7 +28,7 @@
             <div class="form-group row">
                 <label for="sex" class="col-sm-2 form-control-label">性别</label>
                 <div class="col-sm-10">
-                    <select id="sex" class="custom-select" name="sex">
+                    <select id="sex" class="form-control" name="sex">
                         <option value="女" selected>女</option>
                         <option value="男">男</option>
                     </select>
@@ -33,7 +43,7 @@
             <div class="form-group row">
                 <label for="ethnic" class="col-sm-2 form-control-label">民族</label>
                 <div class="col-sm-10">
-                    <select id="ethnic" class="custom-select" name="ethnic">
+                    <select id="ethnic" class="form-control" name="ethnic">
                         <option value="汉族" selected>汉族</option>
                         <option value="壮族">壮族</option>
                         <option value="满族">满族</option>
@@ -104,7 +114,7 @@
             <div class="form-group row">
                 <label for="politicalstatus" class="col-sm-2 form-control-label">政治面貌</label>
                 <div class="col-sm-10">
-                    <select id="politicalstatus" class="custom-select" name="politicalstatus">
+                    <select id="politicalstatus" class="form-control" name="politicalstatus">
                         <option value="中共党员" selected>中共党员</option>
                         <option value="预备党员">预备党员</option>
                         <option value="群众">群众</option>
@@ -116,71 +126,53 @@
             <div class="form-group row">
                 <label for="grade" class="col-sm-2 form-control-label">年级</label>
                 <div class="col-sm-10">
-                    <select id="grade" class="custom-select" onchange="ReloadCounselor();" name="grade">
-                        <option value="17级" selected>17级</option>
-                        <option value="16级">16级</option>
-                        <option value="15级">15级</option>
-                        <option value="14级">14级</option>
+                    <select id="grade" class="form-control"  name="grade">
+                        <option value="" selected></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
                     </select>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="college" class="col-sm-2 form-control-label">院系</label>
                 <div class="col-sm-10">
-                    <select id="college" class="custom-select" onchange="ReloadCounselor();" name="college">
-                        <option value="新闻学院" selected>新闻学院</option>
-                        <option value="旅游学院">旅游学院</option>
-                        <option value="音乐学院">音乐学院</option>
-                        <option value="幼儿师范学院">幼儿师范学院</option>
-                        <option value="特殊教育学院">特殊教育学院</option>
-                        <option value="马克思主义学院">马克思主义学院</option>
-                        <option value="历史与社会学院">历史与社会学院</option>
-                        <option value="教育科学学院">教育科学学院</option>
-                        <option value="体育与健康科学学院">体育与健康科学学院</option>
-                        <option value="文学院">文学院</option>
-                        <option value="外国语学院">外国语学院</option>
-                        <option value="音乐学院">音乐学院</option>
-                        <option value="美术学院">美术学院</option>
-                        <option value="新闻与传媒学院">新闻与传媒学院</option>
-                        <option value="数学科学学院">数学科学学院</option>
-                        <option value="物理与电子工程学院">物理与电子工程学院</option>
-                        <option value="化学学院">化学学院</option>
-                        <option value="生命科学学院">生命科学学院</option>
-                        <option value="地理与旅游学院">地理与旅游学院</option>
-                        <option value="经济与管理学院">经济与管理学院</option>
-                        <option value="计算机与信息科学学院">计算机与信息科学学院</option>
-                        <option value="初等教育学院">初等教育学院</option>
-                        <option value="继续教育学院">继续教育学院</option>
-                        <option value="国际汉语文化学院">国际汉语文化学院</option>
-                        <option value="职教师资学院">职教师资学院</option>
+                    <select id="college" class="form-control" name="college">
                     </select>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="profession" class="col-sm-2 form-control-label">专业</label>
                 <div class="col-sm-10">
-                    <select id="profession" class="custom-select" name="profession">
-                        <option value="计科职教" selected>计科职教</option>
-                        <option value="软工">软工</option>
-                        <option value="软外">软外</option>
-                        <option value="信管">信管</option>
+                    <select id="profession" class="form-control" name="profession">
+                          <option value="新闻学专业">新闻学专业</option>
+                        <option value="广播电视编导专业">广播电视编导专业</option>
+                        <option value="网络与新媒体专业">网络与新媒体专业</option>
+                        <option value="数字媒体艺术专业">数字媒体艺术专业</option>
+                        <option value="影视摄影与制作专业">影视摄影与制作专业</option>
                     </select>
                 </div>
             </div>
             <div class="form-grop row">
                 <label for="class" class="col-sm-2 form-control-label">班级</label>
                 <div class="col-sm-10">
-                    <input id="class" type="text" class="form-control" name="class">
+                   
+                    <select id="class" class="form-control"  name="class">
+                        <option value="" selected></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
                 </div>
             </div>
            <div class="form-group row">
                 <label for="counselorid" class="col-sm-2 form-control-label">辅导员</label>
                 <div class="col-sm-10">
-                    <select id="counselorid" class="custom-select" name="counselorid">
-                        <option value="17级" selected>17级</option>
-                        <option value="16级">16级</option>
-                        <option value="15级">15级</option>
-                        <option value="14级">14级</option>
+                   <select id="counselorid" class="form-control" name="counselorid">
+                        <option value="" selected></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
                     </select>
                 </div>
             </div>
@@ -191,43 +183,9 @@
                 </div>
             </div>
 			<div class="form-group">
-				<center><button type="submit" class="btn btn-primary">Submit</button></center>
+				<center><button id="register" type="submit" class="btn btn-primary">注册</button></center>
 			</div>
 		</form>
-    </div>
-
-    <script>
-		$(document).ready(function() {
-            ReloadCounselor();
-            
-			var	options = {
-				success  : ResponseCallback
-			};
-
-			$("#profileForm").ajaxForm(options);
-		});
-
-        function ReloadCounselor() {
-            $.get("/auth/3/"+$("#id").val()+"/GetCounselor", {"grade":$("#grade").val(), "college":$("#college").val()}, function(response){
-                if (response.status == 1) {
-                    layer.alert(response.msg, {icon:2});
-                    return;
-                }
-                if (response.status==0) {
-                    console.log(response.counselors);
-                }
-            })
-        }
-
-		function ResponseCallback(response,status,xhr,$form) {
-			if (response.status==1) {
-				layer.alert(response.msg, {icon:2});
-			}
-			if (response.status==0) {
-				layer.alert("提交信息成功", {icon:6});
-				window.parent.location.href="/auth/3/"+$("#id").val()+"/profile";
-			}
-		}
-	</script>
-{% template "common/footer.tmpl" %}
-{% end %}
+    </div>	
+ </body>
+</html>
