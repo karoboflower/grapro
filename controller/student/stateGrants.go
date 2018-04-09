@@ -14,7 +14,13 @@ import (
 
 // GetStateGrants 学生获取国家助学金申请信息
 func GetStateGrants(c *gin.Context) {
-	c.HTML(http.StatusOK, "student/stateGrants.tmpl", gin.H{"id": c.Param("id")})
+	var sgdata []database.StateGrants
+	if dbe := database.DB.Where("student_id = ?", c.Param("id")).Find(&sgdata); dbe.Error != nil {
+		log.Println(c.Param("id") + "request state grants all data failed!error msg:" + dbe.Error.Error())
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1})
+		return
+	}
+	c.HTML(http.StatusOK, "student/stateGrants.tmpl", gin.H{"status": 0, "id": c.Param("id"), "sgdata": sgdata})
 }
 
 // PostStateGrants 学生提交国家助学金申请信息
@@ -88,11 +94,6 @@ func PostStateGrants(c *gin.Context) {
 	}
 
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0})
-}
-
-// PutStateGrants 学生修改国家助学金申请信息
-func PutStateGrants(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
 }
 
 // DeleteStateGrants 学生删除国家助学金申请信息

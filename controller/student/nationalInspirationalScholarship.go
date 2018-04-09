@@ -63,11 +63,6 @@ func PostNIS(c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0})
 }
 
-// PutNIS 学生修改国家励志奖学金申请信息
-func PutNIS(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{"msg": c.Request.URL.Path})
-}
-
 // DeleteNIS 学生删除国家励志奖学金申请信息
 func DeleteNIS(c *gin.Context) {
 	id := c.PostForm("id")

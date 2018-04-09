@@ -35,6 +35,11 @@ func Engine() *gin.Engine {
 	authorized := router.Group("/auth")
 	authorized.Use(middleware.JWTAuth(), middleware.RBAC())
 	{
+		// 校学生会路由组
+		schoolRouter := authorized.Group("/4")
+		{
+			schoolRouter.GET("/:id/profile", func(c *gin.Context) { c.JSON(http.StatusOK, "hello") })
+		}
 		// 学生路由组
 		studentsRouter := authorized.Group("/3")
 		{
@@ -45,20 +50,17 @@ func Engine() *gin.Engine {
 			// 国家助学金
 			studentsRouter.GET("/:id/StateGrants", student.GetStateGrants)
 			studentsRouter.POST("/:id/StateGrants", student.PostStateGrants)
-			studentsRouter.PUT("/:id/StateGrants", student.PutStateGrants)
 			studentsRouter.DELETE("/:id/StateGrants", student.DeleteStateGrants)
 			// 国家励志奖学金
 			studentsRouter.GET("/:id/NIS", student.GetNIS)
 			studentsRouter.POST("/:id/NIS", student.PostNIS)
-			studentsRouter.PUT("/:id/NIS", student.PutNIS)
 			studentsRouter.DELETE("/:id/NIS", student.DeleteNIS)
 			// 应善良助学金
 			studentsRouter.GET("/:id/KindnessScholarship", student.GetKindnessScholarship)
 			studentsRouter.POST("/:id/KindnessScholarship", student.PostKindnessScholarship)
-			studentsRouter.PUT("/:id/KindnessScholarship", student.PutKindnessScholarship)
 			studentsRouter.DELETE("/:id/KindnessScholarship", student.DeleteKindnessScholarship)
 		}
-		// 学生会路由组
+		// 院学生会路由组
 		studentOfficeRouter := authorized.Group("/2")
 		{
 			// 个人信息
@@ -75,7 +77,6 @@ func Engine() *gin.Engine {
 			studentOfficeRouter.POST("/:id/ViewNIS", studentOffice.PostViewNIS)
 			// 通知
 			studentOfficeRouter.POST("/:id/notify", studentOffice.PostNotify)
-			studentOfficeRouter.PUT("/:id/notify", studentOffice.PutNotify)
 			studentOfficeRouter.DELETE("/:id/notify", studentOffice.DeleteNotify)
 		}
 		// 辅导员路由组
