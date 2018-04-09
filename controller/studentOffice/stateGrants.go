@@ -3,7 +3,6 @@ package studentOffice
 import (
 	"gra-pro/database"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -32,20 +31,13 @@ func PostViewStateGrants(c *gin.Context) {
 	id := c.PostForm("id")
 	status := c.PostForm("status")
 	var stateGrants database.StateGrants
-	var i int
-	var err error
 
 	if dbe := database.DB.First(&stateGrants, id); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})
 		return
 	}
 
-	if i, err = strconv.Atoi(status); err != nil {
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
-		return
-	}
-
-	stateGrants.Status = i
+	stateGrants.Status = status
 
 	if dbe := database.DB.Model(&stateGrants).Update(stateGrants); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})

@@ -54,7 +54,7 @@ func PostKindnessScholarship(c *gin.Context) {
 			return
 		}
 	}
-	ks.Status = 0
+	ks.Status = "0"
 	if dbe := database.DB.Create(&ks); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return

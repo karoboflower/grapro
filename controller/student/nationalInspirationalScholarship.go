@@ -54,7 +54,7 @@ func PostNIS(c *gin.Context) {
 			return
 		}
 	}
-	nis.Status = 0
+	nis.Status = "0"
 	if dbe := database.DB.Create(&nis); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return

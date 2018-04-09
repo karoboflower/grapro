@@ -81,7 +81,7 @@ func PostStateGrants(c *gin.Context) {
 		}
 	}
 
-	stateGrants.Status = 0
+	stateGrants.Status = "0"
 	if dbe := database.DB.Create(&stateGrants); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
