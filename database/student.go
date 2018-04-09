@@ -1,6 +1,7 @@
 package database
 
 import (
+	"log"
 	"time"
 )
 
@@ -22,4 +23,22 @@ type Student struct {
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 	DeletedAt       *time.Time `sql:"index"`
+}
+
+// Create 创建记录
+func (s Student) Create(in interface{}) (result bool) {
+	if dbe := DB.Create(in); dbe != nil {
+		log.Println(dbe.Error)
+		return false
+	}
+	return true
+}
+
+// Delete 删除记录
+func (s Student) Delete(in interface{}) (result bool) {
+	if dbe := DB.Delete(in); dbe != nil {
+		log.Println(dbe.Error)
+		return false
+	}
+	return true
 }
