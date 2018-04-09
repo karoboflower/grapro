@@ -1,7 +1,9 @@
 package main
 
 import (
+	"fmt"
 	"gra-pro/database"
+	"reflect"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 )
@@ -15,12 +17,23 @@ func main() {
 	}
 
 	t := &database.Tester{
-		ID:        2,
 		StudentID: "2014051609033",
-		Status:    1,
+		Status:    "0",
 	}
 
-	s.Delete(t)
+	s.Create(t)
+	if s.Read(t) {
+		fmt.Println("success")
+	} else {
+		temp := reflect.ValueOf(t).Elem()
+		tester := database.Tester{
+			ID:        temp.Field(0).Int(),
+			StudentID: temp.Field(1).String(),
+			Status:    temp.Field(2).String(),
+		}
+		fmt.Println(tester.StudentID)
+		fmt.Println(tester.Status)
+	}
 
 	// Debug
 	// log.Fatal(routes.Engine().Run(":8080"))

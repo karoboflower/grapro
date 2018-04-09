@@ -34,6 +34,15 @@ func (s Student) Create(in interface{}) (result bool) {
 	return true
 }
 
+// Read 读取记录
+func (s Student) Read(out interface{}) (result bool) {
+	if dbe := DB.First(out); dbe != nil {
+		log.Println(dbe.Error)
+		return false
+	}
+	return true
+}
+
 // Delete 删除记录
 func (s Student) Delete(in interface{}) (result bool) {
 	if dbe := DB.Delete(in); dbe != nil {
