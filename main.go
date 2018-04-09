@@ -17,7 +17,13 @@ func main() {
 	}
 
 	t := &database.Tester{
+		ID:        3,
 		StudentID: "2014051609033",
+		Status:    "0",
+	}
+	t1 := &database.Tester{
+		ID:        3,
+		StudentID: "2014051609035",
 		Status:    "0",
 	}
 
@@ -34,6 +40,8 @@ func main() {
 		fmt.Println(tester.StudentID)
 		fmt.Println(tester.Status)
 	}
+
+	s.Update(t, t1)
 
 	// Debug
 	// log.Fatal(routes.Engine().Run(":8080"))

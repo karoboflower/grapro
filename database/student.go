@@ -26,27 +26,41 @@ type Student struct {
 }
 
 // Create 创建记录
+// @param in 需要创建记录的模型实例指针
 func (s Student) Create(in interface{}) (result bool) {
-	if dbe := DB.Create(in); dbe != nil {
-		log.Println(dbe.Error)
+	if dbe := DB.Create(in); dbe.Error != nil {
+		log.Println(dbe.Error.Error())
 		return false
 	}
 	return true
 }
 
 // Read 读取记录
+// @param out 读取到的记录输出参数
 func (s Student) Read(out interface{}) (result bool) {
-	if dbe := DB.First(out); dbe != nil {
-		log.Println(dbe.Error)
+	if dbe := DB.First(out); dbe.Error != nil {
+		log.Println(dbe.Error.Error())
+		return false
+	}
+	return true
+}
+
+// Update 更新记录
+// @param in 需要被更新记录的模型实例指针
+// @param out 记录更新后的模型实例指针
+func (s Student) Update(in interface{}, out interface{}) (result bool) {
+	if dbe := DB.Model(in).Updates(out); dbe.Error != nil {
+		log.Println(dbe.Error.Error())
 		return false
 	}
 	return true
 }
 
 // Delete 删除记录
+// @param in 需要被删除的模型实例指针
 func (s Student) Delete(in interface{}) (result bool) {
-	if dbe := DB.Delete(in); dbe != nil {
-		log.Println(dbe.Error)
+	if dbe := DB.Delete(in); dbe.Error != nil {
+		log.Println(dbe.Error.Error())
 		return false
 	}
 	return true
