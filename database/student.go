@@ -7,7 +7,7 @@ import (
 
 // Student 学生信息
 type Student struct {
-	ID              string `gorm:"type:char(13);primary_key;not null;unique" form:"id" json:"id" binding:"required"`
+	StudentID       string `gorm:"type:char(13);primary_key;not null;unique" form:"id" json:"id" binding:"required"`
 	Name            string `gorm:"type:char(24);not null;" form:"name" json:"name" binding:"required"`
 	Sex             string `gorm:"type:char(3);not null" form:"sex" json:"sex" binding:"required"`
 	Birthdate       string `gorm:"not null" form:"birthdate" json:"birthdate" binding:"required"`
@@ -39,6 +39,16 @@ func (s Student) Create(in interface{}) (result bool) {
 // @param out 读取到的记录输出参数
 func (s Student) Read(out interface{}) (result bool) {
 	if dbe := DB.First(out); dbe.Error != nil {
+		log.Println(dbe.Error.Error())
+		return false
+	}
+	return true
+}
+
+// ReadAll 读取该生表中所有记录
+// @param out 读取到的所有记录输出参数
+func (s Student) ReadAll(out interface{}) (result bool) {
+	if dbe := DB.Where("student_id = ?", s.StudentID).Find(out); dbe.Error != nil {
 		log.Println(dbe.Error.Error())
 		return false
 	}

@@ -20,7 +20,7 @@ func GetViewNIS(c *gin.Context) {
 	}
 
 	for _, student := range students {
-		if dbe := database.DB.First(&temp, student.ID); dbe != nil {
+		if dbe := database.DB.First(&temp, student.StudentID); dbe != nil {
 			continue
 		}
 		nisarray = append(nisarray, temp)
