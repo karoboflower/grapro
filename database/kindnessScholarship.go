@@ -8,7 +8,7 @@ import (
 
 // KindnessScholarship 应善良助学金
 type KindnessScholarship struct {
-	ID        uint32         `gorm:"primary_key;AUTO_INCREMENT"`
+	KSID      uint32         `gorm:"primary_key;AUTO_INCREMENT"`
 	StudentID string         `gorm:"type:char(13);not null"`
 	Accessory pq.StringArray `gorm:"type:varchar(255);not null"`
 	Status    string         `gorm:"type:char(4);not null"`
