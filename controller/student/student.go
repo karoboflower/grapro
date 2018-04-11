@@ -22,7 +22,7 @@ func GetProfile(c *gin.Context) {
 
 	if database.DB.First(&student, id).RecordNotFound() {
 		student = database.Student{
-			ID: id,
+			StudentID: id,
 		}
 	}
 
@@ -39,13 +39,13 @@ func PostProfile(c *gin.Context) {
 		return
 	}
 
-	if database.DB.First(&database.Student{}, "id = ?", form.ID).RecordNotFound() {
+	if database.DB.First(&database.Student{}, "id = ?", form.StudentID).RecordNotFound() {
 		if dbe := database.DB.Create(&form); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return
 		}
 	} else {
-		if dbe := database.DB.First(&student, form.ID); dbe.Error != nil {
+		if dbe := database.DB.First(&student, form.StudentID); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return
 		}

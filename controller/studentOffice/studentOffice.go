@@ -23,7 +23,7 @@ func GetStudentOffice(c *gin.Context) {
 
 	if database.DB.First(&so, id).RecordNotFound() {
 		so = database.StudentOffice{
-			ID: id,
+			StudentOfficeID: id,
 		}
 	}
 
@@ -40,13 +40,13 @@ func PostStudentOffice(c *gin.Context) {
 		return
 	}
 
-	if database.DB.First(&database.StudentOffice{}, "id = ?", form.ID).RecordNotFound() {
+	if database.DB.First(&database.StudentOffice{}, "id = ?", form.StudentOfficeID).RecordNotFound() {
 		if dbe := database.DB.Create(&form); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return
 		}
 	} else {
-		if dbe := database.DB.First(&so, form.ID); dbe.Error != nil {
+		if dbe := database.DB.First(&so, form.StudentOfficeID); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return
 		}

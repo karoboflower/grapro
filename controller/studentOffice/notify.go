@@ -12,7 +12,6 @@ import (
 // PostNotify 提交通知
 func PostNotify(c *gin.Context) {
 	var notify database.Notify
-	var err error
 	notify.Content = c.PostForm("Content")
 
 	if c.PostForm("NotifyID") == "" {

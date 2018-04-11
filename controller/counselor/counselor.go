@@ -23,7 +23,7 @@ func GetCounselor(c *gin.Context) {
 
 	if database.DB.First(&counselor, id).RecordNotFound() {
 		counselor = database.Counselor{
-			ID: id,
+			CounselorID: id,
 		}
 	}
 
@@ -40,13 +40,13 @@ func PostCounselor(c *gin.Context) {
 		return
 	}
 
-	if database.DB.First(&database.Counselor{}, "id = ?", form.ID).RecordNotFound() {
+	if database.DB.First(&database.Counselor{}, "id = ?", form.CounselorID).RecordNotFound() {
 		if dbe := database.DB.Create(&form); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return
 		}
 	} else {
-		if dbe := database.DB.First(&counselor, form.ID); dbe.Error != nil {
+		if dbe := database.DB.First(&counselor, form.CounselorID); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return
 		}
