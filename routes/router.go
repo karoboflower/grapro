@@ -29,7 +29,7 @@ func Engine() *gin.Engine {
 	router.POST("/register", controller.PostRegister)
 	router.GET("/login", controller.GetLogin)
 	router.POST("/login", controller.PostLogin)
-	router.GET("/captcha/:fileName", gin.WrapH(captcha.Server(captcha.StdWidth, captcha.StdHeight)))
+	router.GET("/captcha/:filename", gin.WrapH(captcha.Server(captcha.StdWidth, captcha.StdHeight)))
 	router.POST("/captcha", func(c *gin.Context) { c.JSON(http.StatusOK, gin.H{"captcha": captcha.New()}) })
 	router.GET("/notify", utilities.GetNotify)
 	authorized := router.Group("/auth")
@@ -48,17 +48,17 @@ func Engine() *gin.Engine {
 			studentsRouter.POST("/:id/profile", student.PostProfile)
 			studentsRouter.GET("/:id/GetCounselor", student.GetCounselor)
 			// 国家助学金
-			studentsRouter.GET("/:id/StateGrants", student.GetStateGrants)
-			studentsRouter.POST("/:id/StateGrants", student.PostStateGrants)
-			studentsRouter.DELETE("/:id/StateGrants", student.DeleteStateGrants)
+			studentsRouter.GET("/:id/SG", student.GetSG)
+			studentsRouter.POST("/:id/SG", student.PostSG)
+			studentsRouter.DELETE("/:id/SG", student.DeleteSG)
 			// 国家励志奖学金
 			studentsRouter.GET("/:id/NIS", student.GetNIS)
 			studentsRouter.POST("/:id/NIS", student.PostNIS)
 			studentsRouter.DELETE("/:id/NIS", student.DeleteNIS)
 			// 应善良助学金
-			studentsRouter.GET("/:id/KindnessScholarship", student.GetKindnessScholarship)
-			studentsRouter.POST("/:id/KindnessScholarship", student.PostKindnessScholarship)
-			studentsRouter.DELETE("/:id/KindnessScholarship", student.DeleteKindnessScholarship)
+			studentsRouter.GET("/:id/KS", student.GetKS)
+			studentsRouter.POST("/:id/KS", student.PostKS)
+			studentsRouter.DELETE("/:id/KS", student.DeleteKS)
 		}
 		// 院学生会路由组
 		studentOfficeRouter := authorized.Group("/2")
@@ -67,14 +67,14 @@ func Engine() *gin.Engine {
 			studentOfficeRouter.GET("/:id/profile", studentOffice.GetStudentOffice)
 			studentOfficeRouter.POST("/:id/profile", studentOffice.PostStudentOffice)
 			// 国家助学金
-			studentOfficeRouter.GET("/:id/ViewStateGrants", studentOffice.GetViewStateGrants)
-			studentOfficeRouter.POST("/:id/ViewStateGrants", studentOffice.PostViewStateGrants)
+			studentOfficeRouter.GET("/:id/SG", studentOffice.GetSG)
+			studentOfficeRouter.POST("/:id/SG", studentOffice.PostSG)
 			// 应善良助学金
-			studentOfficeRouter.GET("/:id/ViewKindnessScholarship", studentOffice.GetViewKindnessScholarship)
-			studentOfficeRouter.POST("/:id/ViewKindnessScholarship", studentOffice.PostViewKindnessScholarship)
+			studentOfficeRouter.GET("/:id/KS", studentOffice.GetKS)
+			studentOfficeRouter.POST("/:id/KS", studentOffice.PostKS)
 			// 国家励志奖学金
-			studentOfficeRouter.GET("/:id/ViewNIS", studentOffice.GetViewNIS)
-			studentOfficeRouter.POST("/:id/ViewNIS", studentOffice.PostViewNIS)
+			studentOfficeRouter.GET("/:id/NIS", studentOffice.GetNIS)
+			studentOfficeRouter.POST("/:id/NIS", studentOffice.PostNIS)
 			// 通知
 			studentOfficeRouter.POST("/:id/notify", studentOffice.PostNotify)
 			studentOfficeRouter.DELETE("/:id/notify", studentOffice.DeleteNotify)
@@ -86,14 +86,14 @@ func Engine() *gin.Engine {
 			counselorRouter.GET("/:id/profile", counselor.GetCounselor)
 			counselorRouter.POST("/:id/profile", counselor.PostCounselor)
 			// 国家助学金
-			counselorRouter.GET("/:id/ViewStateGrants", counselor.GetViewStateGrants)
-			counselorRouter.POST("/:id/ViewStateGrants", counselor.PostViewStateGrants)
+			counselorRouter.GET("/:id/SG", counselor.GetSG)
+			counselorRouter.POST("/:id/SG", counselor.PostSG)
 			// 国家励志奖学金
-			counselorRouter.GET("/:id/ViewNIS", counselor.GetViewNIS)
-			counselorRouter.POST("/:id/ViewNIS", counselor.PostViewNIS)
+			counselorRouter.GET("/:id/NIS", counselor.GetNIS)
+			counselorRouter.POST("/:id/NIS", counselor.PostNIS)
 			// 应善良助学金
-			counselorRouter.GET("/:id/ViewKindnessScholarship", counselor.GetViewKindnessScholarship)
-			counselorRouter.POST("/:id/ViewKindnessScholarship", counselor.PostViewKindnessScholarship)
+			counselorRouter.GET("/:id/KS", counselor.GetKS)
+			counselorRouter.POST("/:id/KS", counselor.PostKS)
 		}
 	}
 	return router

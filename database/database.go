@@ -71,9 +71,9 @@ func ConnectDB() {
 		DB.AutoMigrate(&Counselor{})
 		DB.AutoMigrate(&StudentOffice{})
 		DB.AutoMigrate(&Notify{})
-		DB.AutoMigrate(&StateGrants{})
+		DB.AutoMigrate(&SG{})
 		DB.AutoMigrate(&NIS{})
-		DB.AutoMigrate(&KindnessScholarship{})
+		DB.AutoMigrate(&KS{})
 		DB.AutoMigrate(&Application{})
 	}
 

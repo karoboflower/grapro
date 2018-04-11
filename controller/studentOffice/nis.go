@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetViewNIS 学生会查询国家励志奖学金信息
-func GetViewNIS(c *gin.Context) {
+// GetNIS 学生会查询国家励志奖学金信息
+func GetNIS(c *gin.Context) {
 	id := c.Param("id")
 	var studentOffice database.StudentOffice
 	var nisarray []database.NIS
@@ -26,8 +26,8 @@ func GetViewNIS(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": 0, "nis": nisarray})
 }
 
-// PostViewNIS 学生会更新国家励志奖学金信息
-func PostViewNIS(c *gin.Context) {
+// PostNIS 学生会更新国家励志奖学金信息
+func PostNIS(c *gin.Context) {
 	id := c.PostForm("id")
 	status := c.PostForm("status")
 	var nis database.NIS

@@ -12,31 +12,31 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetStateGrants 学生获取国家助学金申请信息
-func GetStateGrants(c *gin.Context) {
-	var sgdata []database.StateGrants
+// GetSG 学生获取国家助学金申请信息
+func GetSG(c *gin.Context) {
+	var sgdata []database.SG
 	if dbe := database.DB.Where("student_id = ?", c.Param("id")).Find(&sgdata); dbe.Error != nil {
 		log.Println(c.Param("id") + "request state grants all data failed!error msg:" + dbe.Error.Error())
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1})
 		return
 	}
-	c.HTML(http.StatusOK, "student/stateGrants.tmpl", gin.H{"status": 0, "id": c.Param("id"), "sgdata": sgdata})
+	c.HTML(http.StatusOK, "student/SG.tmpl", gin.H{"status": 0, "id": c.Param("id"), "sgdata": sgdata})
 }
 
-// PostStateGrants 学生提交国家助学金申请信息
-func PostStateGrants(c *gin.Context) {
+// PostSG 学生提交国家助学金申请信息
+func PostSG(c *gin.Context) {
 	id := c.PostForm("id")
 	var student database.Student
 	var fileExtension string
 	var dst string
-	var stateGrants database.StateGrants
+	var SG database.SG
 
 	if database.DB.First(&student, id).RecordNotFound() {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "数据库没有您的个人信息"})
 		return
 	}
 
-	stateGrants.StudentID = id
+	SG.StudentID = id
 	fsquestionnaire, err := c.FormFile("fsquestionnaire")
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
@@ -55,7 +55,7 @@ func PostStateGrants(c *gin.Context) {
 		}
 	}
 
-	stateGrants.FSQuestionnaire = id + "." + fileExtension
+	SG.FSQuestionnaire = id + "." + fileExtension
 	if err = c.SaveUploadedFile(fsquestionnaire, dst+"/"+id+"."+fileExtension); err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 		return
@@ -80,15 +80,15 @@ func PostStateGrants(c *gin.Context) {
 		if s := strings.Split(file.Filename, "."); len(s) == 2 {
 			fileExtension = s[1]
 		}
-		stateGrants.Accessory = append(stateGrants.Accessory, id+strconv.Itoa(i)+"."+fileExtension)
+		SG.Accessory = append(SG.Accessory, id+strconv.Itoa(i)+"."+fileExtension)
 		if err = c.SaveUploadedFile(file, dst+"/"+id+strconv.Itoa(i)+"."+fileExtension); err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 			return
 		}
 	}
 
-	stateGrants.Status = "0"
-	if dbe := database.DB.Create(&stateGrants); dbe.Error != nil {
+	SG.Status = "0"
+	if dbe := database.DB.Create(&SG); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
@@ -96,11 +96,11 @@ func PostStateGrants(c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0})
 }
 
-// DeleteStateGrants 学生删除国家助学金申请信息
-func DeleteStateGrants(c *gin.Context) {
+// DeleteSG 学生删除国家助学金申请信息
+func DeleteSG(c *gin.Context) {
 	id := c.PostForm("id")
 
-	if dbe := database.DB.Where("id = ?", id).Delete(&database.StateGrants{}); dbe != nil {
+	if dbe := database.DB.Where("id = ?", id).Delete(&database.SG{}); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}

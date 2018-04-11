@@ -7,11 +7,11 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetViewKindnessScholarship 学生会查询应善良助学金
-func GetViewKindnessScholarship(c *gin.Context) {
+// GetKS 学生会查询应善良助学金
+func GetKS(c *gin.Context) {
 	id := c.Param("id")
 	var studentOffice database.StudentOffice
-	var ksarray []database.KindnessScholarship
+	var ksarray []database.KS
 
 	if dbe := database.DB.First(&studentOffice, id); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
@@ -26,11 +26,11 @@ func GetViewKindnessScholarship(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"status": 0, "ks": ksarray})
 }
 
-// PostViewKindnessScholarship 学生会更新应善良助学金状态
-func PostViewKindnessScholarship(c *gin.Context) {
+// PostKS 学生会更新应善良助学金状态
+func PostKS(c *gin.Context) {
 	id := c.PostForm("id")
 	status := c.PostForm("status")
-	var ks database.KindnessScholarship
+	var ks database.KS
 
 	if dbe := database.DB.First(&ks, id); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})

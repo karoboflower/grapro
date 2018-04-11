@@ -13,18 +13,18 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetKindnessScholarship 学生获取应善良助学金申请信息
-func GetKindnessScholarship(c *gin.Context) {
+// GetKS 学生获取应善良助学金申请信息
+func GetKS(c *gin.Context) {
 	c.HTML(http.StatusOK, "student/ks.tmpl", gin.H{"id": c.Param("id")})
 }
 
-// PostKindnessScholarship 学生获提交善良助学金申请信息
-func PostKindnessScholarship(c *gin.Context) {
+// PostKS 学生获提交善良助学金申请信息
+func PostKS(c *gin.Context) {
 	id := c.Param("id")
 	var student database.Student
 	var dst string
 	var fileExtension string
-	var ks database.KindnessScholarship
+	var ks database.KS
 
 	if database.DB.First(&student, id).RecordNotFound() {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "数据库没有您的个人信息"})
@@ -63,11 +63,11 @@ func PostKindnessScholarship(c *gin.Context) {
 	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0})
 }
 
-// DeleteKindnessScholarship 学生删除应善良助学金申请信息
-func DeleteKindnessScholarship(c *gin.Context) {
+// DeleteKS 学生删除应善良助学金申请信息
+func DeleteKS(c *gin.Context) {
 	id := c.PostForm("id")
 
-	if dbe := database.DB.Where("id = ?", id).Delete(&database.KindnessScholarship{}); dbe != nil {
+	if dbe := database.DB.Where("id = ?", id).Delete(&database.KS{}); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}

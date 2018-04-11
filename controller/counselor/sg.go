@@ -7,14 +7,14 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// GetViewKindnessScholarship 辅导员查询应善良助学金
-func GetViewKindnessScholarship(c *gin.Context) {
+// GetSG 辅导员查询国家助学金信息
+func GetSG(c *gin.Context) {
 	id := c.Param("id")
 	var students []database.Student
-	var temp database.KindnessScholarship
-	var ksarray []database.KindnessScholarship
+	var temp database.SG
+	var SG []database.SG
 
-	if dbe := database.DB.Where("counselor_id = ?", id).Find(&students); dbe != nil {
+	if dbe := database.DB.Where("counselor_id = ?", id).Find(&students); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
@@ -23,26 +23,26 @@ func GetViewKindnessScholarship(c *gin.Context) {
 		if dbe := database.DB.First(&temp, student.StudentID); dbe != nil {
 			continue
 		}
-		ksarray = append(ksarray, temp)
+		SG = append(SG, temp)
 	}
 
-	c.JSON(http.StatusOK, gin.H{"ks": ksarray})
+	c.JSON(http.StatusOK, gin.H{"SG": SG})
 }
 
-// PostViewKindnessScholarship 辅导员筛选应善良助学金
-func PostViewKindnessScholarship(c *gin.Context) {
+// PostSG 辅导员更改国家助学金状态
+func PostSG(c *gin.Context) {
 	id := c.PostForm("id")
 	status := c.PostForm("status")
-	var ks database.KindnessScholarship
+	var SG database.SG
 
-	if dbe := database.DB.First(&ks, id); dbe != nil {
+	if dbe := database.DB.First(&SG, id); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})
 		return
 	}
 
-	ks.Status = status
+	SG.Status = status
 
-	if dbe := database.DB.Model(&ks).Update(ks); dbe.Error != nil {
+	if dbe := database.DB.Model(&SG).Update(SG); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})
 		return
 	}
