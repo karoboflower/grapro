@@ -26,16 +26,16 @@
 
 
 [[constraint]]
+  branch = "master"
   name = "github.com/casbin/casbin"
-  version = "1.4.0"
 
 [[constraint]]
   branch = "master"
   name = "github.com/casbin/gorm-adapter"
 
 [[constraint]]
+  branch = "master"
   name = "github.com/dgrijalva/jwt-go"
-  version = "3.2.0"
 
 [[constraint]]
   name = "github.com/gin-gonic/gin"

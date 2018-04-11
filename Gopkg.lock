@@ -8,19 +8,20 @@
   version = "v3.0.0"
 
 [[projects]]
+  branch = "master"
   name = "github.com/casbin/casbin"
   packages = [
     ".",
     "config",
-    "file-adapter",
+    "effect",
     "model",
     "persist",
+    "persist/file-adapter",
     "rbac",
     "rbac/default-role-manager",
     "util"
   ]
-  revision = "3a17f2855cc12ad36fd614c590b9d18f46dfd65d"
-  version = "v1.4.0"
+  revision = "ad4136c716751f72b27fa1140cf4a75af61ef8c7"
 
 [[projects]]
   branch = "master"
@@ -87,6 +88,12 @@
   revision = "d34b9ff171c21ad295489235aec8b6626023cd04"
 
 [[projects]]
+  name = "github.com/pkg/errors"
+  packages = ["."]
+  revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
+  version = "v0.8.0"
+
+[[projects]]
   branch = "master"
   name = "github.com/thinkerou/favicon"
   packages = ["."]
@@ -95,6 +102,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "f4dd0b788745e0b2baa724a59452a35bd794f9834c0bd6654b85d0a44f5d7106"
+  inputs-digest = "68d9ccb96a39a569568a48814f0cbf3bf59b9f0fbd3f9577af716246174e409e"
   solver-name = "gps-cdcl"
   solver-version = 1
