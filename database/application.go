@@ -13,7 +13,7 @@ const (
 
 // Application 申请起止记录
 type Application struct {
-	ApplicationID int64     `gorm:"primary_key;AUTO_INCREMENT"`
+	ApplicationID uint64    `gorm:"primary_key;AUTO_INCREMENT"`
 	SSOID         string    `gorm:"type:char(13);not null"`
 	Type          int       `gorm:"not null"`
 	BeginTime     time.Time `gorm:"not null"`

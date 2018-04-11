@@ -74,6 +74,7 @@ func ConnectDB() {
 		DB.AutoMigrate(&StateGrants{})
 		DB.AutoMigrate(&NIS{})
 		DB.AutoMigrate(&KindnessScholarship{})
+		DB.AutoMigrate(&Application{})
 	}
 
 	a := gormadapter.NewAdapter(dbcfg.DBType, userdata.UserName+":"+userdata.Password+"@tcp("+dbcfg.IP+":"+dbcfg.Port+")/"+dbcfg.DBName, true)
