@@ -25,6 +25,8 @@ func GetLogin(c *gin.Context) {
 func PostLogin(c *gin.Context) {
 	var json database.User
 	var saltInst user.Salt
+	var secret auth.Secret
+	var result bool
 
 	if !captcha.VerifyString(c.PostForm("captchaID"), c.PostForm("captchaSolution")) {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "验证码错误", "captcha": captcha.New()})
@@ -36,8 +38,6 @@ func PostLogin(c *gin.Context) {
 		return
 	}
 
-	var secret auth.Secret
-	var result bool
 	if secret, result = auth.GetSignKey(); !(result && user.GetSalt(&saltInst)) {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "获取用户生成信息失败！", "captcha": captcha.New()})
 		return
@@ -62,7 +62,7 @@ func PostLogin(c *gin.Context) {
 	}
 
 	claims := middleware.CustomClaims{
-		ID:    json.ID,
+		ID:    json.UserID,
 		Email: json.Email,
 		Role:  json.Role,
 		StandardClaims: jwt.StandardClaims{
@@ -77,5 +77,5 @@ func PostLogin(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token, "Redirect": "/auth/" + json.Role + "/" + json.ID + "/profile"})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token, "Redirect": "/auth/" + json.Role + "/" + json.UserID + "/profile"})
 }

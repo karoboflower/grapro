@@ -25,25 +25,27 @@ func GetRegister(c *gin.Context) {
 // PostRegister 用户注册处理
 func PostRegister(c *gin.Context) {
 	var form database.User
+	var err error
 	var saltInst user.Salt
+	var secret auth.Secret
+	var result bool
+	var token string
 
 	if !captcha.VerifyString(c.PostForm("captchaID"), c.PostForm("captchaSolution")) {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "验证码错误", "captcha": captcha.New()})
 		return
 	}
 
-	if err := c.ShouldBindWith(&form, binding.FormPost); err != nil {
+	if err = c.ShouldBindWith(&form, binding.FormPost); err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error(), "captcha": captcha.New()})
 		return
 	}
 
-	if !database.DB.First(&database.User{}, "id = ?", form.ID).RecordNotFound() {
+	if !database.DB.First(&database.User{}, "id = ?", form.UserID).RecordNotFound() {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "您已经注册，请登录！", "captcha": captcha.New()})
 		return
 	}
 
-	var secret auth.Secret
-	var result bool
 	if secret, result = auth.GetSignKey(); !(result && user.GetSalt(&saltInst)) {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "获取用户生成信息失败！", "captcha": captcha.New()})
 		return
@@ -53,7 +55,7 @@ func PostRegister(c *gin.Context) {
 	io.WriteString(h, form.Password)
 	pwmd5 := fmt.Sprintf("%x", h.Sum(nil))
 	io.WriteString(h, saltInst.Salt1)
-	io.WriteString(h, form.ID)
+	io.WriteString(h, form.UserID)
 	io.WriteString(h, saltInst.Salt2)
 	io.WriteString(h, pwmd5)
 	last := fmt.Sprintf("%x", h.Sum(nil))
@@ -64,7 +66,7 @@ func PostRegister(c *gin.Context) {
 		return
 	}
 
-	database.AuthEnforcer.AddPermissionForUser(form.ID, "/auth/"+form.Role+"/"+form.ID+"/*", "(GET)|(POST)|(PUT)|(PATCH)|(DELETE)|(OPTIONS)")
+	database.AuthEnforcer.AddPermissionForUser(form.UserID, "/auth/"+form.Role+"/"+form.UserID+"/*", "(GET)|(POST)|(PUT)|(PATCH)|(DELETE)|(OPTIONS)")
 	database.AuthEnforcer.LoadPolicy()
 
 	j := middleware.JWT{
@@ -72,7 +74,7 @@ func PostRegister(c *gin.Context) {
 	}
 
 	claims := middleware.CustomClaims{
-		ID:    form.ID,
+		ID:    form.UserID,
 		Email: form.Email,
 		Role:  form.Role,
 		StandardClaims: jwt.StandardClaims{
@@ -81,11 +83,11 @@ func PostRegister(c *gin.Context) {
 		},
 	}
 
-	token, err := j.CreateToken(claims)
+	token, err = j.CreateToken(claims)
 	if err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error(), "captcha": captcha.New()})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token, "Redirect": "/auth/" + form.Role + "/" + form.ID + "/profile"})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "Authrization": token, "Redirect": "/auth/" + form.Role + "/" + form.UserID + "/profile"})
 }
