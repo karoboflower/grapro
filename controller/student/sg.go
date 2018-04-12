@@ -20,7 +20,7 @@ func GetSG(c *gin.Context) {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1})
 		return
 	}
-	c.HTML(http.StatusOK, "student/SG.tmpl", gin.H{"status": 0, "id": c.Param("id"), "sgdata": sgdata})
+	c.HTML(http.StatusOK, "student/stateGrants.tmpl", gin.H{"status": 0, "id": c.Param("id"), "sgdata": sgdata})
 }
 
 // PostSG 学生提交国家助学金申请信息

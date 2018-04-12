@@ -48,7 +48,7 @@ func Engine() *gin.Engine {
 			// 个人信息
 			studentsRouter.GET("/:id/profile", student.GetProfile)
 			studentsRouter.POST("/:id/profile", student.PostProfile)
-			studentsRouter.GET("/:id/GetCounselor", student.GetCounselor)
+			studentsRouter.GET("/:id/counselor", student.GetCounselor)
 			// 国家助学金
 			studentsRouter.GET("/:id/SG", student.GetSG)
 			studentsRouter.POST("/:id/SG", student.PostSG)
