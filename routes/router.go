@@ -23,6 +23,8 @@ func Engine() *gin.Engine {
 	router.MaxMultipartMemory = 8 << 20
 	router.Use(favicon.New("./favicon.ico"))
 	router.Delims("{%", "%}")
+	router.Static("resources/assets", "resources/assets")
+	router.Static("resources/webframe", "resources/webframe")
 	router.LoadHTMLGlob("resources/views/*/*")
 	router.GET("/", utilities.GetIndex)
 	router.GET("/register", controller.GetRegister)
