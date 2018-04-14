@@ -67,7 +67,7 @@ func PostNIS(c *gin.Context) {
 func DeleteNIS(c *gin.Context) {
 	id := c.PostForm("id")
 
-	if dbe := database.DB.Where("id = ?", id).Delete(&database.NIS{}); dbe != nil {
+	if dbe := database.DB.Where("student_id = ?", id).Delete(&database.NIS{}); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}

@@ -40,7 +40,7 @@ func PostStudentOffice(c *gin.Context) {
 		return
 	}
 
-	if database.DB.First(&database.StudentOffice{}, "id = ?", form.StudentOfficeID).RecordNotFound() {
+	if database.DB.First(&database.StudentOffice{}, "student_office_id = ?", form.StudentOfficeID).RecordNotFound() {
 		if dbe := database.DB.Create(&form); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return

@@ -41,7 +41,7 @@ func PostRegister(c *gin.Context) {
 		return
 	}
 
-	if !database.DB.First(&database.User{}, "id = ?", form.UserID).RecordNotFound() {
+	if !database.DB.First(&database.User{}, "user_id = ?", form.UserID).RecordNotFound() {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": "您已经注册，请登录！", "captcha": captcha.New()})
 		return
 	}

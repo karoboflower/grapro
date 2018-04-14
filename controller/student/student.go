@@ -39,7 +39,7 @@ func PostProfile(c *gin.Context) {
 		return
 	}
 
-	if database.DB.First(&database.Student{}, "id = ?", form.StudentID).RecordNotFound() {
+	if database.DB.First(&database.Student{}, "student_id = ?", form.StudentID).RecordNotFound() {
 		if dbe := database.DB.Create(&form); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return

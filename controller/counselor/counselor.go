@@ -40,7 +40,7 @@ func PostCounselor(c *gin.Context) {
 		return
 	}
 
-	if database.DB.First(&database.Counselor{}, "id = ?", form.CounselorID).RecordNotFound() {
+	if database.DB.First(&database.Counselor{}, "counselor_id = ?", form.CounselorID).RecordNotFound() {
 		if dbe := database.DB.Create(&form); dbe.Error != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 			return

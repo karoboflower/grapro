@@ -67,7 +67,7 @@ func PostKS(c *gin.Context) {
 func DeleteKS(c *gin.Context) {
 	id := c.PostForm("id")
 
-	if dbe := database.DB.Where("id = ?", id).Delete(&database.KS{}); dbe != nil {
+	if dbe := database.DB.Where("student_id = ?", id).Delete(&database.KS{}); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
