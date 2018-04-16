@@ -1,0 +1,160 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>上传文件</title>
+</head>
+ <style>
+    </style>
+<script>
+$(function(){
+    var sizeObj = []; 
+    var flieList = [];
+    var oFileSpan = $("#fileSpan");
+    $("#applyform").on("change",function(){
+        analysisList(this.files);
+        createList(flieList);
+        $("#applyform_table").find(".fileList").empty().append(createList(flieList));
+        $("#applyform_table").show();
+        flieList=[];
+    })
+    $("#fileInput").on("change",function(){
+        analysisList(this.files);
+        createList(flieList);
+        $("#fileList_table").find(".fileList").empty().append(createList(flieList));
+        $("#fileList_table").show();
+        flieList=[];
+    });
+    oFileSpan.on("dragover",function(){
+        return false;
+    });
+
+    //拖拽外部文件，离开目标元素触发
+    oFileSpan.on("dragleave",function(){
+        $(this).text("或者将文件拖到此处").css("background","none");
+    });
+
+    //拖拽外部文件，在目标元素上释放鼠标触发
+    oFileSpan.on("drop",function(ev){
+        var fs = ev.originalEvent.dataTransfer.files;
+        analysisList(fs);
+        $("#fileList_table").find(".fileList").empty().append(createList(flieList));
+        $("#fileList_table").show();
+        $(this).text("或者将文件拖到此处").css("background","none");
+        return false;
+        
+    });
+    $(".fileList").on("click","a.operation",function(){
+        var oTr = $(this).parents("tr");
+        var index = oTr.index();
+        oTr.remove();       //删除这一行
+        flieList.splice(index,1);   //删除数据
+        sizeObj.splice(index,1);    //删除文件大小数组中的项
+        
+        //console.log(flieList);
+        //console.log(sizeObj);
+        
+    });
+    function analysisList(obj){
+        if (obj.length<1) {
+            layer.msg("你还未选择文件");
+            return false;
+        }
+        if(obj.length>5){
+            layer.msg("你选择的文件超过5个");
+            return false;
+        }
+        for(var i=0;i<obj.length;i++){
+            var name=obj[i].name;
+            var type=obj[i].type;
+            var size=obj[i].size;
+            var limitsize=size/(1024*1024);
+            if(limitsize>2){
+                layer.msg("你选择的文件超过"+limitsize+"M，不能上传");
+                return false;
+            }
+            if(sizeObj.indexOf("size")!=-1){
+                layer.msg("你选择了重复文件");
+                continue;
+            }
+            var itemArr = [obj[i],name,size,type];  
+            flieList.push(itemArr); 
+            //把这个文件的大小放进数组中
+            sizeObj.push(size);  
+
+        }
+
+    }
+    function createList(fileList){
+        var ehtml="";
+        for(var i=0;i<fileList.length;i++){
+        var fileData=fileList[i];
+        var objData = fileData[0];      //文件
+        var name = fileData[1];         //文件名
+        var size = fileData[2];         //文件大小
+        var type = fileData[3];
+        ehtml +="<tr>";
+        ehtml += '<td>'+ i +'</td>'
+        ehtml += '<td>'+ name +'</td>';
+        ehtml += '<td>'+ size +'</td>';
+        ehtml += '<td>'+ type +'</td>';
+        ehtml += '<td><a href="javascript:;" class="operation">删除</a></td></tr>'
+       }   
+       return ehtml;       
+    }
+
+})
+</script>
+<body>
+    <div style="height: 100px">
+        <label>申请表上传(仅支持一个文件）</label>
+     <div style="width: 50%;border-radius:5px;overflow:hidden;position:relative;">
+         <input class="form-control" type="text"/>
+        <input class="form-control" type="file" id="applyform" style="position:absolute;left:0;top:0;right:0;bottom:0;opacity:0;" />
+    </div>   
+    </div>
+    <table style="width: 50%;display:none" id="applyform_table" class="table table-hover">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>文件名</th>
+            <th>类型</th>
+            <th>大小</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    
+    <tbody class="fileList">
+    </tbody>
+    
+</table>
+<div>  
+   <label>相关材料上传(支持多文件）</label>
+     <div style="width: 50%;border-radius:5px;overflow:hidden;position:relative;height: 100px">
+         <input class="form-control" type="text"/>
+        <input class="form-control" type="file" multiple id="fileInput" style="position:absolute;left:0;top:0;right:0;bottom:0;opacity:0;" />
+    </div> 
+   <span id="fileSpan" style="display:inline-block;width:30%;min-width:140px;height:150px;border:2px dashed #ccc;text-align:center;line-height:150px;" class="vm">或者将文件拖到此处</span>
+    <div class="mask"></div>
+</div>
+  <table style="width: 50%;display:none" id="fileList_table" class="table table-hover"`>
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>文件名</th>
+            <th>类型</th>
+            <th>大小</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    
+    <tbody class="fileList">
+    </tbody>
+    
+</table>
+
+
+<input type="button" value="上传" class="btn btn-default btn-lg active" style="margin-top: 15px;" id="fileBtn" />
+
+</body>
+</html>

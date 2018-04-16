@@ -1,0 +1,96 @@
+{
+	"sum":26,
+	"name":"国家励志助学金",
+	"item":[{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":0
+		
+		
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":2
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":3
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":4
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":5
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":2
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":1
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":2
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":3
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":4
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":5
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"time":"2017-02-18 12:34",
+		"status":0
+	}
+
+		
+
+	]
+	
+}

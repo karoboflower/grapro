@@ -1,0 +1,118 @@
+{% define "counselor/pass.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="resources/webframe/bootstrap-table/src/bootstrap-table.css">
+  <script src="resources/webframe/bootstrap-table/src/bootstrap-table.js"></script>
+ <script src="resources/webframe/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
+</script>
+    <style>
+        .row-index {
+            width: 50px;
+            display: inline-block;
+        }
+          table{
+   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+}
+    </style>
+
+</head>
+<body>
+<div style="padding: 10px; ">
+    <br>
+    <table id="table" data-search="true"   data-pagination="true"   data-icons-prefix="glyphicon">
+    </table>
+</div>  
+<script>
+    $(function(){
+        $("#collapseOne li").on("click",function(){
+        $("li").removeClass("active");
+        $(this).addClass("active");
+        var code=$(this).attr("code");
+        var stateGrantsurl="/resources/assets/studentOffice/json/stateGrants.json";
+        showtable(code,stateGrantsurl,stategrantscolums);
+    })       
+    })
+    //助学金
+    function showtable(code,url,columns){
+        tableOption.columns=columns;
+        tableOption.data = [];
+        loadTable($('#table'),tableOption);
+        var arr=[];
+        var arr1=[];
+        getdata(url,function(result){
+            var item=result.item;
+            var rank="";
+            var materials="";
+
+            for(var i=0;i<item.length;i++){
+                var items=item[i];
+                if(items.rank==1){
+                    rank="一等助学金";
+                }else if(items.rank==2){
+                    rank="二等助学金";
+                }else{
+                    rank="三等助学金";
+                }
+                for(var j=0;j<items.materials.length;j++){
+                    materials+="<a>"+items.materials[j]+"&nbsp&nbsp,</a>";
+
+                }
+
+                if(items.status==1){
+                    var status="待审核";
+                    arr.push({
+                        num:i+1,
+                        person:items.person,
+                        college:items.college,
+                        applyname:"<a>"+items.applyname+"</a>",
+                        rank:rank,
+                        materials:materials,
+                        time:items.time,
+                        status:status,
+                        description:items.description,
+                        ways:"<a style='color:#337ab7;' class='examine'>审核</a>"
+                    })
+                    materials="";
+                }else{
+                    arr1.push({
+                        num:i+1,
+                        person:items.person,
+                        college:items.college,
+                        applyname:"<a>"+items.applyname+"</a>",
+                        materials:materials,
+                        rank:rank,
+                        time:items.time,
+                        status:items.status,
+                        description:items.description,
+                        ways:"<a style='color:#337ab7;' class='deletedata'>删除</a>"
+                    })
+                    materials="";
+                }
+
+            }
+            if(code==0){
+
+                $("#table").bootstrapTable("load",arr);
+                $("#updateinfo").hide();
+                $("#managerstud").hide();
+
+                $("#passtable").show();
+            }
+            if(code==1){
+                $("#table").bootstrapTable("load",arr1);
+                $("#inform").hide();
+                $("#managerstud").hide();
+                $("#passtable").show();
+            }
+
+        })
+
+    }
+</script>
+</body>
+</html>
+{% end %}

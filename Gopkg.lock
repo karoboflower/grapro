@@ -21,7 +21,7 @@
     "rbac/default-role-manager",
     "util"
   ]
-  revision = "ad4136c716751f72b27fa1140cf4a75af61ef8c7"
+  revision = "f2d73eb522961daf8f1a6b35222f89dd7ec07e40"
 
 [[projects]]
   branch = "master"

@@ -1,0 +1,115 @@
+{
+	"sum":26,
+	"name":"国家助学金",
+	"item":[{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":1,
+		"time":"2017-02-18 12:34",
+		"status":2,
+		"description":"你好"
+		
+		
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":3,
+		"time":"2017-02-18 12:34",
+		"status":2,
+		"description":"你好"
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":3,
+		"time":"2017-02-18 12:34",
+		"status":1,
+		"description":"你好"
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":3,
+		"time":"2017-02-18 12:34",
+		"status":2,
+		"description":"你好"
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":3,
+		"time":"2017-02-18 12:34",
+		"status":3,
+		"description":"你好"
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":2,
+		"time":"2017-02-18 12:34",
+		"status":4,
+		"description":"你好"
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":1,
+		"time":"2017-02-18 12:34",
+		"status":5,
+		"description":"你好"
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":2,
+		"time":"2017-02-18 12:34",
+		"status":1
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":1,
+		"time":"2017-02-18 12:34",
+		"status":2
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":2,
+		"time":"2017-02-18 12:34",
+		"status":3
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":1,
+		"time":"2017-02-18 12:34",
+		"status":4
+	},{
+		"person":"王刚",
+		"college":"新闻学院",
+		"applyname":"王刚助学金申请表",
+		"materials":["贫困申请表","困难等级"],
+		"rank":3,
+		"time":"2017-02-18 12:34",
+		"status":5
+	}
+
+		
+
+	]
+	
+}

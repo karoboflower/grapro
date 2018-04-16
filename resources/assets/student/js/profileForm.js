@@ -82,7 +82,7 @@
 	
 }
 function college(){
-	var getcollegeurl="json/college.json"
+	var getcollegeurl="resources/assets/student/json/college.json"
 	$.ajax({
 		url:getcollegeurl,
 		type:"get",

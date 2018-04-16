@@ -1,0 +1,181 @@
+{% define "studentOffice/pass.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/resources/webframe/bootstrap-table/src/bootstrap-table.css">
+  <script src="/resources/webframe/bootstrap-table/src/bootstrap-table.js"></script>
+ <script src="/resources/webframe/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
+</script>
+    <style>
+        .row-index {
+            width: 50px;
+            display: inline-block;
+        }
+          table{
+   font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+}
+    </style>
+
+</head>
+<body>
+<div style="padding: 10px; ">
+    <br>
+    <table id="table" data-search="true"   data-pagination="true"    data-icons-prefix="glyphicon">
+    </table>
+</div>  
+<script>
+    var colums=[{
+        field:'person',
+        title:'申请人',
+        align:'center',
+        sortable:true
+    },{
+        field:'type',
+        title:'助学金类型',
+        align:'center',
+        sortable:true
+    },{
+        field:'name',
+        title:'助学金文件名',
+        align:'center',
+        sortable:true
+    },{
+        field:'materials',
+        title:'相关证明材料',
+        align:'center',
+        sortable:true
+    },{
+        field:'time',
+        title:'申请时间',
+        align:'center',
+        sortable:true
+    },{
+        field:'ways',
+        title:'操作',
+        align:'center',
+        sortable:true
+    }];
+
+    var data = [{
+        "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "<a class='filescan' href='' target='view_window'>困难认定表</a>家庭情况调查表</a>",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+        
+    }, {
+        "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    },{
+     "type": "国家助学金",
+        "name": "xxx国家助学金.pdf",
+        "materials": "困难认定表 家庭情况调查表",
+        "time": "2017-10-23 09:23:12",
+        "person": "王利",
+        "ways": "审核 导入"
+    }];
+     var tableOption = {
+        height:480,
+        search: true,
+        pagination: false,
+        striped: true,
+        sortStable: true,
+        heckbox:false,
+        toolbar: '#toolbar',
+        pagination:true,
+        showRefresh:true,
+        formatNoMatches:function () {
+          return "暂无数据！";
+        },
+        columns: colums,
+        data:[]
+    };
+    $(function () {
+        loadTable($('#table'),tableOption)
+        //表格初始化
+        $('#table').bootstrapTable("load",data);
+        $('.filescan').attr('href','img/12.pdf');
+    });
+        function loadTable($tableDom,tableOption) {
+        var oldOption = $tableDom.bootstrapTable('getOptions');
+        if (!!($('#table')).data("bootstrap.table")) {
+            $tableDom.bootstrapTable('refreshOptions',tableOption);
+        } else {
+            $tableDom.bootstrapTable(tableOption);
+        }
+    }
+</script>
+</body>
+</html>
+{% end %}

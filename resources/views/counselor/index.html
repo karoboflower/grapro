@@ -1,0 +1,150 @@
+{% define "studentOffice/index.html" %}
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>辅导员页面</title>
+  <link rel="stylesheet" href="resources/webframe/bootstrap/css/bootstrap.min.css">
+  <link rel="stylesheet" href="resources/webframe/bootstrap-table/src/bootstrap-table.css">
+  <link rel="stylesheet" href="resources/webframe/layer/skin/default/layer.css">
+  <script type="text/javascript" src="resources/webframe/jquery/jquery-1.10.2.min.js"></script>
+  <script type="text/javascript" src="resources/webframe/bootstrap/js/bootstrap.min.js"></script>
+  <script src="resources/webframe/bootstrap-table/src/bootstrap-table.js"></script>
+  <script src="resources/webframe/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
+  <script src="resources/assets/counselor/js/counselor-index.js"></script>
+  <script src="resources/webframe/layer/layer.js"></script>
+</head>
+<style type="text/css">
+body{
+  background:#eee;
+  animation-name:myfirst;
+  animation-duration:12s;
+  /*变换时间*/
+  animation-delay:2s;
+  /*动画开始时间*/
+  animation-iteration-count:infinite;
+  /*下一周期循环播放*/
+  animation-play-state:running;
+  /*动画开始运行*/
+}
+li{
+  margin-top: 15px;
+}
+li a{
+  color:#000;
+}
+li {
+  list-style-type:none;
+}
+#header{
+  overflow: hidden;
+}
+.firstul,.updateinfo{
+  background:#5bc0de;
+  border-radius:4px;
+}
+a{
+  cursor:pointer;
+}
+tr{
+  font-size: 12px;
+}
+#apis-nav{
+  padding: 0px;
+}
+@keyframes myfirst
+{
+  0%   {background:#fff;}
+  67%  {background:#eee;}
+  100% { background:#fff;}
+}
+</style>
+<body>
+  <div id="header">
+    <div id="myCarousel" class="carousel slide">
+      <!-- 轮播（Carousel）指标 -->
+      <ol class="carousel-indicators">
+        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+        <li data-target="#myCarousel" data-slide-to="1"></li>
+        <li data-target="#myCarousel" data-slide-to="2"></li>
+      </ol>   
+      <!-- 轮播（Carousel）项目 -->
+      <div class="carousel-inner">
+        <div class="item active" >
+          <img src="resources/assets/common/img/9.gif" style="margin:auto;width: 100%;height: 300px;" alt="First slide">
+        </div>
+        <div class="item">
+          <img src="resources/assets/common/img/7.jpg" style="margin:auto;width: 100%;height: 300px;" alt="Second slide">
+        </div>
+        <div class="item">
+          <img src="resources/assets/common/img/8.jpg" style="margin:auto;width: 100%;height: 300px;"  alt="Third slide">
+        </div>
+      </div>
+      <!-- 轮播（Carousel）导航 -->
+      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+    </div> 
+  </div>
+  <div id="container" style="width: 90%;margin: 0 auto;">
+    <div id="left-container" style="width: 15%;float: left">
+      <ul  class="nav nav-pills nav-stacked ">
+        <li class="firstul"><a>国家助学金</a>
+        </li>
+        <ul id="collapseOne"  class="nav nav-pills nav-stacked dropdown" style="display: none;">
+          <li class="active" code='0'><a>待审核</a></li>
+          <li code='1'><a>申请记录</a></li>
+        </ul>
+        <li class="firstul"><a>励志奖学金</a>
+        </li>
+        <ul id="collapseTwo"  class="nav nav-pills nav-stacked dropdown" style="display: none;">
+          <li code='0'><a>待审核</a></li>
+          <li code='1'><a href="#">申请记录</a></li>
+        </ul>
+        <li class="firstul"><a>应善良助学金</a>
+        </li>
+        <ul id="collapseThree"  class="nav nav-pills nav-stacked dropdown" style="display: none;">
+          <li code='0'><a>待审核</a></li>
+          <li code='1'><a href="#">申请记录</a></li>
+        </ul>
+        <li id="collapseFour" code='0'><a>用户管理</a>
+        </li>
+        <li id="collapseFive"><a>修改个人信息</a></li>   
+      </ul>
+      
+    </div>
+    <div id="right-container" style="width: 80%;float: right;background-color: #ffffff;box-shadow: 0px 0px 20px #AFEEEE;padding: 0px;background-color: rgba(233, 245, 255, 0.5);border-radius: 20px;margin-top: 12px;min-height: 500px;">
+      <ul id="apis-nav">
+        <li><div id="passtable">
+          <table id="table" data-search="true"  data-pagination="true">
+          </table>
+        </div></li>
+            <li><div id="updateself" style="display: none"></div></li>
+      </ul>
+    </div>
+  </div>
+  <div id="show-info-check" style="display: none">
+    <center> <div class="form-group">
+     <select id="grantsgrade" class="form-control" name="grantsgrade" style="display: none;width: 95%;margin-top: 15px;">
+                        <option value="" selected>三等奖学金</option>
+                        <option value="">二等奖学金</option>
+                        <option value="">一等奖学金</option>
+                    </select>
+  </div></center>
+    <div class="check-content">
+      <textarea style="height: 200px;width: 95%;margin:auto;margin-top: 15px;overflow: hidden;" class="form-control"   placeholder='请输入审核意见..' id='textInfo'></textarea>
+      <br>
+      <button style="margin-left: 28%;margin-right: 10%;margin-bottom: 15px" type="button" class="btn btn-success" id="check-content" >通过</button>
+      <button style="margin-right: 2%;margin-left: 10%;margin-bottom: 15px" type="button" class="btn btn-danger" id="check-notpass">驳回</button>
+    </div>
+  </div>
+</body>
+</html>
+{% end %}

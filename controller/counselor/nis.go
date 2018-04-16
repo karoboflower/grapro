@@ -1,7 +1,7 @@
 package counselor
 
 import (
-	"gra-pro/database"
+	"grapro/database"
 	"net/http"
 
 	"github.com/gin-gonic/gin"

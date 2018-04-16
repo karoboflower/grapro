@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"errors"
-	"gra-pro/config/auth"
+	"grapro/config/auth"
 	"net/http"
 	"time"
 

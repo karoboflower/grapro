@@ -2,8 +2,8 @@
 package student
 
 import (
-	"gra-pro/database"
-	"gra-pro/utilities"
+	"grapro/database"
+	"grapro/utilities"
 	"log"
 	"net/http"
 	"os"

@@ -1,12 +1,12 @@
 package routes
 
 import (
-	"gra-pro/controller"
-	"gra-pro/controller/counselor"
-	"gra-pro/controller/student"
-	"gra-pro/controller/studentOffice"
-	"gra-pro/controller/utilities"
-	"gra-pro/middleware"
+	"grapro/controller"
+	"grapro/controller/counselor"
+	"grapro/controller/student"
+	"grapro/controller/studentOffice"
+	"grapro/controller/utilities"
+	"grapro/middleware"
 
 	"net/http"
 

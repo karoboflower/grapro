@@ -1,8 +1,8 @@
 package main
 
 import (
-	"gra-pro/database"
-	"gra-pro/routes"
+	"grapro/database"
+	"grapro/routes"
 	"log"
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"

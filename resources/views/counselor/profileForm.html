@@ -1,0 +1,144 @@
+{% define "colunselor/profileForm.html" %}
+<html>
+<head>
+        <meta http-equiv="Content-Type" content="text/html;" charset=UTF-8>
+        <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+       <link rel="stylesheet" href="resources/webframe/bootstrap/css/bootstrap.min.css">
+       <link rel="stylesheet" href="resources/webframe/layer/skin/default/layer.css">
+       <link rel="stylesheet" href="resources/assets/student/css/profileForm.css">
+       <script type="text/javascript" src="resources/webframe/bootstrap/js/bootstrap.min.js"></script>
+       <script type="text/javascript" src="resources/webframe/jquery/jquery.form/jquery.form.js"></script>
+       <script src="resources/webframe/layer/layer.js"></script>
+    </head>
+    <body>
+	<div class="container-fluid">
+        <form id="profileForm" method="POST">
+            <div class="form-group row">
+                <label for="id" class="col-sm-2 form-control-label">工号</label>
+                <div class="col-sm-10">
+                    <input id="id" type="text" class="form-control" name="id" readonly value="{% .ID %}">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="name" class="col-sm-2 form-control-label">姓名</label>
+                <div class="col-sm-10">
+                    <input id="name" type="text" class="form-control" name="name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="grade" class="col-sm-2 form-control-label">年级</label>
+                <div class="col-sm-10">
+                    <select id="grade" class="form-control" name="grade">
+                        <option value="" selected></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                        <option value=""></option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="college" class="col-sm-2 form-control-label">院系</label>
+                <div class="col-sm-10">
+                    <select id="college" class="form-control" name="college">
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 form-control-label">专业</label>
+                <div class="col-sm-10">
+                    <select id="profession" class="form-control" name="profession">
+                          <option value="新闻学专业">新闻学专业</option>
+                        <option value="广播电视编导专业">广播电视编导专业</option>
+                        <option value="网络与新媒体专业">网络与新媒体专业</option>
+                        <option value="数字媒体艺术专业">数字媒体艺术专业</option>
+                        <option value="影视摄影与制作专业">影视摄影与制作专业</option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="phone" class="col-sm-2 form-control-label">联系电话</label>
+                <div class="col-sm-10">
+                    <input id="phone" type="text" class="form-control" name="phone">
+                </div>
+            </div>
+            <div class="form-group">
+                <center><button type="submit" id="register" class="btn btn-primary">注册</button></center>
+            </div>
+        </form>
+	</div>
+
+	<script>
+		$(document).ready(function() {
+			var	options = {
+				success  : ResponseCallback
+			};
+
+			$("#profileForm").ajaxForm(options);
+            college();
+            write_level();
+
+		});
+        function college(){
+    var getcollegeurl="resources/assets/student/json/college.json"
+    $.ajax({
+        url:getcollegeurl,
+        type:"get",
+        xhrFields: {
+            withCredentials: true
+            //可执行跨域名请求
+        },
+        success:function(data){
+            write_college(data);
+        }
+    })
+}
+function write_college(data){
+    var college=$("#college");
+    if(data){
+    for(var j=0;j<data.college.length;j++){
+        var item=data.college[j].name;
+        college.append("<option value='"+item+"'>"+item+"</option>");
+    }
+    $("#college").change(function(){
+                var college=$(this).val();
+                var major='';
+                for(var j=0;j<data.college.length;j++){
+                    var item=data.college[j];
+                    if(item.name==college){
+                        for(var i=0;i<item.item.length;i++){
+                            var majoritem=item.item[i];
+                            var content="<option value='"+majoritem+"'>"+majoritem+"</option>";
+                            major+=content; 
+                        }
+                        
+                    }
+    }
+    $("#profession").empty().append(major);
+})
+
+}
+}
+		function ResponseCallback(response,status,xhr,$form) {
+			if (response.status==1) {
+				layer.alert(response.msg, {icon:2});
+			}
+			if (response.status==0) {
+				layer.alert("提交信息成功", {icon:6});
+				window.parent.location.href="/auth/1/"+$("#id").val()+"/profile";
+			}
+		}
+        function write_level(){
+            var myDate = new Date();
+            var grade=$("#grade").find("option");
+    for(var i=0;i<grade.length;i++){
+        $("#grade").find("option").eq(i).text(myDate.getFullYear()-i+"级");
+        $("#grade").find("option").eq(i).attr("value",myDate.getFullYear()-i);
+    }
+
+        }
+	</script>
+</body>
+</html>
+{% end %}

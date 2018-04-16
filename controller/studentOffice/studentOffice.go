@@ -1,7 +1,7 @@
 package studentOffice
 
 import (
-	"gra-pro/database"
+	"grapro/database"
 	"net/http"
 	"strconv"
 
