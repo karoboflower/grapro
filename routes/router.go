@@ -44,6 +44,7 @@ func Engine() *gin.Engine {
 			studentsRouter.GET("/:id/profile", student.GetProfile)
 			studentsRouter.POST("/:id/profile", student.PostProfile)
 			studentsRouter.GET("/:id/counselor", student.GetCounselor)
+			studentsRouter.GET("/:id/specialties", utilities.GetSpecialty)
 			// 国家助学金
 			studentsRouter.GET("/:id/SG", student.GetSG)
 			studentsRouter.POST("/:id/SG", student.PostSG)
@@ -82,6 +83,7 @@ func Engine() *gin.Engine {
 			// 个人信息
 			counselorRouter.GET("/:id/profile", counselor.GetCounselor)
 			counselorRouter.POST("/:id/profile", counselor.PostCounselor)
+			counselorRouter.GET("/:id/specialties", utilities.GetSpecialty)
 			// 国家助学金
 			counselorRouter.GET("/:id/SG", counselor.GetSG)
 			counselorRouter.POST("/:id/SG", counselor.PostSG)
