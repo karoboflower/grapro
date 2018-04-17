@@ -50,7 +50,7 @@
 			}
 		}
 			function ReloadCounselor() {
-            $.get("/auth/3/"+$("#id").val()+"/GetCounselor", {"grade":$("#grade").val(), "college":$("#college").val()}, function(response){
+            $.get("/auth/3/"+$("#id").val()+"/counselor", {"grade":$("#grade").val(), "college":$("#college").val()}, function(response){
                 if (response.status == 1) {
                     layer.alert(response.msg, {icon:2});
                     return;
@@ -82,7 +82,7 @@
 	
 }
 function college(){
-	var getcollegeurl="resources/assets/student/json/college.json"
+	var getcollegeurl="http://127.0.0.1:8080/resources/assets/student/json/college.json"
 	$.ajax({
 		url:getcollegeurl,
 		type:"get",

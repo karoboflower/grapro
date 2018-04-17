@@ -16,7 +16,7 @@ func GetProfile(c *gin.Context) {
 
 	reqModify, _ := strconv.ParseBool(c.DefaultQuery("ReqModify", "false"))
 	if reqModify {
-		c.HTML(http.StatusOK, "student/profileForm.tmpl", gin.H{"ID": id})
+		c.HTML(http.StatusOK, "student/profileForm.html", gin.H{"ID": id})
 		return
 	}
 

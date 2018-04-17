@@ -19,7 +19,7 @@ $(function(){
 	var li=$(".dropdown").find("li");
 	li.on("click",function(){
 		var index=$(this).index();
-		li.removeClass("active");
+		$("li").removeClass("active");
 		$(this).addClass("active");
 		if((index%2)==0){
 		$("#apply").show();
@@ -33,6 +33,8 @@ $(function(){
 	}
 	})
 	$(".updateinfo").on("click",function(){
+		li.removeClass("active");
+		$(this).addClass("active");
 		$("#apply").hide();
 		$("#pass").hide();
 		$("#updateinfo").show();

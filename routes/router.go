@@ -23,8 +23,8 @@ func Engine() *gin.Engine {
 	router.MaxMultipartMemory = 8 << 20
 	router.Use(favicon.New("./favicon.ico"))
 	router.Delims("{%", "%}")
-	router.Static("resources/assets", "resources/assets")
-	router.Static("resources/webframe", "resources/webframe")
+	router.Static("/resources/assets/", "./resources/assets/")
+	router.Static("/resources/webframe/", "./resources/webframe/")
 	router.LoadHTMLGlob("resources/views/*/*")
 	router.GET("/", utilities.GetIndex)
 	router.GET("/register", controller.GetRegister)
@@ -37,11 +37,6 @@ func Engine() *gin.Engine {
 	authorized := router.Group("/auth")
 	authorized.Use(middleware.JWTAuth(), middleware.RBAC())
 	{
-		// 校学生会路由组
-		schoolRouter := authorized.Group("/4")
-		{
-			schoolRouter.GET("/:id/profile", func(c *gin.Context) { c.JSON(http.StatusOK, "hello") })
-		}
 		// 学生路由组
 		studentsRouter := authorized.Group("/3")
 		{

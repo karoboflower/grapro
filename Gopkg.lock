@@ -21,7 +21,7 @@
     "rbac/default-role-manager",
     "util"
   ]
-  revision = "f2d73eb522961daf8f1a6b35222f89dd7ec07e40"
+  revision = "023e918c1469e526b47ebfc1b8852a75bc0c3807"
 
 [[projects]]
   branch = "master"
@@ -40,6 +40,12 @@
   packages = ["."]
   revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
   version = "v3.2.0"
+
+[[projects]]
+  branch = "master"
+  name = "github.com/gin-gonic/contrib"
+  packages = ["static"]
+  revision = "9b830a15f6abcf9e160f47ee01fc00691cc1981a"
 
 [[projects]]
   name = "github.com/gin-gonic/gin"
@@ -64,7 +70,7 @@
     ".",
     "dialects/mysql"
   ]
-  revision = "52c5c8127cf4aeffde3e0aa9222640832075a90f"
+  revision = "6842b49a1ad0feb6b93be830fe63a682cf853ada"
 
 [[projects]]
   branch = "master"
@@ -102,6 +108,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "68d9ccb96a39a569568a48814f0cbf3bf59b9f0fbd3f9577af716246174e409e"
+  inputs-digest = "9100178c8c2bc0f53249d223311c233d508cdf37db7ccf7705f7eb7e466a75ce"
   solver-name = "gps-cdcl"
   solver-version = 1

@@ -11,10 +11,10 @@
   <link rel="stylesheet" href="resources/webframe/layer/skin/default/layer.css">
   <script type="text/javascript" src="resources/webframe/jquery/jquery-1.10.2.min.js"></script>
   <script type="text/javascript" src="resources/webframe/bootstrap/js/bootstrap.min.js"></script>
-  <script src="resources/webframe/bootstrap-table/src/bootstrap-table.js"></script>
-  <script src="resources/webframe/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
-  <script src="resources/assets/studentOffice/js/studentOffice-index.js"></script>
-  <script src="resources/webframe/layer/layer.js"></script>
+<script src="resources/webframe/bootstrap-table/src/bootstrap-table.js"></script>
+<script src="resources/webframe/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
+<script src="resources/assets/studentOffice/js/studentOffice-index.js"></script>
+<script src="resources/webframe/layer/layer.js"></script>
 </head>
 <style type="text/css">
 body{
@@ -31,9 +31,11 @@ body{
 }
 li{
   margin-top: 15px;
+  width: 100%
 }
 li a{
   color:#000;
+  width: 100%
 }
 li {
   list-style-type:none;
@@ -56,37 +58,37 @@ a{
 }
 </style>
 <body>
-  <div id="header">
+<div id="header">
     <div id="myCarousel" class="carousel slide">
-      <!-- 轮播（Carousel）指标 -->
-      <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-      </ol>   
-      <!-- 轮播（Carousel）项目 -->
-      <div class="carousel-inner">
-        <div class="item active" >
-          <img src="resources/assets/common/img/9.gif" style="margin:auto;width: 100%;height: 300px;" alt="First slide">
-        </div>
-        <div class="item">
-          <img src="resources/assets/common/img/7.jpg" style="margin:auto;width: 100%;height: 300px;" alt="Second slide">
-        </div>
-        <div class="item">
-          <img src="resources/assets/common/img/8.jpg" style="margin:auto;width: 100%;height: 300px;"  alt="Third slide">
-        </div>
-      </div>
-      <!-- 轮播（Carousel）导航 -->
-      <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div> 
+  <!-- 轮播（Carousel）指标 -->
+  <ol class="carousel-indicators">
+    <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+    <li data-target="#myCarousel" data-slide-to="1"></li>
+    <li data-target="#myCarousel" data-slide-to="2"></li>
+  </ol>   
+  <!-- 轮播（Carousel）项目 -->
+  <div class="carousel-inner">
+    <div class="item active" >
+      <img src="resources/assets/common/img/9.gif" style="margin:auto;width: 100%;height: 300px;" alt="First slide">
+    </div>
+    <div class="item">
+      <img src="resources/assets/common/img/7.jpg" style="margin:auto;width: 100%;height: 300px;" alt="Second slide">
+    </div>
+    <div class="item">
+      <img src="resources/assets/common/img/8.jpg" style="margin:auto;width: 100%;height: 300px;"  alt="Third slide">
+    </div>
   </div>
+  <!-- 轮播（Carousel）导航 -->
+  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+    <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+    <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div> 
+</div>
   <div id="container" style="width: 90%;margin: 0 auto;">
     <div id="left-container" style="width: 15%;float: left">
       <ul  class="nav nav-pills nav-stacked ">
@@ -129,14 +131,14 @@ a{
       </ul>
     </div>
   </div>
-  <div id="show-info-check" style="display: none">
-    <div class="check-content">
-      <textarea style="height: 200px;width: 95%;margin:auto;margin-top: 15px;overflow: hidden;" class="form-control"   placeholder='请输入审核意见..' id='textInfo'></textarea>
-      <br>
-      <button style="margin-left: 28%;margin-right: 10%;margin-bottom: 15px" type="button" class="btn btn-success" id="check-content" >通过</button>
-      <button style="margin-right: 2%;margin-left: 10%;margin-bottom: 15px" type="button" class="btn btn-danger" id="check-notpass">驳回</button>
-    </div>
-  </div>
+      <div id="show-info-check" style="display: none">
+            <div class="check-content">
+                <textarea style="height: 200px;width: 95%;margin:auto;margin-top: 15px;overflow: hidden;" class="form-control"   placeholder='请输入审核意见..' id='textInfo'></textarea>
+                <br>
+                <button style="margin-left: 28%;margin-right: 10%;margin-bottom: 15px" type="button" class="btn btn-success" id="check-content" >通过</button>
+                <button style="margin-right: 2%;margin-left: 10%;margin-bottom: 15px" type="button" class="btn btn-danger" id="check-notpass">驳回</button>
+              </div>
+            </div>
 </body>
 </html>
 {% end %}
