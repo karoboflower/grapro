@@ -16,8 +16,7 @@ import (
 func GetSG(c *gin.Context) {
 	var sgdata []database.SG
 	if dbe := database.DB.Where("student_id = ?", c.Param("id")).Find(&sgdata); dbe.Error != nil {
-		log.Println(c.Param("id") + "request state grants all data failed!error msg:" + dbe.Error.Error())
-		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1})
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
 	c.HTML(http.StatusOK, "student/stateGrants.tmpl", gin.H{"status": 0, "id": c.Param("id"), "sgdata": sgdata})
@@ -48,14 +47,14 @@ func PostSG(c *gin.Context) {
 	}
 
 	// 申请助学金必须材料家庭情况调查表存放目录
-	dst = "files/" + student.College + "/" + student.Profession + "/fsq"
+	dst = "resources/files/" + student.College + "/" + student.Profession + "/fsq"
 	if bExists, _ := utilities.PathExists(dst); !bExists {
 		if err := os.MkdirAll(dst, os.ModePerm); err != nil {
 			log.Fatal("Mkdir failed : " + err.Error())
 		}
 	}
 
-	SG.FSQuestionnaire = id + "." + fileExtension
+	SG.FSQuestionnaire = dst + "/" + id + "." + fileExtension
 	if err = c.SaveUploadedFile(fsquestionnaire, dst+"/"+id+"."+fileExtension); err != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 		return
@@ -69,7 +68,7 @@ func PostSG(c *gin.Context) {
 	}
 
 	// 助学金材料附件存放目录
-	dst = "files/" + student.College + "/" + student.Profession + "/accessory"
+	dst = "resources/files/" + student.College + "/" + student.Profession + "/accessory"
 	if bExists, _ := utilities.PathExists(dst); !bExists {
 		if err := os.MkdirAll(dst, os.ModePerm); err != nil {
 			log.Fatal("Mkdir failed : " + err.Error())
