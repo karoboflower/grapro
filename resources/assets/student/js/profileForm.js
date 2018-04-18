@@ -82,7 +82,7 @@
 	
 }
 function college(){
-	var getcollegeurl="http://127.0.0.1:8080/resources/assets/student/json/college.json"
+	var getcollegeurl="/resources/assets/student/json/college.json"
 	$.ajax({
 		url:getcollegeurl,
 		type:"get",

@@ -13,7 +13,7 @@ func main() {
 	defer database.DB.Close()
 
 	// Debug
-	// log.Fatal(routes.Engine().Run(":8080"))
+	log.Fatal(routes.Engine().Run(":8080"))
 	// Release
-	log.Fatal(routes.Engine().RunTLS(":8080", "./ca-certificates.crt", "./ca-certificates.key"))
+	// log.Fatal(routes.Engine().RunTLS(":8080", "./ca-certificates.crt", "./ca-certificates.key"))
 }

@@ -5,40 +5,43 @@
 	<div class="container-fluid">
 		<form id="profileForm" method="POST">
 			<div class="form-group">
-				<input type="text" class="form-control" name="id" readonly value={% .ID %}>
+				<input type="text" class="form-control" name="id" readonly value={% .info.StudentID %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="name" placeholder="姓名">
+				<input type="text" class="form-control" name="name" placeholder="姓名" value={% .info.Name %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="sex" placeholder="性别">
+				<input type="text" class="form-control" name="sex" placeholder="性别" value={% .info.Sex %}>
 			</div>
 			<div class="form-group">
-				<input type="text" onfocus="(this.type='date')" class="form-control" name="birthdate" placeholder="出生日期">
+				<input type="text" onfocus="(this.type='date')" class="form-control" name="birthdate" placeholder="出生日期" >
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="ethnic" placeholder="民族">
+				<input type="text" class="form-control" name="ethnic" placeholder="民族" value={% .info.Ethnic %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="idnumber" placeholder="身份证号">
+				<input type="text" class="form-control" name="idnumber" placeholder="身份证号" value={% .info.IDNumber %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="politicalstatus" placeholder="政治面貌">
+				<input type="text" class="form-control" name="politicalstatus" placeholder="政治面貌" value={% .info.PoliticalStatus %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="college" placeholder="学院">
+				<input type="text" class="form-control" name="college" placeholder="学院" value={% .info.College %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="profession" placeholder="专业">
+				<input type="text" class="form-control" name="profession" placeholder="专业" value={% .info.Profession %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="grade" placeholder="年级">
+				<input type="text" class="form-control" name="grade" placeholder="年级" value={% .info.Grade %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="class" placeholder="年级">
+				<input type="text" class="form-control" name="class" placeholder="班级" value={% .info.Class %}>
 			</div>
 			<div class="form-group">
-				<input type="text" class="form-control" name="phone" placeholder="联系电话">
+				<input type="text" class="form-control" name="class" placeholder="辅导员" value={% .info.CounselorID %}>
+			</div>
+			<div class="form-group">
+				<input type="text" class="form-control" name="phone" placeholder="联系电话" value={% .info.Phone %}>
 			</div>
 			<div class="form-group">
 				<center><button type="submit" class="btn btn-primary">Submit</button></center>
