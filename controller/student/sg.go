@@ -79,29 +79,32 @@ func PostSG(c *gin.Context) {
 		if s := strings.Split(file.Filename, "."); len(s) == 2 {
 			fileExtension = s[1]
 		}
-		SG.Accessory = append(SG.Accessory, id+strconv.Itoa(i)+"."+fileExtension)
+		SG.Accessory = append(SG.Accessory, dst+"/"+id+strconv.Itoa(i)+"."+fileExtension)
 		if err = c.SaveUploadedFile(file, dst+"/"+id+strconv.Itoa(i)+"."+fileExtension); err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 			return
 		}
 	}
 
+	SG.Level = c.PostForm("level")
 	SG.Status = "0"
 	if dbe := database.DB.Create(&SG); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
 
-	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0})
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0, "SG": SG})
 }
 
 // DeleteSG 学生删除国家助学金申请信息
 func DeleteSG(c *gin.Context) {
 	id := c.PostForm("id")
+	var SG database.SG
 
-	if dbe := database.DB.Where("student_id = ?", id).Delete(&database.SG{}); dbe != nil {
+	database.DB.First(&SG, id)
+	if dbe := database.DB.Where("sg_id = ?", id).Delete(&database.SG{}); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "SG": SG})
 }

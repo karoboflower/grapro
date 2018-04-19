@@ -5,9 +5,8 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gin-gonic/gin/binding"
-
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 )
 
 // GetCounselor 获取辅导员个人信息页面
@@ -17,7 +16,7 @@ func GetCounselor(c *gin.Context) {
 
 	reqModify, _ := strconv.ParseBool(c.DefaultQuery("ReqModify", "false"))
 	if reqModify {
-		c.HTML(http.StatusOK, "counselor/profileForm.tmpl", gin.H{"ID": id})
+		c.HTML(http.StatusOK, "colunselor/profileForm.html", gin.H{"ID": id})
 		return
 	}
 
@@ -27,7 +26,7 @@ func GetCounselor(c *gin.Context) {
 		}
 	}
 
-	c.HTML(http.StatusOK, "counselor/profile.tmpl", gin.H{"staus": 0, "info": counselor})
+	c.HTML(http.StatusOK, "counselor/profile.html", gin.H{"staus": 0, "info": counselor})
 }
 
 // PostCounselor 提交辅导员个人信息页面
@@ -56,5 +55,5 @@ func PostCounselor(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "info": form})
 }

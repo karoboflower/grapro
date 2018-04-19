@@ -11,7 +11,12 @@
                 {%range .Accessory%}
                     {%.%}
                 {%end%}
+                {%.Level%}
                 {%.Status%}
+                {%.CounselorDesc%}
+                {%.StudentOfficeDesc%}
+                {%.CreatedAt%}
+                {%.UpdatedAt%}
             {%end%}
         </div>
         <div>
@@ -41,6 +46,14 @@
                     <div class="form-group">
                         <label for="accessory">附件：</label>
                         <input type="file" id="accessory" name="accessory" multiple>
+                    </div>
+                    <div class="col-sm-10">
+                        <label for="level">助学金等级：</label>
+                        <select id="level" class="form-control" name="level">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                    </select>
                     </div>
                     <div class="form-group">
 					    <button type="submit" class="btn btn-primary">Submit</button>

@@ -60,8 +60,8 @@ func PostProfile(c *gin.Context) {
 
 // GetCounselor 获取辅导员信息
 func GetCounselor(c *gin.Context) {
-	grade := c.DefaultQuery("grade", "17级")
-	college := c.DefaultQuery("college", "新闻学院")
+	grade := c.DefaultQuery("grade", "2014")
+	college := c.DefaultQuery("college", "计算机与信息科学学院")
 	var counselors []database.Counselor
 
 	if dbe := database.DB.Where("grade = ? AND college = ?", grade, college).Find(&counselors); dbe.Error != nil {
