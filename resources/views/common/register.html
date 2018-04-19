@@ -1,4 +1,3 @@
-{% define "common/register.html" %}
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,7 +37,7 @@
 				<div class="text-center" style="margin-bottom:25px">
 					<h1>用户注册</h1>
 				</div>
-				<form id="registerForm"  method="POST" action="/register">
+			
 					<div class="form-group">
 						<input id="id" type="text" class="form-control" name="id" placeholder="请输入您的学号/工号">
 					</div>
@@ -73,7 +72,7 @@
 					<div class="form-group">
 						<center><button type="submit" id="nextbutton" class="btn btn-primary">下一步</button></center>
 					</div>
-				</form>
+				
 			</div>
 			<div class="col-sm-4">
 			</div>
@@ -90,32 +89,43 @@
 
 <script>
 	$(function() {
-		var	options = {
-			beforeSubmit : VerifyRequest,
-			success		 : ResponseCallback
-		};
-
-			$("#registerForm").ajaxForm(options);
+			function VerifyRequest() {
+			return VerifyID() && VerifyEmail() && VerifyPassword() && VerifyCaptcha();
+		}
 			$("#nextbutton").on("click",function(){
-				var content='';
+				/*var content='';
 				var identity=$("#identity").find('input[name="role"]:checked').val();
 				if(identity==1){	
-					content="counselor/profileForm.html"	
+					content="/resources/views/counselor/profileForm.html"	
 				}else if(identity==3){
-					content="student/profileForm.html"
-				}
-				layer.open({
+					content="/resources/views/student/profileForm.html"
+				}*/
+				$.ajax({
+					url:'/register',
+					type:'post',
+					beforeSend:VerifyRequest,
+					success:function (data){
+						if(data.status==0){
+							layer.open({
 					type: 2,
-					title: false,
-					area: ['630px','500px'],
-					shade: 0.8,
-					closeBtn: 0,
+					title: '请填写个人信息',
 					shadeClose: true,
-					content: content,
-					success:function(){
-						layer.msg("成功")
-					}
+					shade: 0.8,
+					area: ['50%','90%'],
+					fixed: false,
+					content:response.Redirect + "?ReqModify=1"
+					//cntent: response.Redirect + "?ReqModify=1"
+					
 				});
+						}else{
+							layer.msg("注册失败");
+							return false;
+						}
+
+					}
+				})
+
+				
 			})
 		});
 
@@ -150,14 +160,7 @@
 		return true;
 	}
 
-	function VerifyCaptcha() {
-		regExp = /^[0-9]{6}$/;
-		if (($("#captcha").val() == "") || (!regExp.test($("#captcha").val()))) {
-			layer.tips("验证码是6位数字", $("#captcha"));
-			return false;
-		}
-		return true;
-	}
+
 
 	function ReloadCaptcha() {
 		$.post("/captcha", {}, function (response) {
@@ -166,32 +169,6 @@
 			return false;
 		}
 		)}
-
-		function VerifyRequest(formData, jqForm, options) {
-			return VerifyID() && VerifyEmail() && VerifyPassword() && VerifyCaptcha();
-		}
-
-		function ResponseCallback(response, status, xhr, $form) {
-			if (response.status==1) {
-				layer.alert(response.msg, {icon:2});
-				document.getElementById('image').src = "/captcha/"+response.captcha+".png";
-				document.getElementById('captchaID').value = response.captcha;
-				return;
-			}
-			if (response.status==0) {
-				$.cookie("Authrization", response.Authrization);
-				layer.open({
-					type: 2,
-					title: '请填写个人信息',
-					shadeClose: true,
-					shade: 0.8,
-					area: ['50%','90%'],
-					fixed: false,
-					content: response.Redirect + "?ReqModify=1"
-				});
-			}
-		}
 	</script>
 </body>
 </html>
-{%end%}

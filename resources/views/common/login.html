@@ -1,4 +1,4 @@
-{% define "common/login.html" %}
+<!DOCTYPE html>
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -6,11 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>登陆页面</title>
      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="resources/webframe/bootstrap-table/src/bootstrap-table.css">
-<script type="text/javascript" src="resources/webframe/jquery/jquery-1.10.2.min.js"></script>
-<script type="text/javascript" src="resources/webframe/bootstrap/js/bootstrap.min.js"></script>
-  <script src="resources/webframe/bootstrap-table/src/bootstrap-table.js"></script>
- <script src="resources/webframe/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
+    <link rel="stylesheet" href="/resources/webframe/bootstrap-table/src/bootstrap-table.css">
+<script type="text/javascript" src="/resources/webframe/jquery/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="/resources/webframe/bootstrap/js/bootstrap.min.js"></script>
+  <script src="/resources/webframe/bootstrap-table/src/bootstrap-table.js"></script>
+ <script src="/resources/webframe/bootstrap-table/src/locale/bootstrap-table-zh-CN.js"></script>
  
 </head>
 <body>
@@ -87,17 +87,17 @@
         success    : ResponseCallback
       };
 
-      $("#loginForm").ajaxForm(options);
+     // $("#loginForm").ajaxForm(options);
       $("#loginbutton").on("click",function(){
         var identity=$("#identity").find('input[name="role"]:checked').val();
         if(identity==1){
-          window.open("counselor/index.html")
+          window.open("/resources1/views/counselor/index.html")
 
         }else if(identity==2){
-          window.open("studentOffice/index.html")
+          window.open("/resources1/views/studentOffice/index.html")
 
         }else if(identity==3){
-          window.open("student/index.html")
+          window.open("/resources1/views/student/index.html")
 
         }else{
           layer.msg("你未选择身份");
