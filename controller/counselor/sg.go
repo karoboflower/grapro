@@ -11,7 +11,7 @@ import (
 func GetSG(c *gin.Context) {
 	id := c.Param("id")
 	var students []database.Student
-	var temp database.SG
+	var temp []database.SG
 	var SG []database.SG
 
 	if dbe := database.DB.Where("counselor_id = ?", id).Find(&students); dbe.Error != nil {
@@ -20,10 +20,13 @@ func GetSG(c *gin.Context) {
 	}
 
 	for _, student := range students {
-		if dbe := database.DB.First(&temp, student.StudentID); dbe != nil {
-			continue
+		if dbe := database.DB.Where("student_id = ?", student.StudentID).Find(&temp); dbe != nil {
+			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+			return
 		}
-		SG = append(SG, temp)
+		for _, i := range temp {
+			SG = append(SG, i)
+		}
 	}
 
 	c.JSON(http.StatusOK, gin.H{"status": 0, "SG": SG})
