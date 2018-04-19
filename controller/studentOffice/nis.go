@@ -30,6 +30,7 @@ func GetNIS(c *gin.Context) {
 func PostNIS(c *gin.Context) {
 	id := c.PostForm("id")
 	status := c.PostForm("status")
+	desc := c.PostForm("studentOfficeDesc")
 	var nis database.NIS
 
 	if dbe := database.DB.First(&nis, id); dbe != nil {
@@ -38,11 +39,12 @@ func PostNIS(c *gin.Context) {
 	}
 
 	nis.Status = status
+	nis.StudentOfficeDesc = desc
 
 	if dbe := database.DB.Model(&nis).Update(nis); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "nis": nis})
 }

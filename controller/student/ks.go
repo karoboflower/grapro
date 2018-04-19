@@ -31,7 +31,7 @@ func PostKS(c *gin.Context) {
 		return
 	}
 	// 应善良助学金材料存放目录
-	dst = "files/" + student.College + "/" + student.Profession + "/ks"
+	dst = "resources/files/" + student.College + "/" + student.Profession + "/ks"
 	if bExists, _ := utilities.PathExists(dst); !bExists {
 		if err := os.MkdirAll(dst, os.ModePerm); err != nil {
 			log.Fatal("Mkdir failed : " + err.Error())
@@ -48,7 +48,7 @@ func PostKS(c *gin.Context) {
 		if s := strings.Split(file.Filename, "."); len(s) == 2 {
 			fileExtension = s[1]
 		}
-		ks.Accessory = append(ks.Accessory, id+strconv.Itoa(i)+"."+fileExtension)
+		ks.Accessory = append(ks.Accessory, dst+id+strconv.Itoa(i)+"."+fileExtension)
 		if err = c.SaveUploadedFile(file, dst+"/"+id+strconv.Itoa(i)+"."+fileExtension); err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 			return
@@ -60,16 +60,18 @@ func PostKS(c *gin.Context) {
 		return
 	}
 
-	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0})
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0, "ks": ks})
 }
 
 // DeleteKS 学生删除应善良助学金申请信息
 func DeleteKS(c *gin.Context) {
 	id := c.PostForm("id")
+	var ks database.KS
 
-	if dbe := database.DB.Where("student_id = ?", id).Delete(&database.KS{}); dbe != nil {
+	database.DB.First(&ks, id)
+	if dbe := database.DB.Where("ks_id = ?", id).Delete(&database.KS{}); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "ks": ks})
 }
