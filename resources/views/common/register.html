@@ -93,18 +93,26 @@
 			function VerifyRequest() {
 			return VerifyID() && VerifyEmail() && VerifyPassword() && VerifyCaptcha();
 		}
-			$("#nextbutton").on("click",function(){
-				/*var content='';
+		 $("#nextbutton").click(function(){
+  //创建FormData对象
+       var Formdata = new FormData();
+        		var id=$("#id").val();
+				var email=$("#email").val();
+				var pwd=$("#pwd").val();
+				var verifyPwd=$("#verifyPwd").val();
+				var captcha=$("#captcha").val();
 				var identity=$("#identity").find('input[name="role"]:checked').val();
-				if(identity==1){	
-					content="/resources/views/counselor/profileForm.html"	
-				}else if(identity==3){
-					content="/resources/views/student/profileForm.html"
-				}*/
-				$.ajax({
+				 Formdata.append("id",id);
+				 Formdata.append("email",email);
+				 Formdata.append("pwd",pwd);
+				 Formdata.append("verifyPwd",verifyPwd);
+				 Formdata.append("captcha",captcha);
+				 Formdata.append("identity",identity);
+				 $.ajax({
 					url:'/register',
 					type:'post',
 					beforeSend:VerifyRequest,
+					data:Formdata,
 					success:function (data){
 						if(data.status==0){
 							layer.open({
@@ -126,8 +134,11 @@
 					}
 				})
 
-				
-			})
+
+        //为FormData对象添加数据
+       
+    });
+			
 		});
 
 	function VerifyID() {
