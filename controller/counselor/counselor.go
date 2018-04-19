@@ -26,7 +26,7 @@ func GetCounselor(c *gin.Context) {
 		}
 	}
 
-	c.HTML(http.StatusOK, "counselor/profile.html", gin.H{"staus": 0, "info": counselor})
+	c.HTML(http.StatusOK, "counselor/index.html", gin.H{"staus": 0, "info": counselor})
 }
 
 // PostCounselor 提交辅导员个人信息页面

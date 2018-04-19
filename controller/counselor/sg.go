@@ -26,7 +26,7 @@ func GetSG(c *gin.Context) {
 		SG = append(SG, temp)
 	}
 
-	c.JSON(http.StatusOK, gin.H{"SG": SG})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "SG": SG})
 }
 
 // PostSG 辅导员更改国家助学金状态
