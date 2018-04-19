@@ -19,7 +19,7 @@ import (
 
 // GetRegister 返回用户注册视图
 func GetRegister(c *gin.Context) {
-	c.HTML(http.StatusOK, "common/register.tmpl", gin.H{"captcha": captcha.New()})
+	c.HTML(http.StatusOK, "common/register.html", gin.H{"captcha": captcha.New()})
 }
 
 // PostRegister 用户注册处理
