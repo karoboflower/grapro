@@ -482,7 +482,7 @@ $(function(){
               time:items.time,
               status:status,
               description:items.description,
-              ways:"<a style='color:#337ab7;' class='examine'>审核</a>"
+              ways:"<a style='color:#337ab7;' class='examine'>审核</a><a style='color:#337ab7;' class='.upload'>导入</a>"
             })
             materials="";
             counselor="";
