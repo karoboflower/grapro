@@ -160,6 +160,14 @@
 		}
 		return true;
 	}
+		function VerifyCaptcha() {
+			regExp = /^[0-9]{6}$/;
+			if (($("#captcha").val() == "") || (!regExp.test($("#captcha").val()))) {
+				layer.tips("验证码是6位数字", $("#captcha"));
+				return false;
+			}
+			return true;
+		}
 
 
 
