@@ -15,7 +15,12 @@ import (
 
 // GetNIS 学生获取国家励志奖学金申请信息
 func GetNIS(c *gin.Context) {
-	c.HTML(http.StatusOK, "student/nis.tmpl", gin.H{"id": c.Param("id")})
+	var nis []database.NIS
+	if dbe := database.DB.Where("student_id = ?", c.Param("id")).Find(&nis); dbe.Error != nil {
+		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
+		return
+	}
+	c.HTML(http.StatusOK, "student/nis.tmpl", gin.H{"status": 0, "id": c.Param("id"), "nis": nis})
 }
 
 // PostNIS 学生提交国家励志奖学金申请信息
@@ -31,7 +36,7 @@ func PostNIS(c *gin.Context) {
 		return
 	}
 	// 国家励志奖学金材料存放目录
-	dst = "files/" + student.College + "/" + student.Profession + "/NIS"
+	dst = "resources/files/" + student.College + "/" + student.Profession + "/NIS"
 	if bExists, _ := utilities.PathExists(dst); !bExists {
 		if err := os.MkdirAll(dst, os.ModePerm); err != nil {
 			log.Fatal("Mkdir failed : " + err.Error())
@@ -48,7 +53,7 @@ func PostNIS(c *gin.Context) {
 		if s := strings.Split(file.Filename, "."); len(s) == 2 {
 			fileExtension = s[1]
 		}
-		nis.Accessory = append(nis.Accessory, id+strconv.Itoa(i)+"."+fileExtension)
+		nis.Accessory = append(nis.Accessory, dst+id+strconv.Itoa(i)+"."+fileExtension)
 		if err = c.SaveUploadedFile(file, dst+"/"+id+strconv.Itoa(i)+"."+fileExtension); err != nil {
 			c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": err.Error()})
 			return
@@ -60,16 +65,18 @@ func PostNIS(c *gin.Context) {
 		return
 	}
 
-	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0})
+	c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 0, "nis": nis})
 }
 
 // DeleteNIS 学生删除国家励志奖学金申请信息
 func DeleteNIS(c *gin.Context) {
 	id := c.PostForm("id")
+	var nis database.NIS
 
-	if dbe := database.DB.Where("student_id = ?", id).Delete(&database.NIS{}); dbe != nil {
+	database.DB.First(&nis, id)
+	if dbe := database.DB.Where("nis_id = ?", id).Delete(&database.NIS{}); dbe != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error.Error()})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "nis": nis})
 }
