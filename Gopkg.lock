@@ -21,7 +21,7 @@
     "rbac/default-role-manager",
     "util"
   ]
-  revision = "023e918c1469e526b47ebfc1b8852a75bc0c3807"
+  revision = "562acd2dbcaad1466a0c9fbd3efb0ff3e0ed8d93"
 
 [[projects]]
   branch = "master"
@@ -40,12 +40,6 @@
   packages = ["."]
   revision = "06ea1031745cb8b3dab3f6a236daf2b0aa468b7e"
   version = "v3.2.0"
-
-[[projects]]
-  branch = "master"
-  name = "github.com/gin-gonic/contrib"
-  packages = ["static"]
-  revision = "9b830a15f6abcf9e160f47ee01fc00691cc1981a"
 
 [[projects]]
   name = "github.com/gin-gonic/gin"
@@ -108,6 +102,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "9100178c8c2bc0f53249d223311c233d508cdf37db7ccf7705f7eb7e466a75ce"
+  inputs-digest = "68d9ccb96a39a569568a48814f0cbf3bf59b9f0fbd3f9577af716246174e409e"
   solver-name = "gps-cdcl"
   solver-version = 1

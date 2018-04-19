@@ -33,6 +33,7 @@ func GetSG(c *gin.Context) {
 func PostSG(c *gin.Context) {
 	id := c.PostForm("id")
 	status := c.PostForm("status")
+	desc := c.PostForm("counselorDesc")
 	var SG database.SG
 
 	if dbe := database.DB.First(&SG, id); dbe != nil {
@@ -41,11 +42,12 @@ func PostSG(c *gin.Context) {
 	}
 
 	SG.Status = status
+	SG.CounselorDesc = desc
 
 	if dbe := database.DB.Model(&SG).Update(SG); dbe.Error != nil {
 		c.AbortWithStatusJSON(http.StatusOK, gin.H{"status": 1, "msg": dbe.Error})
 		return
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "SG": SG})
 }
