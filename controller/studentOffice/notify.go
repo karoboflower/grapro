@@ -32,7 +32,7 @@ func PostNotify(c *gin.Context) {
 		}
 	}
 
-	c.JSON(http.StatusOK, gin.H{"status": 0})
+	c.JSON(http.StatusOK, gin.H{"status": 0, "notify": notify})
 }
 
 // DeleteNotify 删除通知
