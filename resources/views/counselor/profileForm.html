@@ -4,12 +4,12 @@
         <meta http-equiv="Content-Type" content="text/html;" charset=UTF-8>
         <meta http-equiv="X-UA-Compatible" content="IE=Edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-       <link rel="stylesheet" href="resources/webframe/bootstrap/css/bootstrap.min.css">
-       <link rel="stylesheet" href="resources/webframe/layer/skin/default/layer.css">
-       <link rel="stylesheet" href="resources/assets/student/css/profileForm.css">
-       <script type="text/javascript" src="resources/webframe/bootstrap/js/bootstrap.min.js"></script>
-       <script type="text/javascript" src="resources/webframe/jquery/jquery.form/jquery.form.js"></script>
-       <script src="resources/webframe/layer/layer.js"></script>
+       <link rel="stylesheet" href="/resources/webframe/bootstrap/css/bootstrap.min.css">
+       <link rel="stylesheet" href="/resources/webframe/layer/skin/default/layer.css">
+       <link rel="stylesheet" href="/resources/assets/student/css/profileForm.css">
+       <script type="text/javascript" src="/resources/webframe/jquery/jquery-1.10.2.min.js"></script>
+       <script type="text/javascript" src="/resources/webframe/bootstrap/js/bootstrap.min.js"></script>
+       <script src="/resources/webframe/layer/layer.js"></script>
     </head>
     <body>
     <div class="container-fluid">
@@ -81,7 +81,7 @@
 
         });
         function college(){
-    var getcollegeurl="resources/assets/student/json/college.json"
+    var getcollegeurl="/resources/assets/student/json/college.json"
     $.ajax({
         url:getcollegeurl,
         type:"get",
